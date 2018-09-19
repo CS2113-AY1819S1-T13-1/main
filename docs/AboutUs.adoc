@@ -47,7 +47,7 @@ Responsibilities: Dev Ops + Threading
 '''
 
 === Mario Gustavo Gonzaelz Munoz
-image::doc/images/t0roloco.png[width="150", align="left"]
+image::t0roloco.png[width="150", align="left"]
 {empty}[https://github.com/T0roloco[github]]
 
 Role: Developer +
