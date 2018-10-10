@@ -3,7 +3,7 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-public class Name {
+public class TaskName {
     public static final String MESSAGE_NAME_CONSTRAINTS =
             "Names should only contain alphanumeric characters and spaces, and it should not be blank";
 
@@ -20,7 +20,7 @@ public class Name {
      *
      * @param name A valid name.
      */
-    public Name(String name) {
+    public TaskName(String name) {
         requireNonNull(name);
         checkArgument(isValidName(name), MESSAGE_NAME_CONSTRAINTS);
         fullName = name;
@@ -42,8 +42,8 @@ public class Name {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Name // instanceof handles nulls
-                && fullName.equals(((Name) other).fullName)); // state check
+                || (other instanceof TaskName // instanceof handles nulls
+                && fullName.equals(((TaskName) other).fullName)); // state check
     }
 
     @Override

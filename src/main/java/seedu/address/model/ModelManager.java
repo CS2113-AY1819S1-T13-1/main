@@ -14,6 +14,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.AddressBookLocalBackupEvent;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -23,6 +24,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final VersionedAddressBook versionedAddressBook;
     private final FilteredList<Person> filteredPersons;
+//    private final FiltereList<Task> filteredLists;
     private final UserPrefs userPrefs;
 
     /**
@@ -36,6 +38,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+//        filteredLists = new FilteredList<>(versionedAddressBook.getTaskList());
         this.userPrefs = userPrefs;
     }
 
@@ -146,6 +149,16 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void backupAddressBook() {
         indicateAddressBookBackupRequest();
+    }
+
+    @Override
+    public boolean hasTask(Task task) {
+        return false;
+    }
+
+    @Override
+    public void addTask(Task person) {
+
     }
 
 

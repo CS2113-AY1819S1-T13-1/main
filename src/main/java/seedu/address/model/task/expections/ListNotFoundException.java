@@ -1,4 +1,4 @@
 package seedu.address.model.task.expections;
 
-public class PersonNotFoundException {
+public class ListNotFoundException extends RuntimeException{
 }
