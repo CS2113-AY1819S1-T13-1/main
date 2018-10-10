@@ -18,6 +18,9 @@ public interface Model {
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
+    /** Returns the UserPreferences */
+    UserPrefs getUserPrefs();
+
     /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
@@ -75,4 +78,9 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Backup current address book to storage.
+     */
+    void backupAddressBook();
 }

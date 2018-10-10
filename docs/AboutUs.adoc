@@ -8,28 +8,30 @@ Student Planner was developed by the https://cs2113-ay1819s1-t13-1.github.io/mai
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team
-//Alphabetical order : AT, CSG, I , LH , MGGM ???
+//Alphabetical order : AT, CSG, I , LH , MGGM
 //Image naming format : [yourgithubusername].jpg Example: QzSG.jpg
-=== John Doe
-image::damithc.jpg[width="150", align="left"]
-{empty}[http://www.comp.nus.edu.sg/~damithch[homepage]] [https://github.com/damithc[github]] [<<johndoe#, portfolio>>]
+//TODO: Portfolio for everyone
+=== Adrian Tan Guo Hua
+image::qzsg.jpg[width="150", align="left"]
+{empty}[https://qz.sg[homepage]] [https://github.com/qzsg[github]]
 
-Role: Project Advisor
+Role: Team Lead, Developer, Git Expert +
+Responsibilities: Devops, Integration, Scheduling and tracking
 
 '''
 
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
+=== Chen Songjian
+image::chensongjian.jpg[width="150", align="left"]
+{empty}[http://github.com/ChenSongJian[github]]
 
-Role: Team Lead +
+Role: Developer +
 Responsibilities: UI
 
 '''
 
-=== Johnny Doe
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+=== Ian Tjahjono
+image::ian-tjahjono.jpg[width="150", align="left"]
+{empty}[http://github.com/ian-tjahjono[github]]
 
 Role: Developer +
 Responsibilities: Data
@@ -38,18 +40,18 @@ Responsibilities: Data
 
 === Lu Han
 image::luhan02.jpg[width="150", align="left"]
-{empty}[https://github.com/luhan02[github]] [<<johndoe#, portfolio>>]
+{empty}[https://github.com/luhan02[github]]
 
 Role: Developer +
-Responsibilities:
+Responsibilities: Testing
 
 '''
 
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+=== Mario Gustavo Gonzaelz Munoz
+image::t0roloco.png[width="150", align="left"]
+{empty}[https://github.com/T0roloco[github]]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: Code Standards and Quality
 
 '''

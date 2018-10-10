@@ -10,6 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.AddressBookLocalBackupEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -78,6 +79,10 @@ public class StorageManager extends ComponentManager implements Storage {
         addressBookStorage.saveAddressBook(addressBook, filePath);
     }
 
+    @Override
+    public void backupAddressBook(ReadOnlyAddressBook addressBook, Path backupFilePath) throws IOException {
+        addressBookStorage.backupAddressBook(addressBook, backupFilePath);
+    }
 
     @Override
     @Subscribe
@@ -90,4 +95,14 @@ public class StorageManager extends ComponentManager implements Storage {
         }
     }
 
+    @Override
+    @Subscribe
+    public void handleAddressBookLocalBackupEvent(AddressBookLocalBackupEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Saving student planner data as backup"));
+        try {
+            backupAddressBook(event.data, event.filePath);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+    }
 }
