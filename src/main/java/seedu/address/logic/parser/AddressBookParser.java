@@ -73,7 +73,7 @@ public class AddressBookParser {
             return new RedoCommand();
 
         case BackupCommand.COMMAND_WORD:
-            return new BackupCommand();
+            return new BackupCommandParser().parse(arguments);
 
         case AddTaskCommand.COMMAND_WORD:
             return new AddTaskCommandParser().parse(arguments);

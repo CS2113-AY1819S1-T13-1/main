@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -38,7 +39,6 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
-//        filteredLists = new FilteredList<>(versionedAddressBook.getTaskList());
         this.userPrefs = userPrefs;
     }
 
@@ -67,11 +67,12 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new AddressBookChangedEvent(versionedAddressBook));
     }
 
+    //@@author QzSG
     /** Raises an event to indicate the request to backup model to persistent storage*/
-    private void indicateAddressBookBackupRequest() {
-        raise(new AddressBookLocalBackupEvent(versionedAddressBook, userPrefs.getAddressBookBackupFilePath()));
+    private void indicateAddressBookBackupRequest(Path backupPath) {
+        raise(new AddressBookLocalBackupEvent(versionedAddressBook, backupPath));
     }
-
+    //@@author
 
     @Override
     public boolean hasPerson(Person person) {
@@ -146,11 +147,12 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook.commit();
     }
 
+    //@@author QzSG
     @Override
-    public void backupAddressBook() {
-        indicateAddressBookBackupRequest();
+    public void backupAddressBook(Path backupPath) {
+        indicateAddressBookBackupRequest(backupPath);
     }
-
+    //@@author
     @Override
     public boolean hasTask(Task task) {
         return false;
@@ -160,6 +162,7 @@ public class ModelManager extends ComponentManager implements Model {
     public void addTask(Task person) {
 
     }
+
 
 
     @Override

@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -95,4 +96,5 @@ public interface Model {
      * {@code task} must not already exist in the address book.
      */
     void addTask(Task person);
+    void backupAddressBook(Path backupPath);
 }
