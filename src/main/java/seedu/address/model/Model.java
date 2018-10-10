@@ -85,6 +85,7 @@ public interface Model {
      * Backup current address book to storage.
      */
     void backupAddressBook();
+    void backupAddressBook(Path backupPath);
 
     /**
      * Returns true if a task with the same identity as {@code task} exists in the address book.
@@ -96,5 +97,4 @@ public interface Model {
      * {@code task} must not already exist in the address book.
      */
     void addTask(Task person);
-    void backupAddressBook(Path backupPath);
 }

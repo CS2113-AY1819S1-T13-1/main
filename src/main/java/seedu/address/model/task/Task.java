@@ -17,7 +17,7 @@ public class Task {
 
     private final TaskName taskName;
     private final Body body;
-    private final DateTime startDateTime ;
+    private final DateTime startDateTime;
     private final DateTime endDateTime;
     private final Priority priority;
     private final Set<Tag> tags = new HashSet<>();
@@ -25,7 +25,8 @@ public class Task {
     /**
      * Every field must be present and not null.
      */
-    public Task(TaskName taskName, Body body, DateTime startDateTime, DateTime endDateTime, Priority priority, Set<Tag> tags) {
+    public Task(TaskName taskName, Body body, DateTime startDateTime, DateTime endDateTime,
+                Priority priority, Set<Tag> tags) {
         requireAllNonNull(taskName, body, startDateTime, endDateTime, priority, tags);
         this.taskName = taskName;
         this.body = body;
@@ -47,9 +48,13 @@ public class Task {
         return startDateTime;
     }
 
-    public DateTime getEndDateTime() { return endDateTime; }
+    public DateTime getEndDateTime() {
+        return endDateTime;
+    }
 
-    public Priority getPriority() {return priority;}
+    public Priority getPriority() {
+        return priority;
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

@@ -1,19 +1,28 @@
 package seedu.address.logic.parser;
 
-import seedu.address.logic.commands.AddTaskCommand;
-import seedu.address.logic.parser.*;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.task.*;
-import seedu.address.model.task.TaskName;
-import seedu.address.model.tag.Tag;
-
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BODY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PRIORITY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_START;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.*;
+import seedu.address.logic.commands.AddTaskCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Body;
+import seedu.address.model.task.DateTime;
+import seedu.address.model.task.Priority;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskName;
 
+/**
+ * Parses input arguments and creates a new AddTaskCommand object
+ */
 public class AddTaskCommandParser implements Parser<AddTaskCommand> {
 
     public AddTaskCommandParser() throws ParseException {
@@ -30,7 +39,8 @@ public class AddTaskCommandParser implements Parser<AddTaskCommand> {
     @Override
     public AddTaskCommand parse(String userInput) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(userInput, PREFIX_NAME, PREFIX_BODY, PREFIX_START, PREFIX_END, PREFIX_PRIORITY, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(userInput, PREFIX_NAME, PREFIX_BODY, PREFIX_START, PREFIX_END,
+                        PREFIX_PRIORITY, PREFIX_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_BODY, PREFIX_START, PREFIX_END, PREFIX_PRIORITY)
                 || !argMultimap.getPreamble().isEmpty()) {

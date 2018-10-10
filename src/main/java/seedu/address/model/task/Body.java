@@ -1,5 +1,9 @@
 package seedu.address.model.task;
 
+/**
+ * Represents a Task's datails in the task list .
+ * Guarantees: immutable.
+ */
 public class Body {
 
     public static final String MESSAGE_BODY_CONSTRAINTS =

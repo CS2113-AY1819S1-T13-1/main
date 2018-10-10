@@ -1,5 +1,9 @@
 package seedu.address.model.task;
 
+/**
+ * Represents a Task's priority in the task list.
+ * Guarantees: immutable; is valid as declared in {@link #isValidPriority(String)}
+ */
 public class Priority {
     public static final String MESSAGE_PRIORITY_CONSTRAINTS =
             "Task body can take any values, and it should not be blank";
@@ -12,7 +16,7 @@ public class Priority {
     }
 
     /**
-     * Returns true if a given string is a valid phone number.
+     * Returns true if a given string is a valid priority.
      */
     public static boolean isValidPriority(String test) {
         return test.matches(PRIORITY_VALIDATION_REGEX);

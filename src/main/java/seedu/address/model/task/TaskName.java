@@ -3,6 +3,10 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+/**
+ * Represents a Task's name in the task list.
+ * Guarantees: immutable; is valid as declared in {@link #isValidName(String)}
+ */
 public class TaskName {
     public static final String MESSAGE_NAME_CONSTRAINTS =
             "Names should only contain alphanumeric characters and spaces, and it should not be blank";
