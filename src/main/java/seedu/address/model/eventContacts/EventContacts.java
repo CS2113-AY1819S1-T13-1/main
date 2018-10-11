@@ -9,7 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class EventContacts {
 
-    public static final String MESSAGE_EVENT_CONTACTS_CONSTRAINTS = "Event Contacts should contain only letters and spaces";
+    public static final String MESSAGE_EVENT_CONTACTS_CONSTRAINTS = "Event Contacts should contain only "
+            + "letters and spaces";
     public static final String CONTACT_VALIDATION_REGEX = "[a-z|A-Z|\\s]+";
 
     public final String eventContactName;
