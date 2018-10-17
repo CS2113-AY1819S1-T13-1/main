@@ -30,9 +30,10 @@
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
 <li><a href="#undo-redo-feature">3.1. Undo/Redo feature</a></li>
-<li><a href="#proposed-data-encryption">3.2. [Proposed] Data Encryption</a></li>
-<li><a href="#logging">3.3. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.4. Configuration</a></li>
+<li><a href="#tasks-crud-feature">3.2. Tasks (CRUD) feature</a></li>
+<li><a href="#proposed-data-encryption">3.3. [Proposed] Data Encryption</a></li>
+<li><a href="#logging">3.4. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.5. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -789,20 +790,69 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.2. [Proposed] Data Encryption</a></h3>
+<h3 id="tasks-crud-feature"><a class="link" href="#tasks-crud-feature">3.2. Tasks (CRUD) feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">3.2.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>The tasks' CRUD mechanism is facilitated by <code>AddTaskCommand</code>,<code>listTaskCommand</code>,<code>findTaskCommand</code>,<code>UpdateTaskCommand</code>,<code>DeleteTaskCommand</code>. It extends <code>Command</code> and implement the following operation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Command#AddTaskCommand()</code>&#8201;&#8212;&#8201;Create a new task to Student Planner</p>
+</li>
+<li>
+<p><code>Command#ListTaskCommand()</code>,<code>Command#FindTaskCommand()</code>&#8201;&#8212;&#8201;View/ search existing tasks</p>
+</li>
+<li>
+<p><code>Command#UpdateTaskCommand()</code>&#8201;&#8212;&#8201;Update existing tasks from history</p>
+</li>
+<li>
+<p><code>Command#DeleteTaskCommand()</code>&#8201;&#8212;&#8201;Remove existing tasks from history</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These operations are exposed in the <code>Model</code> interface as <code>Model#hasTask()</code>,<code>Model#addTask()</code>,<code>Model#listTask()</code>,<code>Model#updateTask()</code> and <code>Model#deleteTask()</code> respectively.</p>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the CRUD mechanism behaves at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The user launches the application for the first time. The Student Planner will be initialized with the initial task planner state.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The user executes <code>add t/submission &#8230;&#8203;</code> command to add a new submission task to the student planner. The <code>add</code> command calls <code>Model#addTask()</code> which returns a task to be shown in the task list.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The user executes  <code>find &#8230;&#8203;</code> command to search any existing task. The <code>find</code> command calls <code>Model#findTask()</code> and it does not modify the student planner, the studentPlannerStateList remains unchanged.</p>
+</div>
+<div class="paragraph">
+<p>Step 4. The user then decides to executes <code>update &#8230;&#8203;</code> command to update an existing task. The <code>update</code> command calls <code>Model#updateTask()</code>, causing a modified task to be saved.</p>
+</div>
+<div class="paragraph">
+<p>Step 5. The user executes <code>list</code> command to view the existing task list, which calls <code>Model#listTask()</code>. The <code>list</code> command does not modify the student planner, the studentPlannerStateList remains unchanged.</p>
+</div>
+<div class="paragraph">
+<p>Step 6. The user now decides that the task added was a mistake, and decides to remove that task by executing the <code>delete 6</code> command to delete the 6th task in the task list of the student planner. The <code>delete</code> command will call <code>Model#deleteTask()</code>, causing the modified state of the student planner after the <code>delete 5</code> command executes to be saved in the studentPlannerStateList.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.3. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.3. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.4. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.4, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.5, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -833,7 +883,7 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.4. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.5. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -2020,6 +2070,18 @@ for <code>RemarkCommandParser</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">list the tasks</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view all the tasks avaiable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">update the task</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">change the task information where necessary</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">delete a task</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">remove entries that I no longer need</p></td>
 </tr>
@@ -2030,7 +2092,7 @@ for <code>RemarkCommandParser</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">locate task/s without having to go through the entire list</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">find a task by details</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">locate task/s without having to go through the details of the entire list of tasks</p></td>
@@ -2042,7 +2104,7 @@ for <code>RemarkCommandParser</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">locate upcoming due tasks easily</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user with many tasks in the address book</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sort tasks by priority</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">locate important tasks easily</p></td>
@@ -2755,4 +2817,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-17 08:01:26 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-17 14:29:25 UTC</div></div></div></body></html>
