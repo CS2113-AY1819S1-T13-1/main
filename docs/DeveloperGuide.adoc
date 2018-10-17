@@ -1077,7 +1077,7 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to add an event 
+1.  User requests to add an event
 2.  StudentPlanner adds new event with given details
 +
 Use case ends.
