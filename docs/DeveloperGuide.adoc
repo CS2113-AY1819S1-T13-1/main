@@ -346,6 +346,7 @@ Step 5. The user executes `list` command to view the existing task list, which c
 
 Step 6. The user now decides that the task added was a mistake, and decides to remove that task by executing the `delete 6` command to delete the 6th task in the task list of the student planner. The `delete` command will call `Model#deleteTask()`, causing the modified state of the student planner after the `delete 5` command executes to be saved in the studentPlannerStateList.
 // end::tasks[]
+//@@author
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
