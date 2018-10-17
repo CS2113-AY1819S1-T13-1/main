@@ -1073,7 +1073,7 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: Add Event
+=== Use case: Add Event (UC10)
 
 *MSS*
 
@@ -1086,12 +1086,12 @@ Use case ends.
 
 * 2a. A similar event exists
 [none]
-** 2a1. StudentPlanner prompts user that a similar event exists.
+** 2a1. StudentPlanner prompts user that a similar event exists. Event is not added.
 +
 Use case ends.
 * 2b. Insufficient or Invalid details provided.
 [none]
-** 2b1. StudentPlanner shows required command format to user.
+** 2b1. StudentPlanner shows required command format to user. Event is not added.
 +
 Use case ends.
 
