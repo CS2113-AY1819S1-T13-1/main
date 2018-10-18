@@ -163,12 +163,17 @@ public class AddCommandTest {
         }
 
         @Override
-        public void backupAddressBook() {
-
+        public void backupAddressBookLocal(Path backupPath) {
+            throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void backupAddressBook(Path backupPath) {
+        public void restoreAddressBookLocal(Path backupPath) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -178,7 +183,27 @@ public class AddCommandTest {
         }
 
         @Override
+        public void deleteTask(Task target) {
+
+        }
+
+        @Override
         public void addTask(Task person) {
+
+        }
+
+        @Override
+        public void updateTask(Task target, Task editedPerson) {
+
+        }
+
+        @Override
+        public ObservableList<Task> getFilteredTaskList() {
+            return null;
+        }
+
+        @Override
+        public void updateFilteredTaskList(Predicate<Task> predicate) {
 
         }
 
