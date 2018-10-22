@@ -17,19 +17,22 @@
 <li><a href="#adding-a-task-code-add-code">3.2. Adding a task: <code>add</code></a></li>
 <li><a href="#listing-all-tasks-code-list-code">3.3. Listing all tasks : <code>list</code></a></li>
 <li><a href="#editing-a-task-code-edit-code">3.4. Editing a task : <code>edit</code></a></li>
-<li><a href="#locating-tasks-by-name-code-find-code">3.5. Locating tasks by name: <code>find</code></a></li>
-<li><a href="#deleting-a-task-code-delete-code">3.6. Deleting a task : <code>delete</code></a></li>
-<li><a href="#listing-entered-commands-code-history-code">3.7. Listing entered commands : <code>history</code></a></li>
-<li><a href="#undoing-previous-command-code-undo-code">3.8. Undoing previous command : <code>undo</code></a></li>
-<li><a href="#redoing-the-previously-undone-command-code-redo-code">3.9. Redoing the previously undone command : <code>redo</code></a></li>
-<li><a href="#clearing-all-entries-code-clear-code">3.10. Clearing all entries : <code>clear</code></a></li>
-<li><a href="#exiting-the-program-code-exit-code">3.11. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.12. Saving the data</a></li>
-<li><a href="#sending-notification">3.13. Sending notification</a></li>
-<li><a href="#backup-data-backup">3.14. Backup data :`backup`</a></li>
-<li><a href="#restore-data-restore">3.15. Restore data :`restore`</a></li>
-<li><a href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.16. Setup or restore backup data <code>[coming in v1.3]</code></a></li>
-<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.17. Encrypting data files <code>[coming in v2.0]</code></a></li>
+<li><a href="#locating-contacts-by-address-code-findaddress-code">3.5. Locating contacts by address: <code>findaddress</code></a></li>
+<li><a href="#locating-contacts-by-name-code-findname-code">3.6. Locating contacts by name: <code>findname</code></a></li>
+<li><a href="#locating-contacts-by-phone-code-findphone-code">3.7. Locating contacts by phone: <code>findphone</code></a></li>
+<li><a href="#locating-tasks-by-name-code-find-code">3.8. Locating tasks by name: <code>find</code></a></li>
+<li><a href="#deleting-a-task-code-delete-code">3.9. Deleting a task : <code>delete</code></a></li>
+<li><a href="#listing-entered-commands-code-history-code">3.10. Listing entered commands : <code>history</code></a></li>
+<li><a href="#undoing-previous-command-code-undo-code">3.11. Undoing previous command : <code>undo</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redo-code">3.12. Redoing the previously undone command : <code>redo</code></a></li>
+<li><a href="#clearing-all-entries-code-clear-code">3.13. Clearing all entries : <code>clear</code></a></li>
+<li><a href="#exiting-the-program-code-exit-code">3.14. Exiting the program : <code>exit</code></a></li>
+<li><a href="#saving-the-data">3.15. Saving the data</a></li>
+<li><a href="#sending-notification">3.16. Sending notification</a></li>
+<li><a href="#backup-data-backup">3.17. Backup data :`backup`</a></li>
+<li><a href="#restore-data-restore">3.18. Restore data :`restore`</a></li>
+<li><a href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.19. Setup or restore backup data <code>[coming in v1.3]</code></a></li>
+<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.20. Encrypting data files <code>[coming in v2.0]</code></a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -215,7 +218,136 @@ Edits the 2nd task by clearing all existing tags.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="locating-tasks-by-name-code-find-code"><a class="link" href="#locating-tasks-by-name-code-find-code">3.5. Locating tasks by name: <code>find</code></a></h3>
+<h3 id="locating-contacts-by-address-code-findaddress-code"><a class="link" href="#locating-contacts-by-address-code-findaddress-code">3.5. Locating contacts by address: <code>findaddress</code></a></h3>
+<div class="paragraph">
+<p>Finds contacts whose address or body contain any of the given keywords.<br>
+Format: <code>findaddress KEYWORD [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The search is case insensitive. e.g <code>college</code> will match <code>College</code></p>
+</li>
+<li>
+<p>The order of the keywords does not matter. e.g. <code>Ave College</code> will match <code>College Ave</code></p>
+</li>
+<li>
+<p>Only the address and body is searched.</p>
+</li>
+<li>
+<p>Only full words will be matched e.g. <code>Colle</code> will not match <code>College</code></p>
+</li>
+<li>
+<p>Contacts matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>College Tampines</code> will return all contacts with address containing any of the keywords college or tampines</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>findaddress College</code><br>
+Returns <code>college</code> and <code>College ave e</code></p>
+</li>
+<li>
+<p><code>findaddress college lorong tampines</code><br>
+Returns any contacts having an address or body that contains <code>college</code>, <code>lorong</code>, or <code>tampines</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="locating-contacts-by-name-code-findname-code"><a class="link" href="#locating-contacts-by-name-code-findname-code">3.6. Locating contacts by name: <code>findname</code></a></h3>
+<div class="paragraph">
+<p>Finds contacts whose name or body contain any of the given keywords.<br>
+Format: <code>findname KEYWORD [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The search is case insensitive. e.g <code>mario</code> will match <code>Mario</code></p>
+</li>
+<li>
+<p>The order of the keywords does not matter. e.g. <code>Gonzalez Mario</code> will match <code>Mario Gonzalez</code></p>
+</li>
+<li>
+<p>Only the name and body is searched.</p>
+</li>
+<li>
+<p>Only full words will be matched e.g. <code>Gonza</code> will not match <code>Gonzalez</code></p>
+</li>
+<li>
+<p>Contacts matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>findaddress Mario</code><br>
+Returns <code>mario</code> and <code>Mario Gonzalez</code></p>
+</li>
+<li>
+<p><code>findaddress mario alex david</code><br>
+Returns any contacts having names or body that contains <code>mario</code>, <code>alex</code>, or <code>david</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="locating-contacts-by-phone-code-findphone-code"><a class="link" href="#locating-contacts-by-phone-code-findphone-code">3.7. Locating contacts by phone: <code>findphone</code></a></h3>
+<div class="paragraph">
+<p>Finds contacts whose phone number or body contain any of the given keywords.<br>
+Format: <code>findname KEYWORD [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Only the phone number and body is searched.</p>
+</li>
+<li>
+<p>Only full phone numbers will be matched e.g. <code>98835</code> will not match <code>98835761</code></p>
+</li>
+<li>
+<p>Contacts matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. `98835761 87438807 ` will return the contacts with phone number 98835761 or 87438807.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>findaddress 98835761</code><br>
+Returns <code>98835761</code> and the contact with that phone number</p>
+</li>
+<li>
+<p><code>findaddress 98835761 87438807</code><br>
+Returns any contacts having phone number or body that contains <code>98835761</code>, or <code>87438807</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="locating-tasks-by-name-code-find-code"><a class="link" href="#locating-tasks-by-name-code-find-code">3.8. Locating tasks by name: <code>find</code></a></h3>
 <div class="paragraph">
 <p>Finds tasks whose names or body contain any of the given keywords.<br>
 Format: <code>find KEYWORD [MORE_KEYWORDS]</code></p>
@@ -260,7 +392,7 @@ Returns any task having names or body <code>concert</code>, <code>meeting</code>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-task-code-delete-code"><a class="link" href="#deleting-a-task-code-delete-code">3.6. Deleting a task : <code>delete</code></a></h3>
+<h3 id="deleting-a-task-code-delete-code"><a class="link" href="#deleting-a-task-code-delete-code">3.9. Deleting a task : <code>delete</code></a></h3>
 <div class="paragraph">
 <p>Deletes the specified task from the schedule planner.<br>
 Format: <code>delete INDEX</code></p>
@@ -301,7 +433,7 @@ Deletes the 1st task in the results of the <code>find</code> command.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">3.7. Listing entered commands : <code>history</code></a></h3>
+<h3 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">3.10. Listing entered commands : <code>history</code></a></h3>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -322,7 +454,7 @@ Format: <code>history</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">3.8. Undoing previous command : <code>undo</code></a></h3>
+<h3 id="undoing-previous-command-code-undo-code"><a class="link" href="#undoing-previous-command-code-undo-code">3.11. Undoing previous command : <code>undo</code></a></h3>
 <div class="paragraph">
 <p>Restores the schedule planner to the state before the previous <em>undoable</em> command was executed.<br>
 Format: <code>undo</code></p>
@@ -367,7 +499,7 @@ The <code>undo</code> command fails as there are no undoable commands executed p
 </div>
 </div>
 <div class="sect2">
-<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">3.9. Redoing the previously undone command : <code>redo</code></a></h3>
+<h3 id="redoing-the-previously-undone-command-code-redo-code"><a class="link" href="#redoing-the-previously-undone-command-code-redo-code">3.12. Redoing the previously undone command : <code>redo</code></a></h3>
 <div class="paragraph">
 <p>Reverses the most recent <code>undo</code> command.<br>
 Format: <code>redo</code></p>
@@ -399,34 +531,34 @@ The <code>redo</code> command fails as there are no <code>undo</code> commands e
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.10. Clearing all entries : <code>clear</code></a></h3>
+<h3 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">3.13. Clearing all entries : <code>clear</code></a></h3>
 <div class="paragraph">
 <p>Clears all entries from the schedule planner.<br>
 Format: <code>clear</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.11. Exiting the program : <code>exit</code></a></h3>
+<h3 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">3.14. Exiting the program : <code>exit</code></a></h3>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.12. Saving the data</a></h3>
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.15. Saving the data</a></h3>
 <div class="paragraph">
 <p>Schedule planner data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sending-notification"><a class="link" href="#sending-notification">3.13. Sending notification</a></h3>
+<h3 id="sending-notification"><a class="link" href="#sending-notification">3.16. Sending notification</a></h3>
 <div class="paragraph">
 <p>Alert user when a deadline is due</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="backup-data-backup"><a class="link" href="#backup-data-backup">3.14. Backup data :`backup`</a></h3>
+<h3 id="backup-data-backup"><a class="link" href="#backup-data-backup">3.17. Backup data :`backup`</a></h3>
 <div class="paragraph">
 <p>Allow user to backup data <em>locally</em> or to online services.</p>
 </div>
@@ -465,7 +597,7 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 </div>
 </div>
 <div class="sect2">
-<h3 id="restore-data-restore"><a class="link" href="#restore-data-restore">3.15. Restore data :`restore`</a></h3>
+<h3 id="restore-data-restore"><a class="link" href="#restore-data-restore">3.18. Restore data :`restore`</a></h3>
 <div class="paragraph">
 <p>Allow user to restore data backups <em>locally</em> or from online services.</p>
 </div>
@@ -504,13 +636,13 @@ Restores Student Planner data on GitHub Gists using the provided personal access
 </div>
 </div>
 <div class="sect2">
-<h3 id="setup-or-restore-backup-data-code-coming-in-v1-3-code"><a class="link" href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.16. Setup or restore backup data <code>[coming in v1.3]</code></a></h3>
+<h3 id="setup-or-restore-backup-data-code-coming-in-v1-3-code"><a class="link" href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.19. Setup or restore backup data <code>[coming in v1.3]</code></a></h3>
 <div class="paragraph">
 <p>Allow user to setup backup settings (setup cloud services like GitHub gists or Google Drive, backup location) by calling <code>backup doctor</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.17. Encrypting data files <code>[coming in v2.0]</code></a></h3>
+<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.20. Encrypting data files <code>[coming in v2.0]</code></a></h3>
 <div class="paragraph">
 <p>Allow user to enable encryption by calling <code>encrypt p/PASSWORD</code><br>
 Application will prompt for decryption password if encryption is enabled</p>
@@ -570,4 +702,4 @@ e.g.<code>select 2</code></p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-20 08:42:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-22 19:23:10 UTC</div></div></div></body></html>
