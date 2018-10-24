@@ -15,4 +15,8 @@ public class Messages {
 
     //@@author ian-tjahjono
     public static final String MESSAGE_INVALID_EVENT_DISPLAYED_INDEX = "The event index provided is invalid";
+
+    //@@author ChenSongJian
+    public static final String MESSAGE_INVALID_EXPENSE_DISPLAYED_INDEX = "The expense index provided is invalid";
 }
+

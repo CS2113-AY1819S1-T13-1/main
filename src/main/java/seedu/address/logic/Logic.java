@@ -8,6 +8,8 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.Event;
+import seedu.address.model.expense.Expense;
+>>>>>>> 34648522e2631c635b85f0497216e974637a9089
 import seedu.address.model.person.Person;
 
 /**
@@ -28,6 +30,9 @@ public interface Logic {
 
     /** Returns an list of commands */
     ArrayList<String> getCommandList();
+
+    /** Returns an unmodifiable view of the filtered list of expenses */
+    ObservableList<Expense> getFilteredExpenseList();
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
