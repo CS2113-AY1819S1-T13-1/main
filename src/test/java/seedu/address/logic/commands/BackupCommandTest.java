@@ -16,6 +16,7 @@ import seedu.address.logic.CommandHistory;
 import seedu.address.model.ExpenseBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
+import seedu.address.model.ReadOnlyTaskBook;
 import seedu.address.model.UserPrefs;
 
 //@@author QzSG
@@ -38,8 +39,8 @@ public class BackupCommandTest {
 
         userPrefs.setAddressBookBackupFilePath(tempBackupFilePath);
         System.out.println(userPrefs.getAddressBookBackupFilePath());
-        model = new ModelManager(getTypicalAddressBook(), expenseBook, userPrefs);
-        expectedModel = new ModelManager(getTypicalAddressBook(), expenseBook, userPrefs);
+        model = new ModelManager(getTypicalAddressBook(), (ReadOnlyTaskBook) expenseBook, userPrefs);
+        expectedModel = new ModelManager(getTypicalAddressBook(), (ReadOnlyTaskBook) expenseBook, userPrefs);
     }
 
     @Test
