@@ -32,8 +32,10 @@ public class SelectCommandTest {
     @Rule
     public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
-    private final Model model = new ModelManager(getTypicalAddressBook(), (ReadOnlyTaskBook) new ExpenseBook(), new UserPrefs());
-    private final Model expectedModel = new ModelManager(getTypicalAddressBook(), (ReadOnlyTaskBook) new ExpenseBook(), new UserPrefs());
+    private final Model model = new ModelManager(getTypicalAddressBook(),
+            (ReadOnlyTaskBook) new ExpenseBook(), new UserPrefs());
+    private final Model expectedModel = new ModelManager(getTypicalAddressBook(),
+            (ReadOnlyTaskBook) new ExpenseBook(), new UserPrefs());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
