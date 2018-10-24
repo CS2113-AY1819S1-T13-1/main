@@ -49,7 +49,8 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyExpenseBook expenseBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyStudentPlanner studentPlanner,
+                        ReadOnlyExpenseBook expenseBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -59,6 +60,9 @@ public class ModelManager extends ComponentManager implements Model {
         versionedExpenseBook = new VersionedExpenseBook(expenseBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         filteredExpenses = new FilteredList<>(versionedExpenseBook.getExpenseList());
+
+        versionedStudentPlanner = new VersionedStudentPlanner(studentPlanner);
+        filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
         this.userPrefs = userPrefs;
     }
 
@@ -81,7 +85,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     public ModelManager() {
-        this(new AddressBook(), new ExpenseBook(), new UserPrefs());
+        this(new AddressBook(), new StudentPlanner(), new ExpenseBook(), new UserPrefs());
     }
 
     @Override
