@@ -15,11 +15,8 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ClearExpenseCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
-<<<<<<< HEAD
 import seedu.address.logic.commands.DeleteEventCommand;
-=======
 import seedu.address.logic.commands.DeleteExpenseCommand;
->>>>>>> 34648522e2631c635b85f0497216e974637a9089
 import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditExpenseCommand;
@@ -127,7 +124,6 @@ public class AddressBookParser {
         case DeleteTaskCommand.COMMAND_WORD:
             return new DeleteTaskCommandParser().parse(arguments);
 
-<<<<<<< HEAD
         //@@author ian-tjahjono
         case AddEventCommand.COMMAND_WORD:
             return new AddEventCommandParser().parse(arguments);
@@ -135,11 +131,7 @@ public class AddressBookParser {
         case DeleteEventCommand.COMMAND_WORD:
             return new DeleteEventCommandParser().parse(arguments);
 
-=======
         //@@author ChenSongJian
-        case AddEventCommand.COMMAND_WORD:
-            return new AddEventCommandParser().parse(arguments);
-
         case AddExpenseCommand.COMMAND_WORD:
             return new AddExpenseCommandParser().parse(arguments);
 
@@ -158,8 +150,6 @@ public class AddressBookParser {
         case UndoExpenseCommand.COMMAND_WORD:
             return new UndoExpenseCommand();
 
-        //@@author
->>>>>>> 34648522e2631c635b85f0497216e974637a9089
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }

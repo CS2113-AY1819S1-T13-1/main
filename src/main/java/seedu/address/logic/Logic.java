@@ -9,7 +9,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.event.Event;
 import seedu.address.model.expense.Expense;
->>>>>>> 34648522e2631c635b85f0497216e974637a9089
 import seedu.address.model.person.Person;
 
 /**

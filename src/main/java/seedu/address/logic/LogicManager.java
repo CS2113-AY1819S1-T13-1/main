@@ -44,11 +44,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
-<<<<<<< HEAD
 import seedu.address.model.event.Event;
-=======
 import seedu.address.model.expense.Expense;
->>>>>>> 34648522e2631c635b85f0497216e974637a9089
 import seedu.address.model.person.Person;
 
 
@@ -84,21 +81,18 @@ public class LogicManager extends ComponentManager implements Logic {
         return model.getFilteredPersonList();
     }
 
-<<<<<<< HEAD
     //@@author ian-tjahjono
     @Override
     public ObservableList<Event> getFilteredEventList() {
         return model.getFilteredEventList();
     }
 
-    /*
-=======
->>>>>>> 34648522e2631c635b85f0497216e974637a9089
     //@@author ChenSongJian
     @Override
     public ObservableList<Expense> getFilteredExpenseList() {
         return model.getFilteredExpenseList();
     }
+
 
     @Override
     public ArrayList<String> getCommandList() {
