@@ -1,5 +1,6 @@
 package seedu.address.model.task;
 
+//@@author luhan02
 /**
  * Represents a Task's datails in the task list .
  * Guarantees: immutable.

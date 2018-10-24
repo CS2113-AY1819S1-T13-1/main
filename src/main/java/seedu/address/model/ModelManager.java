@@ -35,9 +35,11 @@ import seedu.address.storage.XmlSerializableAddressBook;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final VersionedAddressBook versionedAddressBook;
-    private final FilteredList<Person> filteredPersons;
-    private final UserPrefs userPrefs;
+    private VersionedAddressBook versionedAddressBook;
+    private FilteredList<Person> filteredPersons;
+    private VersionedStudentPlanner versionedStudentPlanner;
+    private FilteredList<Task> filteredTasks;
+    private UserPrefs userPrefs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -50,6 +52,24 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+        this.userPrefs = userPrefs;
+    }
+
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyStudentPlanner studentPlanner, UserPrefs userPrefs) {
+        super();
+
+
+        requireAllNonNull(studentPlanner, userPrefs);
+        requireAllNonNull(addressBook, userPrefs);
+
+        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
+
+        versionedAddressBook = new VersionedAddressBook(addressBook);
+        filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
+        this.userPrefs = userPrefs;
+
+        versionedStudentPlanner = new VersionedStudentPlanner(studentPlanner);
+        filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
         this.userPrefs = userPrefs;
     }
 
@@ -199,17 +219,19 @@ public class ModelManager extends ComponentManager implements Model {
     //@@author luhan02
     @Override
     public boolean hasTask(Task task) {
-        return false;
+        requireNonNull(task);
+        return versionedStudentPlanner.hasTask(task);
     }
 
     @Override
     public void deleteTask(Task target) {
-
+        versionedStudentPlanner.removeTask(target);
     }
 
     @Override
-    public void addTask(Task person) {
-
+    public void addTask(Task task) {
+        versionedStudentPlanner.addTask(task);
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
     }
 
     @Override
@@ -219,12 +241,17 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public ObservableList<Task> getFilteredTaskList() {
-        return null;
+        return FXCollections.unmodifiableObservableList(filteredTasks);
     }
 
     @Override
     public void updateFilteredTaskList(Predicate<Task> predicate) {
-
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
+    }
+    @Override
+    public void commitStudentPlanner() {
+        versionedStudentPlanner.commit();
     }
     //@@author
 

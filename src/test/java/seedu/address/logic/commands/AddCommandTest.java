@@ -178,6 +178,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void commitStudentPlanner() {
+
+        }
+
+        @Override
         public boolean hasTask(Task task) {
             return false;
         }

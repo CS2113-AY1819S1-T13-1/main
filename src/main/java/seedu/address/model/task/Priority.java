@@ -6,7 +6,7 @@ package seedu.address.model.task;
  */
 public class Priority {
     public static final String MESSAGE_PRIORITY_CONSTRAINTS =
-            "Task body can take any values, and it should not be blank";
+            "Task priority can take any values, and it should not be blank";
     public static final String PRIORITY_VALIDATION_REGEX = "[\\p{Alnum}]*";
 
     private String priorityString;

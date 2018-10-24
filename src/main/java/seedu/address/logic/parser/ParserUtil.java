@@ -186,6 +186,15 @@ public class ParserUtil {
     }
 
     /**
+     *
+     */
+    public static DateTime parseDateTimeAllowNull(String startDateTime) throws ParseException {
+        if (startDateTime == null) {
+            return null;
+        }
+        return ParserUtil.parseDateTime(startDateTime);
+    }
+    /**
      * Parses a {@code String endDateTime} into an {@code DateTime}.
      * Leading and trailing whitespaces will be trimmed.
      *

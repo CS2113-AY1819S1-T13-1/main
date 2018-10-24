@@ -23,7 +23,7 @@ public class AddTaskCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a task to the task list. \n"
             + "Parameters: "
             + PREFIX_NAME + "NAME "
-            + "[" + PREFIX_BODY + "BODY] "
+            + PREFIX_BODY + "BODY "
             + "[" + PREFIX_START + "START_DATETIME] "
             + PREFIX_END + "END_DATETIME "
             + PREFIX_PRIORITY + "PRIORITY "
@@ -58,7 +58,7 @@ public class AddTaskCommand extends Command {
         }
 
         model.addTask(toAdd);
-        model.commitAddressBook();
+        model.commitStudentPlanner();
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 

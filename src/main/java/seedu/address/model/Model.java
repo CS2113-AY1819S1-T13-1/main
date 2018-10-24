@@ -97,7 +97,6 @@ public interface Model {
      */
     void restoreAddressBookLocal(Path backupPath);
 
-    //@@author luhan02
     /**
      * Restore address book from storage.
      * @param restoredAddressBook
@@ -105,6 +104,11 @@ public interface Model {
     void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook);
 
     //@@author luhan02
+    /**
+     * Saves the current student planner state.
+     */
+    void commitStudentPlanner();
+
     /**
      * Returns true if a task with the same identity as {@code task} exists in the address book.
      */
