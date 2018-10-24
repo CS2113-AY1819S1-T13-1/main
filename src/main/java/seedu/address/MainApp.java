@@ -26,7 +26,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyExpenseBook;
-import seedu.address.model.StudentPlanner;
+import seedu.address.model.TaskBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
@@ -121,7 +121,7 @@ public class MainApp extends Application {
             initialExpense = new ExpenseBook();
         }
 
-        return new ModelManager(initialData, new StudentPlanner(), initialExpense, userPrefs);
+        return new ModelManager(initialData, new TaskBook(), initialExpense, userPrefs);
     }
 
     private void initLogging(Config config) {

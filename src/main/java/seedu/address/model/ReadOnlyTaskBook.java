@@ -6,7 +6,7 @@ import seedu.address.model.task.Task;
 /**
  * Unmodifiable view of an Student Planner
  */
-public interface ReadOnlyStudentPlanner {
+public interface ReadOnlyTaskBook {
 
     /**
      * Returns an unmodifiable view of the tasks list.

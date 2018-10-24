@@ -42,14 +42,14 @@ public class ModelManager extends ComponentManager implements Model {
     private FilteredList<Expense> filteredExpenses;
     private VersionedAddressBook versionedAddressBook;
     private FilteredList<Person> filteredPersons;
-    private VersionedStudentPlanner versionedStudentPlanner;
+    private VersionedTaskBook versionedStudentPlanner;
     private FilteredList<Task> filteredTasks;
     private UserPrefs userPrefs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyStudentPlanner studentPlanner,
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskBook studentPlanner,
                         ReadOnlyExpenseBook expenseBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
@@ -61,12 +61,12 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         filteredExpenses = new FilteredList<>(versionedExpenseBook.getExpenseList());
 
-        versionedStudentPlanner = new VersionedStudentPlanner(studentPlanner);
+        versionedStudentPlanner = new VersionedTaskBook(studentPlanner);
         filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
         this.userPrefs = userPrefs;
     }
 
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyStudentPlanner studentPlanner, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskBook studentPlanner, UserPrefs userPrefs) {
         super();
 
 
@@ -79,13 +79,13 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         this.userPrefs = userPrefs;
 
-        versionedStudentPlanner = new VersionedStudentPlanner(studentPlanner);
+        versionedStudentPlanner = new VersionedTaskBook(studentPlanner);
         filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
         this.userPrefs = userPrefs;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new StudentPlanner(), new ExpenseBook(), new UserPrefs());
+        this(new AddressBook(), new TaskBook(), new ExpenseBook(), new UserPrefs());
     }
 
     @Override

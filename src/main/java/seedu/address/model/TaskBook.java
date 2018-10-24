@@ -12,19 +12,19 @@ import seedu.address.model.task.UniqueTaskList;
  * Wraps all data at the student planner level
  * Duplicates are not allowed (by .isSameTask comparison)
  */
-public class StudentPlanner implements ReadOnlyStudentPlanner {
+public class TaskBook implements ReadOnlyTaskBook {
 
     private final UniqueTaskList tasks;
 
     {
         tasks = new UniqueTaskList();
     }
-    public StudentPlanner() {}
+    public TaskBook() {}
 
     /**
      * Creates an AddressBook using the Persons in the {@code toBeCopied}
      */
-    public StudentPlanner(ReadOnlyStudentPlanner toBeCopied) {
+    public TaskBook(ReadOnlyTaskBook toBeCopied) {
         this();
         resetData(toBeCopied);
     }
@@ -38,9 +38,9 @@ public class StudentPlanner implements ReadOnlyStudentPlanner {
     }
 
     /**
-     * Resets the existing data of this {@code StudentPlanner} with {@code newData}.
+     * Resets the existing data of this {@code TaskBook} with {@code newData}.
      */
-    public void resetData(ReadOnlyStudentPlanner newData) {
+    public void resetData(ReadOnlyTaskBook newData) {
         requireNonNull(newData);
 
         setTasks(newData.getTaskList());
@@ -74,7 +74,7 @@ public class StudentPlanner implements ReadOnlyStudentPlanner {
     }
 
     /**
-     * Removes {@code key} from this {@code StudentPlanner}.
+     * Removes {@code key} from this {@code TaskBook}.
      * {@code key} must exist in the student planner.
      */
     public void removeTask(Task key) {
@@ -97,8 +97,8 @@ public class StudentPlanner implements ReadOnlyStudentPlanner {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof StudentPlanner // instanceof handles nulls
-                && tasks.equals(((StudentPlanner) other).tasks));
+                || (other instanceof TaskBook // instanceof handles nulls
+                && tasks.equals(((TaskBook) other).tasks));
     }
 
     @Override

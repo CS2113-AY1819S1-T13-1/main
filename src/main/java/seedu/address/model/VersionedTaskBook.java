@@ -5,26 +5,26 @@ import java.util.List;
 
 
 /**
- * {@code StudentPlanner} that keeps track of its own history.
+ * {@code TaskBook} that keeps track of its own history.
  */
-public class VersionedStudentPlanner extends StudentPlanner {
-    private final List<ReadOnlyStudentPlanner> studentPlannerStateList;
+public class VersionedTaskBook extends TaskBook {
+    private final List<ReadOnlyTaskBook> studentPlannerStateList;
     private int currentStatePointer;
 
-    public VersionedStudentPlanner(ReadOnlyStudentPlanner initialState) {
+    public VersionedTaskBook(ReadOnlyTaskBook initialState) {
         super(initialState);
 
         studentPlannerStateList = new ArrayList<>();
-        studentPlannerStateList.add(new StudentPlanner(initialState));
+        studentPlannerStateList.add(new TaskBook(initialState));
         currentStatePointer = 0;
     }
 
     /**
-     * Saves a copy of the current {@code StudentPlanner} state at the end of the state list.
+     * Saves a copy of the current {@code TaskBook} state at the end of the state list.
      */
     public void commit() {
         removeStatesAfterCurrentPointer();
-        studentPlannerStateList.add(new StudentPlanner(this));
+        studentPlannerStateList.add(new TaskBook(this));
         currentStatePointer++;
     }
 
