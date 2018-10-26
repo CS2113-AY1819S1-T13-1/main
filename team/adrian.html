@@ -160,7 +160,7 @@
 <p>Allow user to backup data <em>locally</em> or to online services.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>backup [PATH] | [GITHUB ACCESS_TOKEN]</code></p>
+<p>Format: <code>backup | [GITHUB ACCESS_TOKEN]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -180,11 +180,7 @@
 <ul>
 <li>
 <p><code>backup</code><br>
-Creates a local backup to the default backup path in <code>preferences.json</code>.</p>
-</li>
-<li>
-<p><code>backup C:\backup\backup.bak</code><br>
-Creates a local backup to the provided path <code>C:\backup\backup.bak</code>.</p>
+Creates a local backup to the backup paths in <code>preferences.json</code>.</p>
 </li>
 <li>
 <p><code>backup github ACCESS_TOKEN_HERE</code><br>
@@ -199,7 +195,7 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 <p>Allow user to restore data backups <em>locally</em> or from online services.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>restore [PATH] | [GITHUB ACCESS_TOKEN]</code></p>
+<p>Format: <code>restore | [GITHUB ACCESS_TOKEN]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -219,11 +215,7 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 <ul>
 <li>
 <p><code>restore</code><br>
-Restores Student Planner data using local backup in default backup path inside <code>preferences.json</code>.</p>
-</li>
-<li>
-<p><code>restore C:\backup\backup.bak</code><br>
-Restores Student Planner data using the provided backup file path <code>C:\backup\backup.bak</code>.</p>
+Restores Student Planner data using local backups in backup paths inside <code>preferences.json</code>.</p>
 </li>
 <li>
 <p><code>restore github ACCESS_TOKEN_HERE</code><br>
@@ -2318,4 +2310,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-26 11:35:55 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-26 13:51:09 UTC</div></div></div></body></html>
