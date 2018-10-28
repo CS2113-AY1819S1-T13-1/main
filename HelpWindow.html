@@ -27,12 +27,20 @@
 <li><a href="#redoing-the-previously-undone-command-code-redo-code">3.12. Redoing the previously undone command : <code>redo</code></a></li>
 <li><a href="#clearing-all-entries-code-clear-code">3.13. Clearing all entries : <code>clear</code></a></li>
 <li><a href="#exiting-the-program-code-exit-code">3.14. Exiting the program : <code>exit</code></a></li>
-<li><a href="#saving-the-data">3.15. Saving the data</a></li>
-<li><a href="#sending-notification">3.16. Sending notification</a></li>
-<li><a href="#backup-data-code-backup-code">3.17. Backup data : <code>backup</code></a></li>
-<li><a href="#restore-data-code-restore-code">3.18. Restore data : <code>restore</code></a></li>
-<li><a href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.19. Setup or restore backup data <code>[coming in v1.3]</code></a></li>
-<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.20. Encrypting data files <code>[coming in v2.0]</code></a></li>
+<li><a href="#adding-an-expense-code-addexpense-code">3.15. Adding an expense: <code>addExpense</code></a></li>
+<li><a href="#editing-an-expense-code-editexpense-code">3.16. Editing an expense : <code>editExpense</code></a></li>
+<li><a href="#deleting-an-expense-code-deleteexpense-code">3.17. Deleting an expense : <code>deleteExpense</code></a></li>
+<li><a href="#undoing-previous-command-code-undoexpense-code">3.18. Undoing previous command : <code>undoExpense</code></a></li>
+<li><a href="#redoing-the-previously-undone-command-code-redoexpense-code">3.19. Redoing the previously undone command : <code>redoExpense</code></a></li>
+<li><a href="#clearing-all-expense-entries-code-clearexpense-code">3.20. Clearing all expense entries : <code>clearExpense</code></a></li>
+<li><a href="#displaying-expense-trend-code-expensetrend-code">3.21. Displaying expense trend : <code>expenseTrend</code></a></li>
+<li><a href="#displaying-monthly-expense-code-monthlyexpense-code">3.22. Displaying monthly expense : <code>monthlyExpense</code></a></li>
+<li><a href="#saving-the-data">3.23. Saving the data</a></li>
+<li><a href="#sending-notification">3.24. Sending notification</a></li>
+<li><a href="#backup-data-code-backup-code">3.25. Backup data : <code>backup</code></a></li>
+<li><a href="#restore-data-code-restore-code">3.26. Restore data : <code>restore</code></a></li>
+<li><a href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.27. Setup or restore backup data <code>[coming in v1.3]</code></a></li>
+<li><a href="#encrypting-data-files-code-coming-in-v2-0-code">3.28. Encrypting data files <code>[coming in v2.0]</code></a></li>
 </ul>
 </li>
 <li><a href="#faq">4. FAQ</a></li>
@@ -545,20 +553,253 @@ Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.15. Saving the data</a></h3>
+<h3 id="adding-an-expense-code-addexpense-code"><a class="link" href="#adding-an-expense-code-addexpense-code">3.15. Adding an expense: <code>addExpense</code></a></h3>
+<div class="paragraph">
+<p>Adds an expense to the expense book<br>
+Format: <code>addExpense c/CATEGORY v/VALUE d/DATE [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+An expense can have any number of tags (including 0)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addExpense c/taobao v/1111.11 d/11/11/2018</code></p>
+</li>
+<li>
+<p><code>addExpense c/Lunch v/6.66 d/10/10/2018 t/nomorecaipng t/fishtooexpensive</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-an-expense-code-editexpense-code"><a class="link" href="#editing-an-expense-code-editexpense-code">3.16. Editing an expense : <code>editExpense</code></a></h3>
+<div class="paragraph">
+<p>Edits an existing expense in the Expense book.<br>
+Format: <code>edit INDEX [c/CATEGORY] [v/VALUE] [d/DATE] [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Edits the expense at the specified <code>INDEX</code>. The index refers to the index number shown in the displayed expense list. The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>At least one of the optional fields must be provided.</p>
+</li>
+<li>
+<p>Existing values will be updated to the input values.</p>
+</li>
+<li>
+<p>When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.</p>
+</li>
+<li>
+<p>You can remove all the expense&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>`editExpense 1 v/998.00<br>
+Edits the value of expense of the 1st expense</p>
+</li>
+<li>
+<p><code>editExpense 2 c/food t/lunch</code><br>
+Edits the category of the 2nd person to be <code>food</code>, remove the existing tags and add new tag.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-expense-code-deleteexpense-code"><a class="link" href="#deleting-an-expense-code-deleteexpense-code">3.17. Deleting an expense : <code>deleteExpense</code></a></h3>
+<div class="paragraph">
+<p>Deletes the specified expense from the expense book.<br>
+Format: <code>deleteExpense INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the expense at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed expense list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>delete 2</code><br>
+Deletes the 2nd expense in the expense book.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undoing-previous-command-code-undoexpense-code"><a class="link" href="#undoing-previous-command-code-undoexpense-code">3.18. Undoing previous command : <code>undoExpense</code></a></h3>
+<div class="paragraph">
+<p>Restores the expense book to the state before the previous <em>undoable</em> command was executed.<br>
+Format: <code>undoExpense</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Undoable commands: those commands that modify the expense book&#8217;s content (<code>addExpense</code>, <code>deleteExpense</code>, <code>editExpense</code> and <code>clearExpense</code>).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br></p>
+</li>
+<li>
+<p><code>expenseTrend</code><br>
+<code>undoExpense</code><br>
+The <code>undoExpense</code> command fails as there are no undoable commands executed previously.</p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>clearExpense</code><br>
+<code>undoExpense</code> (reverses the <code>clearExpense</code> command)<br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="redoing-the-previously-undone-command-code-redoexpense-code"><a class="link" href="#redoing-the-previously-undone-command-code-redoexpense-code">3.19. Redoing the previously undone command : <code>redoExpense</code></a></h3>
+<div class="paragraph">
+<p>Reverses the most recent <code>undoExpense</code> command.<br>
+Format: <code>redoExpense</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>deleteExpense 1</code> command)<br></p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>redoExpense</code><br>
+The <code>redoExpense</code> command fails as there are no <code>undoExpense</code> commands executed previously.</p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>clearExpense</code><br>
+<code>undoExpense</code> (reverses the <code>clearExpense</code> command)<br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>clearExpense</code> command)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-all-expense-entries-code-clearexpense-code"><a class="link" href="#clearing-all-expense-entries-code-clearexpense-code">3.20. Clearing all expense entries : <code>clearExpense</code></a></h3>
+<div class="paragraph">
+<p>Clears all entries from the expense book.<br>
+Format: `clearExpense</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="displaying-expense-trend-code-expensetrend-code"><a class="link" href="#displaying-expense-trend-code-expensetrend-code">3.21. Displaying expense trend : <code>expenseTrend</code></a></h3>
+<div class="paragraph">
+<p>Displays a bar chart of the monthly expense value occurred the past 6 months in a new window<br>
+Format: <code>expenseTrend</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="displaying-monthly-expense-code-monthlyexpense-code"><a class="link" href="#displaying-monthly-expense-code-monthlyexpense-code">3.22. Displaying monthly expense : <code>monthlyExpense</code></a></h3>
+<div class="paragraph">
+<p>Displays a pie chart of the expense value for each category occurred in the selected month in a new window<br>
+format: <code>monthlyExpense MM/YYYY</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Displays the monthly expense for the specified <code>MM/YYYY</code>.</p>
+</li>
+<li>
+<p>The month <strong>must be a valid month and in MM/YYYY format</strong> 01/0001, 10/2018 &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>monthlyExpense 11/2018</code><br>
+Displays the monthly expense data for November 2018 in a new window</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-the-data"><a class="link" href="#saving-the-data">3.23. Saving the data</a></h3>
 <div class="paragraph">
 <p>Schedule planner data are saved in the hard disk automatically after any command that changes the data.<br>
 There is no need to save manually.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sending-notification"><a class="link" href="#sending-notification">3.16. Sending notification</a></h3>
+<h3 id="sending-notification"><a class="link" href="#sending-notification">3.24. Sending notification</a></h3>
 <div class="paragraph">
 <p>Alert user when a deadline is due</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="backup-data-code-backup-code"><a class="link" href="#backup-data-code-backup-code">3.17. Backup data : <code>backup</code></a></h3>
+<h3 id="backup-data-code-backup-code"><a class="link" href="#backup-data-code-backup-code">3.25. Backup data : <code>backup</code></a></h3>
 <div class="paragraph">
 <p>Allow user to backup data <em>locally</em> or to online services.</p>
 </div>
@@ -593,7 +834,7 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 </div>
 </div>
 <div class="sect2">
-<h3 id="restore-data-code-restore-code"><a class="link" href="#restore-data-code-restore-code">3.18. Restore data : <code>restore</code></a></h3>
+<h3 id="restore-data-code-restore-code"><a class="link" href="#restore-data-code-restore-code">3.26. Restore data : <code>restore</code></a></h3>
 <div class="paragraph">
 <p>Allow user to restore data backups <em>locally</em> or from online services.</p>
 </div>
@@ -628,13 +869,13 @@ Restores Student Planner data on GitHub Gists using the provided personal access
 </div>
 </div>
 <div class="sect2">
-<h3 id="setup-or-restore-backup-data-code-coming-in-v1-3-code"><a class="link" href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.19. Setup or restore backup data <code>[coming in v1.3]</code></a></h3>
+<h3 id="setup-or-restore-backup-data-code-coming-in-v1-3-code"><a class="link" href="#setup-or-restore-backup-data-code-coming-in-v1-3-code">3.27. Setup or restore backup data <code>[coming in v1.3]</code></a></h3>
 <div class="paragraph">
 <p>Allow user to setup backup settings (setup cloud services like GitHub gists or Google Drive, backup location) by calling <code>backup doctor</code></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.20. Encrypting data files <code>[coming in v2.0]</code></a></h3>
+<h3 id="encrypting-data-files-code-coming-in-v2-0-code"><a class="link" href="#encrypting-data-files-code-coming-in-v2-0-code">3.28. Encrypting data files <code>[coming in v2.0]</code></a></h3>
 <div class="paragraph">
 <p>Allow user to enable encryption by calling <code>encrypt p/PASSWORD</code><br>
 Application will prompt for decryption password if encryption is enabled</p>
@@ -702,5 +943,37 @@ e.g. <code>restore GITHUB MY_ACCESS_TOKEN</code></p>
 </li>
 </ul>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>AddExpense</strong> : <code>addExpense c/CATEGORY v/VALUE d/DATE [t/TAG]&#8230;&#8203;</code><br>
+e.g. <code>addExpense c/Food v/11.11 d/11/11/2018 t/KFC t/lunch t/fat</code></p>
+</li>
+<li>
+<p><strong>ClearExpense</strong> : <code>clearExpense</code></p>
+</li>
+<li>
+<p><strong>DeleteExpense</strong> : <code>deleteExpense INDEX</code><br>
+e.g. <code>deleteExpense 3</code></p>
+</li>
+<li>
+<p><strong>EditExpense</strong> : <code>editExpense INDEX [c/CATEGORY] [v/VALUE] [d/DATE] [t/TAG]&#8230;&#8203;</code><br>
+e.g. <code>editExpense 2 c/Travel v/998.00</code></p>
+</li>
+<li>
+<p><strong>UndoExpense</strong> : <code>undoExpense</code></p>
+</li>
+<li>
+<p><strong>RedoExpense</strong> : <code>redoExpense</code></p>
+</li>
+<li>
+<p><strong>ExpenseTrend</strong> : <code>expenseTrend</code></p>
+</li>
+<li>
+<p><strong>MonthlyExpense</strong> : <code>monthlyExpense MM/YYYY</code><br>
+e.g. <code>monthlyExpense 11/2018</code></p>
+</li>
+</ul>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-26 13:51:09 UTC</div></div></div></body></html>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 02:51:01 UTC</div></div></div></body></html>

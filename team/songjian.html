@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Chen Songjian - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">Student-Planner</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2113-AY1819S1-T13-1/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Chen Songjian - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="role-developer"><a class="link" href="#role-developer">Role: Developer</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Responsibilities: Developing</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="project-student-planner"><a class="link" href="#project-student-planner">PROJECT: Student Planner</a></h2>
+<div class="sectionbody">
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Student Planner is a all-in-one desktop manager application that allows students to manage their contacts, tasks, events and expenses. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added <strong>the Expense tracker feature</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: allows the user to track the expenses and assist the user to analyse his/her spending habit</p>
+</li>
+<li>
+<p>Justification: This feature improves the product significantly because a user may overspent but may not realise which category of his/her spending can be reduced.
+The user can use <code>monthlyExpense</code> command to determine the expenses in which category can be cut down and use <code>expenseTrend</code> command to check whether the monthly expenses has decreased.
+These commands assist the user to analyse his/her spending habit and make a better planing for the following month.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: added autocomplete that allows the user to enter the command faster and provides a pre-filled format for the commands with parameter(s).</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="adding-an-expense-code-addexpense-code"><a class="link" href="#adding-an-expense-code-addexpense-code">Adding an expense: <code>addExpense</code></a></h3>
+<div class="paragraph">
+<p>Adds an expense to the expense book<br>
+Format: <code>addExpense c/CATEGORY v/VALUE d/DATE [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+An expense can have any number of tags (including 0)
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>addExpense c/taobao v/1111.11 d/11/11/2018</code></p>
+</li>
+<li>
+<p><code>addExpense c/Lunch v/6.66 d/10/10/2018 t/nomorecaipng t/fishtooexpensive</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-an-expense-code-editexpense-code"><a class="link" href="#editing-an-expense-code-editexpense-code">Editing an expense : <code>editExpense</code></a></h3>
+<div class="paragraph">
+<p>Edits an existing expense in the Expense book.<br>
+Format: <code>edit INDEX [c/CATEGORY] [v/VALUE] [d/DATE] [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Edits the expense at the specified <code>INDEX</code>. The index refers to the index number shown in the displayed expense list. The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>At least one of the optional fields must be provided.</p>
+</li>
+<li>
+<p>Existing values will be updated to the input values.</p>
+</li>
+<li>
+<p>When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.</p>
+</li>
+<li>
+<p>You can remove all the expense&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>`editExpense 1 v/998.00<br>
+Edits the value of expense of the 1st expense</p>
+</li>
+<li>
+<p><code>editExpense 2 c/food t/lunch</code><br>
+Edits the category of the 2nd person to be <code>food</code>, remove the existing tags and add new tag.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-expense-code-deleteexpense-code"><a class="link" href="#deleting-an-expense-code-deleteexpense-code">Deleting an expense : <code>deleteExpense</code></a></h3>
+<div class="paragraph">
+<p>Deletes the specified expense from the expense book.<br>
+Format: <code>deleteExpense INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the expense at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed expense list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>delete 2</code><br>
+Deletes the 2nd expense in the expense book.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undoing-previous-command-code-undoexpense-code"><a class="link" href="#undoing-previous-command-code-undoexpense-code">Undoing previous command : <code>undoExpense</code></a></h3>
+<div class="paragraph">
+<p>Restores the expense book to the state before the previous <em>undoable</em> command was executed.<br>
+Format: <code>undoExpense</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Undoable commands: those commands that modify the expense book&#8217;s content (<code>addExpense</code>, <code>deleteExpense</code>, <code>editExpense</code> and <code>clearExpense</code>).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br></p>
+</li>
+<li>
+<p><code>expenseTrend</code><br>
+<code>undoExpense</code><br>
+The <code>undoExpense</code> command fails as there are no undoable commands executed previously.</p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>clearExpense</code><br>
+<code>undoExpense</code> (reverses the <code>clearExpense</code> command)<br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="redoing-the-previously-undone-command-code-redoexpense-code"><a class="link" href="#redoing-the-previously-undone-command-code-redoexpense-code">Redoing the previously undone command : <code>redoExpense</code></a></h3>
+<div class="paragraph">
+<p>Reverses the most recent <code>undoExpense</code> command.<br>
+Format: <code>redoExpense</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>deleteExpense 1</code> command)<br></p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>redoExpense</code><br>
+The <code>redoExpense</code> command fails as there are no <code>undoExpense</code> commands executed previously.</p>
+</li>
+<li>
+<p><code>deleteExpense 1</code><br>
+<code>clearExpense</code><br>
+<code>undoExpense</code> (reverses the <code>clearExpense</code> command)<br>
+<code>undoExpense</code> (reverses the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>deleteExpense 1</code> command)<br>
+<code>redoExpense</code> (reapplies the <code>clearExpense</code> command)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-all-expense-entries-code-clearexpense-code"><a class="link" href="#clearing-all-expense-entries-code-clearexpense-code">Clearing all expense entries : <code>clearExpense</code></a></h3>
+<div class="paragraph">
+<p>Clears all entries from the expense book.<br>
+Format: `clearExpense</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="displaying-expense-trend-code-expensetrend-code"><a class="link" href="#displaying-expense-trend-code-expensetrend-code">Displaying expense trend : <code>expenseTrend</code></a></h3>
+<div class="paragraph">
+<p>Displays a bar chart of the monthly expense value occurred the past 6 months in a new window<br>
+Format: <code>expenseTrend</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="displaying-monthly-expense-code-monthlyexpense-code"><a class="link" href="#displaying-monthly-expense-code-monthlyexpense-code">Displaying monthly expense : <code>monthlyExpense</code></a></h3>
+<div class="paragraph">
+<p>Displays a pie chart of the expense value for each category occurred in the selected month in a new window<br>
+format: <code>monthlyExpense MM/YYYY</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Displays the monthly expense for the specified <code>MM/YYYY</code>.</p>
+</li>
+<li>
+<p>The month <strong>must be a valid month and in MM/YYYY format</strong> 01/0001, 10/2018 &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>monthlyExpense 11/2018</code><br>
+Displays the monthly expense data for November 2018 in a new window</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="expense-tracker-feature"><a class="link" href="#expense-tracker-feature">Expense tracker feature</a></h3>
+<div class="paragraph">
+<p>The implementation of expense feature is similar to the Address Book, it has similar basic functions such as: <code>addExpense</code> <code>clearExpense</code> <code>deleteExpense</code> <code>editExpense</code> <code>redoExpense</code> <code>undoExpense</code>.
+In addition, <code>expenseTrend</code> and <code>monthlyExpense</code> functions were implemented to assist the user in analysing his/her spending habit.</p>
+</div>
+<div class="sect3">
+<h4 id="expense-trend"><a class="link" href="#expense-trend">Expense trend</a></h4>
+<div class="paragraph">
+<p>This function displays the total expense value for the past 6 months in a new window.
+This function is facilitated by <code>ExpenseTrendCommand</code>, it extends the <code>Command</code>.</p>
+</div>
+<div class="paragraph">
+<p>When user executes <code>expenseTrend</code> command, the command calls <code>Model#getFilteredExpenseList()</code> to obtain the list of expense, it then creates a <code>TreeMap</code> containing the expense trend data by calling <code>getExpenseTrendData()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The list of expense will be filtered by the month of expense occurred in the <code>getExpenseTrendData()</code>, <code>java.time.YearMonth</code> is imported to obtain the current month and <code>TreeMap</code> is used to ensure that the months are sorted in ascending order.</p>
+</div>
+<div class="paragraph">
+<p>The command then calls <code>EventsCenter#post(new DisplayExpenseTrendEvent(expenseTrendData))</code> to create an display expense trend event with the expense trend data, and pass the event to the EventCenter.</p>
+</div>
+<div class="paragraph">
+<p><code>MainWindow</code> will subscribe and handle the event, the expense trend data is passed to <code>ExpenseTrendWindow</code> by calling <code>ExpenseTrendWindow#setExpenseTrendData()</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>ExpenseTrendWindow</code> creates a bar chart with the data and open a new window to display the bar chart.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="monthly-expense"><a class="link" href="#monthly-expense">Monthly expense</a></h4>
+<div class="paragraph">
+<p>This function displays the expense value of each category for the selected month in a new window.
+This function is facilitated by <code>MonthlyExpenseCommand</code>, it extends the <code>Command</code>.</p>
+</div>
+<div class="paragraph">
+<p>When user executes <code>monthlyExpense</code> command, the <code>MonthlyExpenseCommandParser</code> will check if the parameter entered are in correct format and is a valid month. An error message is displayed if the parameter is incorrect, else a <code>MonthlyExpenseCommand</code> with the selected month will be instantiated.
+the command then calls <code>Model#getFilteredExpenseList()</code> to obtain the list of expense, it also creates a <code>HashMap</code> containing the monthly expense data by calling <code>getMonthlyData()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The list of expense will be filtered by the selected month in the <code>getMonthlyExpenseData()</code>, <code>HashMap</code> is used to ensure that to associate the expense value and its category.</p>
+</div>
+<div class="paragraph">
+<p>The command then calls <code>EventsCenter#post(new DisplayMonthlyExpenseEvent(monthlyData))</code> to create an display monthly expense event with the monthly expense data, and pass the event to the EventCenter.</p>
+</div>
+<div class="paragraph">
+<p>The rest are similar to the Expense Trend but the data were represented in a pie chart instead of a bar chart.</p>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 02:51:01 UTC</div></div></div></body></html>

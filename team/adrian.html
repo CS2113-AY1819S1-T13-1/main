@@ -329,10 +329,52 @@ and show feedback to the UI for the user as the Task event handlers are performe
 </div>
 </div>
 <div class="sect2">
-<h3 id="expense-feature"><a class="link" href="#expense-feature">Expense feature</a></h3>
+<h3 id="expense-tracker-feature"><a class="link" href="#expense-tracker-feature">Expense tracker feature</a></h3>
+<div class="paragraph">
+<p>The implementation of expense feature is similar to the Address Book, it has similar basic functions such as: <code>addExpense</code> <code>clearExpense</code> <code>deleteExpense</code> <code>editExpense</code> <code>redoExpense</code> <code>undoExpense</code>.
+In addition, <code>expenseTrend</code> and <code>monthlyExpense</code> functions were implemented to assist the user in analysing his/her spending habit.</p>
+</div>
 <div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
-
+<h4 id="expense-trend"><a class="link" href="#expense-trend">Expense trend</a></h4>
+<div class="paragraph">
+<p>This function displays the total expense value for the past 6 months in a new window.
+This function is facilitated by <code>ExpenseTrendCommand</code>, it extends the <code>Command</code>.</p>
+</div>
+<div class="paragraph">
+<p>When user executes <code>expenseTrend</code> command, the command calls <code>Model#getFilteredExpenseList()</code> to obtain the list of expense, it then creates a <code>TreeMap</code> containing the expense trend data by calling <code>getExpenseTrendData()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The list of expense will be filtered by the month of expense occurred in the <code>getExpenseTrendData()</code>, <code>java.time.YearMonth</code> is imported to obtain the current month and <code>TreeMap</code> is used to ensure that the months are sorted in ascending order.</p>
+</div>
+<div class="paragraph">
+<p>The command then calls <code>EventsCenter#post(new DisplayExpenseTrendEvent(expenseTrendData))</code> to create an display expense trend event with the expense trend data, and pass the event to the EventCenter.</p>
+</div>
+<div class="paragraph">
+<p><code>MainWindow</code> will subscribe and handle the event, the expense trend data is passed to <code>ExpenseTrendWindow</code> by calling <code>ExpenseTrendWindow#setExpenseTrendData()</code>.</p>
+</div>
+<div class="paragraph">
+<p><code>ExpenseTrendWindow</code> creates a bar chart with the data and open a new window to display the bar chart.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="monthly-expense"><a class="link" href="#monthly-expense">Monthly expense</a></h4>
+<div class="paragraph">
+<p>This function displays the expense value of each category for the selected month in a new window.
+This function is facilitated by <code>MonthlyExpenseCommand</code>, it extends the <code>Command</code>.</p>
+</div>
+<div class="paragraph">
+<p>When user executes <code>monthlyExpense</code> command, the <code>MonthlyExpenseCommandParser</code> will check if the parameter entered are in correct format and is a valid month. An error message is displayed if the parameter is incorrect, else a <code>MonthlyExpenseCommand</code> with the selected month will be instantiated.
+the command then calls <code>Model#getFilteredExpenseList()</code> to obtain the list of expense, it also creates a <code>HashMap</code> containing the monthly expense data by calling <code>getMonthlyData()</code>.</p>
+</div>
+<div class="paragraph">
+<p>The list of expense will be filtered by the selected month in the <code>getMonthlyExpenseData()</code>, <code>HashMap</code> is used to ensure that to associate the expense value and its category.</p>
+</div>
+<div class="paragraph">
+<p>The command then calls <code>EventsCenter#post(new DisplayMonthlyExpenseEvent(monthlyData))</code> to create an display monthly expense event with the monthly expense data, and pass the event to the EventCenter.</p>
+</div>
+<div class="paragraph">
+<p>The rest are similar to the Expense Trend but the data were represented in a pie chart instead of a bar chart.</p>
+</div>
 </div>
 </div>
 </div>
@@ -2310,4 +2352,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-26 13:51:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 02:51:01 UTC</div></div></div></body></html>
