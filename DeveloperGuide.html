@@ -911,25 +911,154 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 <div class="sect3">
 <h4 id="backup-implementation"><a class="link" href="#backup-implementation">3.3.2. Backup Implementation</a></h4>
 <div class="paragraph">
-<p>A generic <code>OnlineStorage</code> interface must be implemented by all forms of Online backup services. This allows developers to easily add and extend the list of supported backup services by implementing a common set of methods.
-The current minimum set of methods that must be implemented is for backup, namely <code>OnlineStorage#saveContentToStorage</code>. Future iterations of code will enforce implementation of <code>OnlineStorage#loadContentFromStorage</code>.</p>
+<p>A <code>OnlineStorage</code> interface must be implemented by all forms of Online backup services. This allows developers to easily add and extend the list of supported backup services by implementing a common set of methods.
+The current minimum set of methods that must be implemented are</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OnlineStorage#saveContentToStorage</code>.</p>
+</li>
+<li>
+<p><code>OnlineStorage#readContentFromStorage</code>.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>For local backups, the existing classes provided by <code>XmlAddressBookStorage</code> are reused</p>
+<p>For local backups, the book specific <code>{Book}Storage</code> interface adapted from <code>AddressBookStorage</code> are implemented and used.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="command-flow"><a class="link" href="#command-flow">3.3.3. Command Flow</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.3.3. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-is-the-backup-command-initiated"><a class="link" href="#aspect-how-is-the-backup-command-initiated">Aspect: How is the backup command initiated</a></h5>
 <div class="paragraph">
-<p>When a user enters a backup or restore command for local backups or restoration. <code>Model#backupAddressBookLocal</code> will be called which calls <code>indicateAddressBookBackupRequest</code> that raises a <code>Model#AddressBookLocalBackupEvent</code>.
-The <code>StorageManager</code> subscribes to the event and will perform the backup of the address book in the event handler. This allows us to seperate backup concerns from the Model as the model should not know how to perform backup,
-also in this manner, the storage manager will not need to know about the model to perform backup.</p>
+<p>The backup mechanism is unique from the other command implementation as the execution of a <code>BackupCommand</code> uses an event driven approach to activate a backup request instead of going through the model manager. Backup command is executed this way
+because of the following reason.</p>
 </div>
 <div class="paragraph">
-<p>For online backups, in this case the example of saving backup data to GitHub. After a correct backup command is entered by the user, an <code>OnlineBackupEvent</code> is immediately raised and handled by the <code>StorageManager</code>.
-To prevent the main JavaFX UI thread from freezing during the entire duration of the online backup. We utilize a worker thread that performs the online backup without blocking the main thread. We set up the Task handlers so that
-exceptions thrown in the worker thread can be captured and shown to the user in the form of a popup. This multi-threaded approach allows us to perform long running tasks on worker threads and at the same time allows us to perform
-and show feedback to the UI for the user as the Task event handlers are performed on the main JavaFX thread.</p>
+<p>Backup requires the current in memory book data inside the <code>Model</code>, however the <code>execute</code> function is actually passed our <code>model</code> containing the required books data. We can raise a backup event directly with the books data provided in the model we have access too</p>
+</div>
+<div class="paragraph">
+<p>The raised event is observed and handled by the storage manager which performs the backup (either local or through supported online services) using the books from the <code>model</code> passed in through the <code>OnlineBackupEvent</code> or <code>LocalBackupEvent</code></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-implementation-of-performing-backup"><a class="link" href="#aspect-implementation-of-performing-backup">Aspect: Implementation of performing backup</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Performing backup of data files using worker threads.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Solves the age old problem of a graphical application appearing to freeze which can away end user experience as when the main JavaFX thread is blocked as is the case in the inherited default AB4 codebase</p>
+</li>
+<li>
+<p>Cons: Difficult to ensure that threads have no unsafe threads operations especially since we are dealing with file storage. Cross thread exception is difficult to handle.
+Difficult to ensure that no two threads attempt to access the same resource.
+Inter-thread synchronisation and cross thread exception handling is difficult too.
+we have to implement a way to check when all threads are complete and signal the main ui thread to provide user with a proper success or failure notification</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Utilise the existing implementation of blocking the main GUI thread whenever a file storage operation is being performed</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: No work needed in implementation.</p>
+</li>
+<li>
+<p>Cons: Notable freezes in Student Planner application even for small files. User cannot perform any other operation while backup is being performed</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect5">
+<h6 id="further-justification"><a class="link" href="#further-justification">Further justification</a></h6>
+<div class="paragraph">
+<p>Concurrency is not a topic commonly taught in beginning software engineering classes. The class that this application was created for is no exception. The common reason for this is that concurrency and multithreading
+are two slightly advanced topics that students will not usually touch in beginning modules. However, one can consider this to be a paradox as most beginner software engineering modules will involve the creation of an
+application with graphical output which usually consists of long running operations which should not be handled or performed on the main GUI thread. This is the best time to teach students about using worker or
+ background threads to prevent main GUI thread from blocking operations such as file I/O, it is also the most succinct demonstration of the need for concurrency.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="command-flow"><a class="link" href="#command-flow">3.3.4. Command Flow</a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="images/backup-example.png" alt="backup example">
+</div>
+</div>
+<div class="paragraph">
+<p>When a user enters a backup command to perform data backup. <code>BackupCommand#execute</code> raises a <code>LocalBackupEvent</code> or a <code>OnlineBackupEvent</code>.
+The <code>StorageManager</code> subscribes to the events and will perform the backup of the various books such as <code>ReadOnlyAddressBook</code>, <code>ReadOnlyExpenseBook</code> etc provided in the event payload. This allows us to separate
+backup concerns from the Model as explain above earlier, in a similar manner, the storage component is also decoupled from the model component with regards to backup operations.</p>
+</div>
+<div class="paragraph">
+<p>For example in the case of saving backup data to GitHub. We have the flow of steps.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>After a correct backup command is entered by the user, <code>BackupCommand#execute</code> raises a <code>OnlineBackupEvent</code> with the payload consisting of <code>OnlineStorage.Type</code> , the various book models, and a authentication token.</p>
+</li>
+<li>
+<p><code>StorageManager#handleOnlineBackupEvent</code> calls <code>backupOnline</code> which starts an <code>ExecutorService</code> to perform data backup to Github storage with worker tasks from <code>getOnlineBackupTask</code></p>
+<div class="paragraph">
+<p>To prevent the main JavaFX UI thread from freezing during the entire duration of the online backup, worker threads are used to performs the online backup without blocking the main thread.</p>
+</div>
+<div class="paragraph">
+<p>Tasks created using <code>javafx.concurrent.tasks</code> allows us to use task handlers which run in the context of the main JavaFX application thread.</p>
+</div>
+<div class="paragraph">
+<p>This allows us to capture any thrown exceptions in the worker thread and show to the user in the form of a error popup.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>backupTask.setOnFailed(event -&gt; {
+    raise(new DataSavingExceptionEvent((Exception) backupTask.getException()));
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This multi-threaded approach allows us to perform long running tasks on worker threads while still waiting for all backup threads
+to complete before showing success notification for the user.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>backupTask.setOnSucceeded(event -&gt; {
+    raise(new NewResultAvailableEvent(backupTask.getMessage()));
+    raise((OnlineBackupSuccessResultEvent) backupTask.getValue());
+});</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The specific online service that implements the <code>OnlineStorage</code> interface will be called.
+In this example, <code>GithubStorage#saveContentToStorage</code> is called for the respective data books which utilises a third party Github API Library
+ to create and save gists to GitHub.</p>
+</li>
+<li>
+<p>When each backup task for each book data is completed, a <code>OnlineBackupSuccessResultEvent</code> is raised by the <code>setOnSucceeded</code> task handler.</p>
+</li>
+<li>
+<p><code>Model#handleOnlineBackupSuccessResultEvent</code> receives the event and updates the <code>UserPrefs</code> model based on the gist id returned from the successful backup</p>
+</li>
+<li>
+<p>A <code>UserPrefsChangedEvent</code> is fired which is handled by <code>Storage</code> which saves the updated <code>UserPrefs</code> to storage.</p>
+</li>
+<li>
+<p>A <code>NewNotificationAvailableEvent</code> is also fired. This event is handled by the <code>UiManager</code> which calls <code>showNotification</code> that creates a new notification and shows
+it to the user.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -3001,4 +3130,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-28 02:51:01 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-29 07:58:17 UTC</div></div></div></body></html>
