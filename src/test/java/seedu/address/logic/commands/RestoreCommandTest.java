@@ -19,7 +19,6 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.TaskBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.task.Task;
 import seedu.address.storage.OnlineStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.storage.XmlExpenseBookStorage;

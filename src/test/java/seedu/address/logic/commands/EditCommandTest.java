@@ -74,7 +74,7 @@ public class EditCommandTest {
 
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new TaskBook(),new UserPrefs());
+                        new TaskBook(), new UserPrefs());
         expectedModel.updatePerson(lastPerson, editedPerson);
         expectedModel.commitAddressBook();
 

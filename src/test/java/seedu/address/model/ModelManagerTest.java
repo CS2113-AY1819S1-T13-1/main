@@ -63,7 +63,7 @@ public class ModelManagerTest {
 
         // same values -> returns true
         modelManager = new ModelManager(addressBook, expenseBook, new TaskBook(), userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(addressBook, expenseBook, new TaskBook(),userPrefs);
+        ModelManager modelManagerCopy = new ModelManager(addressBook, expenseBook, new TaskBook(), userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
