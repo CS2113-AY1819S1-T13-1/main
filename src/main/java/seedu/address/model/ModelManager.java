@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.util.Duration;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
@@ -26,6 +28,7 @@ import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.TaskBookChangedEvent;
 import seedu.address.commons.events.model.UserPrefsChangedEvent;
 import seedu.address.commons.events.storage.OnlineBackupSuccessResultEvent;
+import seedu.address.commons.events.ui.NewNotificationAvailableEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.model.event.Event;
 import seedu.address.model.expense.Expense;
@@ -38,6 +41,7 @@ import seedu.address.storage.OnlineStorage;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+    private static final int BOOK_COUNT = 2;
 
     private VersionedExpenseBook versionedExpenseBook;
     private FilteredList<Expense> filteredExpenses;
@@ -46,6 +50,8 @@ public class ModelManager extends ComponentManager implements Model {
     private VersionedTaskBook versionedTaskBook;
     private FilteredList<Task> filteredTasks;
     private UserPrefs userPrefs;
+
+    private int restoreCounter = 0;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -112,8 +118,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     /** Raises an event to indicate the request to backup model to persistent storage*/
-    private void indicateAddressBookBackupRequest(Path backupPath) {
-        raise(new AddressBookLocalBackupEvent(versionedAddressBook, backupPath));
+    private void indicateAddressBookBackupRequest() {
+        raise(new AddressBookLocalBackupEvent(versionedAddressBook, userPrefs.getAddressBookBackupFilePath()));
     }
 
     //@@author
@@ -191,7 +197,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     //@@author QzSG
-    @Override
+    /*@Override
     public void backupAddressBookLocal(Path backupPath) {
         indicateAddressBookBackupRequest(backupPath);
     }
@@ -199,19 +205,34 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void backupExpenseBookLocal(Path backupPath) {
         indicateExpenseBookBackupRequest(backupPath);
-    }
-
+    }*/
 
     @Override
     public void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook) {
         versionedAddressBook.resetData(restoredAddressBook);
         Platform.runLater(() -> indicateAddressBookChanged("Data Restored"));
+        checkAllRestored();
     }
 
     @Override
     public void restoreExpenseBook(ReadOnlyExpenseBook restoredExpenseBook) {
         versionedExpenseBook.resetData(restoredExpenseBook);
         Platform.runLater(() -> indicateExpenseBookChanged("Data Restored"));
+        checkAllRestored();
+    }
+
+    /**
+     * Checks that all books successfully restored
+     */
+    private void checkAllRestored() {
+        restoreCounter++;
+
+        if (restoreCounter == BOOK_COUNT) {
+            restoreCounter = 0;
+            raise(new NewNotificationAvailableEvent("Restore Operation",
+                    "Data restore successful", Optional.ofNullable(Duration.seconds(5))));
+        }
+
     }
 
     @SuppressWarnings("unused")
@@ -238,7 +259,8 @@ public class ModelManager extends ComponentManager implements Model {
     @SuppressWarnings("unused")
     @Subscribe
     public void handleOnlineBackupSuccessResultEvent(OnlineBackupSuccessResultEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Restoring address book from online storage"));
+        logger.info(LogsCenter.getEventHandlingLogMessage(event,
+                String.format("Successfully restored %s from online storage", event.targetBook.name())));
         handleOnlineBackupSuccessResult(event.target, event.targetBook, event.ref);
     }
 
@@ -260,9 +282,13 @@ public class ModelManager extends ComponentManager implements Model {
         switch (target) {
         case GITHUB:
         default:
+
             updateGithubRelevantUserPrefs(targetBook, ref);
         }
         raise(new UserPrefsChangedEvent(userPrefs));
+        raise(new NewNotificationAvailableEvent("Backup Operation",
+                String.format("%s saved to gist.github.com/%s!", targetBook.name(), ref),
+                Optional.ofNullable(Duration.seconds(8))));
     }
 
     /**
@@ -418,11 +444,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     /** Raises an event to indicate the request to backup model to persistent storage*/
     private void indicateExpenseBookBackupRequest(Path backupPath) {
-        raise(new ExpenseBookLocalBackupEvent(versionedExpenseBook, backupPath));
+        raise(new ExpenseBookLocalBackupEvent(versionedExpenseBook, userPrefs.getExpenseBookBackupFilePath()));
     }
 
     //@@author ChenSongJian
-
     @Override
     public void addExpense(Expense expense) {
         versionedExpenseBook.addExpense(expense);

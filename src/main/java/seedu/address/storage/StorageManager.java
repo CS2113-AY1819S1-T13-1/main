@@ -13,23 +13,24 @@ import javax.xml.bind.JAXBException;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.concurrent.Task;
+import javafx.util.Duration;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
-import seedu.address.commons.events.model.AddressBookLocalBackupEvent;
 import seedu.address.commons.events.model.AddressBookLocalRestoreEvent;
 import seedu.address.commons.events.model.AddressBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookChangedEvent;
-import seedu.address.commons.events.model.ExpenseBookLocalBackupEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.UserPrefsChangedEvent;
 import seedu.address.commons.events.storage.DataRestoreExceptionEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
+import seedu.address.commons.events.storage.LocalBackupEvent;
 import seedu.address.commons.events.storage.LocalRestoreEvent;
 import seedu.address.commons.events.storage.OnlineBackupEvent;
 import seedu.address.commons.events.storage.OnlineBackupSuccessResultEvent;
 import seedu.address.commons.events.storage.OnlineRestoreEvent;
+import seedu.address.commons.events.ui.NewNotificationAvailableEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -122,6 +123,7 @@ public class StorageManager extends ComponentManager implements Storage {
 
     @Override
     public void backupAddressBook(ReadOnlyAddressBook addressBook, Path backupFilePath) throws IOException {
+        logger.fine("Attempting to backup address book data file: " + backupFilePath);
         addressBookStorage.backupAddressBook(addressBook, backupFilePath);
     }
 
@@ -136,14 +138,69 @@ public class StorageManager extends ComponentManager implements Storage {
         }
     }
     //@@author QzSG
-    @Override
+
     @Subscribe
-    public void handleAddressBookLocalBackupEvent(AddressBookLocalBackupEvent event) {
+    public void handleLocalBackupEvent(LocalBackupEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Saving student planner data as backup"));
+        backupLocal(event.readOnlyAddressBook, event.readOnlyExpenseBook,
+                    event.addressBookPath, event.expenseBookPath);
+    }
+
+    /**
+     * Performs local backup to local storage
+     * @param addressData  {@code ReadOnlyAddressBook} addressData
+     * @param expenseData  {@code ReadOnlyExpenseBook} expenseData
+     * @param addressBookPath Location to save address data to
+     * @param expenseBookPath Location to save expense data to
+     */
+    private void backupLocal(ReadOnlyAddressBook addressData, ReadOnlyExpenseBook expenseData,
+                              Path addressBookPath, Path expenseBookPath) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+        executorService.submit(getLocalBackupTask(addressData, expenseData, addressBookPath, expenseBookPath));
+    }
+
+    /**
+     * Creates a local backup tasks and returns the created task.
+     * @param addressData  {@code ReadOnlyAddressBook} addressData
+     * @param expenseData  {@code ReadOnlyExpenseBook} expenseData
+     * @param addressBookPath Location to save address data to
+     * @param expenseBookPath Location to save expense data to
+     * @return Local Backup Task
+     */
+    private Task getLocalBackupTask(ReadOnlyAddressBook addressData, ReadOnlyExpenseBook expenseData,
+                                    Path addressBookPath, Path expenseBookPath) {
+        Task backupTask = new Task<Void>() {
+            @Override public Void call() throws Exception {
+                backupAddressBook(addressData, addressBookPath);
+                backupExpenseBook(expenseData, expenseBookPath);
+                return null;
+            }
+        };
+        backupTask.setOnSucceeded(event -> {
+            raise(new NewNotificationAvailableEvent("Backup Operation", "Local Backup succeeded!",
+                    Optional.ofNullable(Duration.seconds(5))));
+        });
+        backupTask.setOnFailed(event -> {
+            raise(new DataSavingExceptionEvent((Exception) backupTask.getException()));
+        });
+        return backupTask;
+    }
+
+    /*
+    Listens directly to RestoreCommand
+    */
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void handleLocalRestoreEvent(LocalRestoreEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Retrieving student planner data from storage"));
         try {
-            backupAddressBook(event.data, event.filePath);
-        } catch (IOException e) {
-            raise(new DataSavingExceptionEvent(e));
+            ReadOnlyAddressBook restoredReadOnlyAddressBook = readAddressBook(event.addressBookPath).get();
+            ReadOnlyExpenseBook restoredReadOnlyExpenseBook = readExpenseBook(event.expenseBookPath).get();
+            raise(new AddressBookLocalRestoreEvent(restoredReadOnlyAddressBook));
+            raise(new ExpenseBookLocalRestoreEvent(restoredReadOnlyExpenseBook));
+        } catch (IOException | DataConversionException | NoSuchElementException e) {
+            raise(new DataRestoreExceptionEvent(e));
         }
     }
 
@@ -166,23 +223,6 @@ public class StorageManager extends ComponentManager implements Storage {
     public void handleOnlineRestoreEvent(OnlineRestoreEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Restoring data from online storage"));
         restoreOnline(event.target, event.targetBook, event.ref, event.authToken);
-    }
-
-    /*
-    Listens directly to RestoreCommand
-    */
-    @SuppressWarnings("unused")
-    @Subscribe
-    public void handleLocalRestoreEvent(LocalRestoreEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Retrieving student planner data from storage"));
-        try {
-            ReadOnlyAddressBook restoredReadOnlyAddressBook = readAddressBook(event.addressBookPath).get();
-            ReadOnlyExpenseBook restoredReadOnlyExpenseBook = readExpenseBook(event.expenseBookPath).get();
-            raise(new AddressBookLocalRestoreEvent(restoredReadOnlyAddressBook));
-            raise(new ExpenseBookLocalRestoreEvent(restoredReadOnlyExpenseBook));
-        } catch (IOException | DataConversionException | NoSuchElementException e) {
-            raise(new DataRestoreExceptionEvent(e));
-        }
     }
 
     /**
@@ -235,13 +275,13 @@ public class StorageManager extends ComponentManager implements Storage {
                                     + "token received")));
                         if (targetBook == UserPrefs.TargetBook.AddressBook) {
                             AddressBook restoredAddressBook = XmlUtil.getDataFromString(
-                                    gitHubStorage.readContentFromGist(targetBook, ref),
+                                    gitHubStorage.readContentFromStorage(targetBook, ref),
                                     XmlSerializableAddressBook.class).toModelType();
                             return restoredAddressBook;
                         }
                         if (targetBook == UserPrefs.TargetBook.ExpenseBook) {
                             ExpenseBook restoredExpenseBook = XmlUtil.getDataFromString(
-                                    gitHubStorage.readContentFromGist(targetBook, ref),
+                                    gitHubStorage.readContentFromStorage(targetBook, ref),
                                     XmlSerializableExpenseBook.class).toModelType();
                             return restoredExpenseBook;
                         } else {
@@ -285,7 +325,7 @@ public class StorageManager extends ComponentManager implements Storage {
                                         + "token received")));
                         URL url = gitHubStorage.saveContentToStorage(handleBookData(data), fileName,
                                 "Student Book Backup");
-                        String successMessage = String.format(GitHubStorage.SUCCESS_MESSAGE, url);
+                        String successMessage = GitHubStorage.SUCCESS_MESSAGE;
                         updateMessage(successMessage);
                         String ref = url.getPath().substring(1);
                         return new OnlineBackupSuccessResultEvent(OnlineStorage.Type.GITHUB,
@@ -372,13 +412,14 @@ public class StorageManager extends ComponentManager implements Storage {
 
     @Override
     public void backupExpenseBook(ReadOnlyExpenseBook expenseBook, Path backupFilePath) throws IOException {
+        logger.fine("Attempting to backup expense book data file: " + backupFilePath);
         expenseBookStorage.backupExpenseBook(expenseBook, backupFilePath);
     }
 
     @Override
     @Subscribe
     public void handleExpenseBookChangedEvent(ExpenseBookChangedEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local expense data changed, saving to file"));
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
         try {
             saveExpenseBook(event.data);
         } catch (IOException e) {
@@ -386,16 +427,18 @@ public class StorageManager extends ComponentManager implements Storage {
         }
     }
 
+    /*
     @Override
     @Subscribe
     public void handleExpenseBookLocalBackupEvent(ExpenseBookLocalBackupEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Saving expense data as backup"));
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Saving student planner data as backup"));
         try {
             backupExpenseBook(event.data, event.filePath);
         } catch (IOException e) {
             raise(new DataSavingExceptionEvent(e));
         }
     }
+    */
 
     //============== Task ================================================================================
     @Override
