@@ -188,14 +188,14 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 <p>Allow user to restore data backups <em>locally</em> or from online services.</p>
 </div>
 <div class="paragraph">
-<p>Format: <code>restore | [GITHUB ACCESS_TOKEN]</code></p>
+<p>Format: <code>restore | [Service ACCESS_TOKEN_IF_REQUIRED]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
 <ul>
 <li>
-<p>For GitHub online restore, a personal access token must be provided in <code>ACCESS_TOKEN</code></p>
+<p>For GitHub online restore, access token is not required! It is only required to create the secret gist during backup process</p>
 </li>
 </ul>
 </div>
@@ -212,9 +212,23 @@ Restores Student Planner data using local backups in backup paths inside <code>p
 </li>
 <li>
 <p><code>restore github ACCESS_TOKEN_HERE</code><br>
-Restores Student Planner data on GitHub Gists using the provided personal access token.</p>
+Restores Student Planner data on GitHub Gists.</p>
 </li>
 </ul>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>An failure message will be shown if no prior backups were made before restore command is used</p>
+</li>
+<li>
+<p>If that happens, do proceed to first create a backup using <code>backup</code> command.</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -407,4 +421,4 @@ it to the user.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 12:06:46 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 17:31:08 UTC</div></div></div></body></html>

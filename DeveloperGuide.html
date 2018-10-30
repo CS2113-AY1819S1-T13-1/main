@@ -2681,16 +2681,9 @@ Use case ends.</p>
 </li>
 </ol>
 </div>
-<h3 id="use-case-local-tasks-backup-uc8" class="discrete">Use case: Local tasks backup (UC8)</h3>
+<h3 id="use-case-local-student-planner-data-backup-uc8" class="discrete">Use case: Local Student Planner data backup (UC8)</h3>
 <div class="paragraph">
 <p><strong>Prerequisite</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>At least one tasks exists</p>
-</li>
-</ol>
 </div>
 <div class="paragraph">
 <p><strong>MSS</strong></p>
@@ -2698,10 +2691,10 @@ Use case ends.</p>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>User requests to backup all data to another local folder</p>
+<p>User requests to backup data locally</p>
 </li>
 <li>
-<p>StudentPlanner backups current data to specified folder</p>
+<p>StudentPlanner backups current data to backup folder</p>
 <div class="paragraph">
 <p>Use case ends.</p>
 </div>
@@ -2728,17 +2721,7 @@ Use case ends.</p>
 </li>
 </ul>
 </div>
-<h3 id="use-case-online-tasks-backup-uc9" class="discrete">Use case: Online tasks backup (UC9)</h3>
-<div class="paragraph">
-<p><strong>Prerequisite</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>At least one online backup service has been set up.</p>
-</li>
-</ol>
-</div>
+<h3 id="use-case-online-student-planner-data-backup-uc9" class="discrete">Use case: Online Student Planner data backup (UC9)</h3>
 <div class="paragraph">
 <p><strong>MSS</strong></p>
 </div>
@@ -2761,24 +2744,31 @@ Use case ends.</p>
 <div class="ulist none">
 <ul class="none">
 <li>
-<p>2a. Service has not been set up previously</p>
+<p>1a. User provides invalid credentials</p>
 <div class="ulist none">
 <ul class="none">
 <li>
-<p>2a1. StudentPlanner prompts user to first set up the specified online service.</p>
+<p>1a1. StudentPlanner shows error.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
 </li>
 </ul>
 </div>
 </li>
-<li>
-<p>2b. Service is not recognised or unsupported</p>
+</ul>
+</div>
 <div class="ulist none">
 <ul class="none">
 <li>
-<p>2b1. StudentPlanner shows error.</p>
+<p>2a. Service is not recognised or unsupported</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a1. StudentPlanner shows error.</p>
 </li>
 <li>
-<p>2b2. StudentPlanner shows help for online backup.</p>
+<p>2a2. StudentPlanner shows help for online backup.</p>
 <div class="paragraph">
 <p>Use case ends.</p>
 </div>
@@ -3130,4 +3120,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 12:06:46 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-30 17:31:08 UTC</div></div></div></body></html>
