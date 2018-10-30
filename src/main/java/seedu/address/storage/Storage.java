@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.ExpenseBookChangedEvent;
+import seedu.address.commons.events.model.ExpenseBookLocalBackupEvent;
 import seedu.address.commons.events.storage.DataSavingExceptionEvent;
 import seedu.address.commons.events.storage.LocalBackupEvent;
 import seedu.address.commons.events.storage.LocalRestoreEvent;
@@ -76,7 +77,7 @@ public interface Storage extends AddressBookStorage, ExpenseBookStorage, TaskBoo
      *   Creates the backup file if it is missing.
      * Raises {@link DataSavingExceptionEvent} if there was an error during saving.
      */
-    void handleExpenseBookLocalBackupEvent(ExpenseBookLocalBackupEvent abce);
+    //void handleExpenseBookLocalBackupEvent(ExpenseBookLocalBackupEvent abce);
 
     //=========== Task ===================================================================================
     @Override
@@ -88,6 +89,5 @@ public interface Storage extends AddressBookStorage, ExpenseBookStorage, TaskBoo
     @Override
     void saveTaskBook(ReadOnlyTaskBook taskBook) throws IOException;
 
-    //void handleExpenseBookLocalBackupEvent(ExpenseBookLocalBackupEvent abce);
 
 }
