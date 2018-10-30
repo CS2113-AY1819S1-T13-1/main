@@ -23,6 +23,7 @@ import seedu.address.commons.events.model.ExpenseBookChangedEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalBackupEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
+import seedu.address.commons.events.model.TaskBookChangedEvent;
 import seedu.address.commons.events.model.UserPrefsChangedEvent;
 import seedu.address.commons.events.storage.OnlineBackupSuccessResultEvent;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
@@ -42,15 +43,15 @@ public class ModelManager extends ComponentManager implements Model {
     private FilteredList<Expense> filteredExpenses;
     private VersionedAddressBook versionedAddressBook;
     private FilteredList<Person> filteredPersons;
-    private VersionedTaskBook versionedStudentPlanner;
+    private VersionedTaskBook versionedTaskBook;
     private FilteredList<Task> filteredTasks;
     private UserPrefs userPrefs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskBook studentPlanner,
-                        ReadOnlyExpenseBook expenseBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyExpenseBook expenseBook,
+                        ReadOnlyTaskBook taskBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -58,34 +59,15 @@ public class ModelManager extends ComponentManager implements Model {
 
         versionedAddressBook = new VersionedAddressBook(addressBook);
         versionedExpenseBook = new VersionedExpenseBook(expenseBook);
+        versionedTaskBook = new VersionedTaskBook(taskBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         filteredExpenses = new FilteredList<>(versionedExpenseBook.getExpenseList());
-
-        versionedStudentPlanner = new VersionedTaskBook(studentPlanner);
-        filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
-        this.userPrefs = userPrefs;
-    }
-
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskBook studentPlanner, UserPrefs userPrefs) {
-        super();
-
-
-        requireAllNonNull(studentPlanner, userPrefs);
-        requireAllNonNull(addressBook, userPrefs);
-
-        logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
-
-        versionedAddressBook = new VersionedAddressBook(addressBook);
-        filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
-        this.userPrefs = userPrefs;
-
-        versionedStudentPlanner = new VersionedTaskBook(studentPlanner);
-        filteredTasks = new FilteredList<>(versionedStudentPlanner.getTaskList());
+        filteredTasks = new FilteredList<>(versionedTaskBook.getTaskList());
         this.userPrefs = userPrefs;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new TaskBook(), new ExpenseBook(), new UserPrefs());
+        this(new AddressBook(), new ExpenseBook(), new TaskBook(), new UserPrefs());
     }
 
     @Override
@@ -98,6 +80,12 @@ public class ModelManager extends ComponentManager implements Model {
     public void resetData(ReadOnlyExpenseBook newData) {
         versionedExpenseBook.resetData(newData);
         indicateExpenseBookChanged();
+    }
+
+    @Override
+    public void resetData(ReadOnlyTaskBook newData) {
+        versionedTaskBook.resetData(newData);
+        indicateTaskBookChanged();
     }
 
 
@@ -152,7 +140,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updatePerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         versionedAddressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
@@ -298,21 +285,35 @@ public class ModelManager extends ComponentManager implements Model {
     //@@author
 
     //@@author luhan02
+    //========== Task ==============================================================
+
+    @Override
+    public ReadOnlyTaskBook getTaskBook() {
+        return versionedTaskBook;
+    }
+
+    /** Raises an event to indicate the model has changed */
+    private void indicateTaskBookChanged() {
+        raise(new TaskBookChangedEvent(versionedTaskBook));
+    }
+
     @Override
     public boolean hasTask(Task task) {
         requireNonNull(task);
-        return versionedStudentPlanner.hasTask(task);
+        return versionedTaskBook.hasTask(task);
     }
 
     @Override
     public void deleteTask(Task target) {
-        versionedStudentPlanner.removeTask(target);
+        versionedTaskBook.removeTask(target);
+        indicateTaskBookChanged();
     }
 
     @Override
     public void addTask(Task task) {
-        versionedStudentPlanner.addTask(task);
+        versionedTaskBook.addTask(task);
         updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        indicateTaskBookChanged();
     }
 
     @Override
@@ -320,6 +321,10 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Task} backed by the internal list of
+     * {@code versionedTaskBook}
+     */
     @Override
     public ObservableList<Task> getFilteredTaskList() {
         return FXCollections.unmodifiableObservableList(filteredTasks);
@@ -330,9 +335,25 @@ public class ModelManager extends ComponentManager implements Model {
         requireNonNull(predicate);
         filteredTasks.setPredicate(predicate);
     }
+
+    /*
+    private void Sorting(){
+        FXCollections.sort(filteredTasks, new Comparator<Task>() {
+            public int compare(Task t1, Task t2) {
+                return t1.getTaskName().fullName.compareTo(t2.getTaskName().fullName);
+            }
+        });
+    }
+
     @Override
-    public void commitStudentPlanner() {
-        versionedStudentPlanner.commit();
+    public ObservableList<Task> sortedTaskList(){
+        Sorting();
+        return  FXCollections.unmodifiableObservableList(filteredTasks);
+    }*/
+
+    @Override
+    public void commitTaskBook() {
+        versionedTaskBook.commit();
     }
     //@@author
 

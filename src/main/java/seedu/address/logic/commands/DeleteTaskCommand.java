@@ -13,7 +13,7 @@ import seedu.address.model.task.Task;
 
 //@@author luhan02
 /**
- * Deletes a task identified using it's displayed index from the student planner.
+ * Deletes a task identified using it's displayed index from the task book.
  */
 public class DeleteTaskCommand extends Command {
 

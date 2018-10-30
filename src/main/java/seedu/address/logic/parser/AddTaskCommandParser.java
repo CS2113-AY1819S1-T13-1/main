@@ -43,15 +43,16 @@ public class AddTaskCommandParser implements Parser<AddTaskCommand> {
                 ArgumentTokenizer.tokenize(userInput, PREFIX_NAME, PREFIX_BODY, PREFIX_START, PREFIX_END,
                         PREFIX_PRIORITY, PREFIX_TAG);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_BODY, PREFIX_END, PREFIX_PRIORITY)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_BODY, PREFIX_START, PREFIX_END, PREFIX_PRIORITY)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTaskCommand.MESSAGE_USAGE));
         }
 
         TaskName taskName = ParserUtil.parseTaskName(argMultimap.getValue(PREFIX_NAME).get());
         Body body = ParserUtil.parseBody(argMultimap.getValue(PREFIX_BODY).get());
-        DateTime startDateTime = ParserUtil.parseDateTimeAllowNull(argMultimap.getValue(PREFIX_START).isPresent()
-                ? argMultimap.getValue(PREFIX_START).get() : null);
+        /*DateTime startDateTime = ParserUtil.parseDateTimeAllowNull(argMultimap.getValue(PREFIX_START).isPresent()
+                ? argMultimap.getValue(PREFIX_START).get() : null);*/
+        DateTime startDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_START).get());
         DateTime endDateTime = ParserUtil.parseDateTime(argMultimap.getValue(PREFIX_END).get());
         Priority priority = ParserUtil.parsePriority(argMultimap.getValue(PREFIX_PRIORITY).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));

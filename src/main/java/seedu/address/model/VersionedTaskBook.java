@@ -8,14 +8,14 @@ import java.util.List;
  * {@code TaskBook} that keeps track of its own history.
  */
 public class VersionedTaskBook extends TaskBook {
-    private final List<ReadOnlyTaskBook> studentPlannerStateList;
+    private final List<ReadOnlyTaskBook> taskBookStateList;
     private int currentStatePointer;
 
     public VersionedTaskBook(ReadOnlyTaskBook initialState) {
         super(initialState);
 
-        studentPlannerStateList = new ArrayList<>();
-        studentPlannerStateList.add(new TaskBook(initialState));
+        taskBookStateList = new ArrayList<>();
+        taskBookStateList.add(new TaskBook(initialState));
         currentStatePointer = 0;
     }
 
@@ -24,12 +24,31 @@ public class VersionedTaskBook extends TaskBook {
      */
     public void commit() {
         removeStatesAfterCurrentPointer();
-        studentPlannerStateList.add(new TaskBook(this));
+        taskBookStateList.add(new TaskBook(this));
         currentStatePointer++;
     }
 
     private void removeStatesAfterCurrentPointer() {
-        studentPlannerStateList.subList(currentStatePointer + 1, studentPlannerStateList.size()).clear();
+        taskBookStateList.subList(currentStatePointer + 1, taskBookStateList.size()).clear();
     }
 
+    @Override
+    public boolean equals(Object other) {
+        // short circuit if same object
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof VersionedTaskBook)) {
+            return false;
+        }
+
+        VersionedTaskBook otherVersionedTaskBook = (VersionedTaskBook) other;
+
+        // state check
+        return super.equals(otherVersionedTaskBook)
+                && taskBookStateList.equals(otherVersionedTaskBook.taskBookStateList)
+                && currentStatePointer == otherVersionedTaskBook.currentStatePointer;
+    }
 }

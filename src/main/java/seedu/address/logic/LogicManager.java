@@ -1,12 +1,16 @@
 package seedu.address.logic;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BODY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_END;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPENSE_CATEGORY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPENSE_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EXPENSE_VALUE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PRIORITY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_START;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddExpenseCommand;
+import seedu.address.logic.commands.AddTaskCommand;
 import seedu.address.logic.commands.BackupCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ClearExpenseCommand;
@@ -25,6 +30,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.DeleteExpenseCommand;
+import seedu.address.logic.commands.DeleteTaskCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditExpenseCommand;
 import seedu.address.logic.commands.ExitCommand;
@@ -35,9 +41,11 @@ import seedu.address.logic.commands.FindPhoneCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.ListTaskCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.RedoExpenseCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.SelectTaskCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UndoExpenseCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -47,6 +55,7 @@ import seedu.address.model.Model;
 import seedu.address.model.event.Event;
 import seedu.address.model.expense.Expense;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 
 /**
@@ -93,6 +102,12 @@ public class LogicManager extends ComponentManager implements Logic {
         return model.getFilteredExpenseList();
     }
 
+    //@@author luhan02
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return model.getFilteredTaskList();
+    }
+    //@@author
 
     @Override
     public ArrayList<String> getCommandList() {
@@ -110,6 +125,14 @@ public class LogicManager extends ComponentManager implements Logic {
                 + PREFIX_EXPENSE_VALUE + " "
                 + PREFIX_EXPENSE_DATE + " "
                 + PREFIX_TAG);
+        commandList.add(AddTaskCommand.COMMAND_WORD);
+        commandList.add(AddTaskCommand.COMMAND_WORD + " "
+                + PREFIX_NAME + " "
+                + PREFIX_BODY + " "
+                + PREFIX_START + " "
+                + PREFIX_END + " "
+                + PREFIX_PRIORITY + " "
+                + PREFIX_TAG);
         commandList.add(BackupCommand.COMMAND_WORD);
         commandList.add(ClearCommand.COMMAND_WORD);
         commandList.add(ClearExpenseCommand.COMMAND_WORD);
@@ -117,6 +140,8 @@ public class LogicManager extends ComponentManager implements Logic {
         commandList.add(DeleteCommand.COMMAND_WORD + " INDEX");
         commandList.add(DeleteExpenseCommand.COMMAND_WORD);
         commandList.add(DeleteExpenseCommand.COMMAND_WORD + "INDEX");
+        commandList.add(DeleteTaskCommand.COMMAND_WORD);
+        commandList.add(DeleteTaskCommand.COMMAND_WORD + " INDEX");
         commandList.add(EditCommand.COMMAND_WORD);
         commandList.add(EditCommand.COMMAND_WORD + " INDEX "
                 + PREFIX_NAME + " "
@@ -139,10 +164,13 @@ public class LogicManager extends ComponentManager implements Logic {
         commandList.add(HelpCommand.COMMAND_WORD);
         commandList.add(HistoryCommand.COMMAND_WORD);
         commandList.add(ListCommand.COMMAND_WORD);
+        commandList.add(ListTaskCommand.COMMAND_WORD);
         commandList.add(RedoCommand.COMMAND_WORD);
         commandList.add(RedoExpenseCommand.COMMAND_WORD);
         commandList.add(SelectCommand.COMMAND_WORD);
         commandList.add(SelectCommand.COMMAND_WORD + " INDEX");
+        commandList.add(SelectTaskCommand.COMMAND_WORD);
+        commandList.add(SelectTaskCommand.COMMAND_WORD + " INDEX");
         commandList.add(UndoCommand.COMMAND_WORD);
         commandList.add(UndoExpenseCommand.COMMAND_WORD);
 

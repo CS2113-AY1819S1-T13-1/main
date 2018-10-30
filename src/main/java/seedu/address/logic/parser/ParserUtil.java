@@ -148,6 +148,7 @@ public class ParserUtil {
         return Optional.ofNullable(Paths.get(stringPath));
     }
 
+    //@@author luhan02
     /**
      * Parses a {@code String name} into a {@code TaskName}.
      * Leading and trailing whitespaces will be trimmed.
@@ -225,6 +226,7 @@ public class ParserUtil {
         }
         return new Priority(trimmedPriority);
     }
+    //@@author
 
     /**
      * Parses a {@code String name} into a {@code EventName}.

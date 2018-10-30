@@ -97,7 +97,7 @@ public class Task {
                 && otherTask.getBody().equals(getBody())
                 && otherTask.getStartDateTime().equals(getStartDateTime())
                 && otherTask.getEndDateTime().equals(getEndDateTime())
-                && otherTask.getPriority().equals(getEndDateTime())
+                && otherTask.getPriority().equals(getPriority())
                 && otherTask.getTags().equals(getTags());
     }
 

@@ -60,10 +60,11 @@ Format: `help`
 === Adding a task: `task`
 
 Adds a task to the schedule planner +
-Format: `task n/NAME b/BODY [s/START_DATETIME] e/END_DATETIME [t/TAG]... p/PRIORITY`
+Format: `task n/NAME b/BODY s/START_DATETIME e/END_DATETIME [t/TAG]... p/PRIORITY`
 
 [TIP]
-A task can have any number of tags (including 0); a task can have or not have a start datatime.
+A task can have any number of tags (including 0). A task can only have its start and end DATE (without specific TIME).
+
 
 
 

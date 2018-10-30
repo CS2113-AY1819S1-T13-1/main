@@ -9,12 +9,12 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.UniqueTaskList;
 
 /**
- * Wraps all data at the student planner level
+ * Wraps all data at the task book level
  * Duplicates are not allowed (by .isSameTask comparison)
  */
 public class TaskBook implements ReadOnlyTaskBook {
 
-    private final UniqueTaskList tasks;
+    private UniqueTaskList tasks = null;
 
     {
         tasks = new UniqueTaskList();
@@ -47,7 +47,7 @@ public class TaskBook implements ReadOnlyTaskBook {
     }
 
     /**
-     * Returns true if a task with the same identity as {@code task} exists in the student planner.
+     * Returns true if a task with the same identity as {@code task} exists in the task book.
      */
     public boolean hasTask(Task task) {
         requireNonNull(task);
@@ -55,17 +55,25 @@ public class TaskBook implements ReadOnlyTaskBook {
     }
 
     /**
-     * Adds a task to the student planner.
-     * The task must not already exist in the student planner.
+     * Adds a task to the task book.
+     * The task must not already exist in the task book.
      */
     public void addTask(Task t) {
         tasks.add(t);
     }
 
     /**
+     * Sort the tasks with their endDateTime as {@code task} in the task book.
+     */
+    /*
+    public void sortedTaskList(){
+        tasks.Sorting();
+    }*/
+
+    /**
      * Replaces the given task {@code target} in the list with {@code editedTask}.
-     * {@code target} must exist in the student planner.
-     * The task identity of {@code editedTask} must not be the same as another existing task in the student planner.
+     * {@code target} must exist in the task book.
+     * The task identity of {@code editedTask} must not be the same as another existing task in the task book.
      */
     public void updateTask(Task target, Task editedTask) {
         requireNonNull(editedTask);
@@ -75,11 +83,10 @@ public class TaskBook implements ReadOnlyTaskBook {
 
     /**
      * Removes {@code key} from this {@code TaskBook}.
-     * {@code key} must exist in the student planner.
+     * {@code key} must exist in the task book.
      */
     public void removeTask(Task key) {
         tasks.remove(key);
-
     }
 
     //// util methods
