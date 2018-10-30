@@ -54,7 +54,7 @@ public class StorageManager extends ComponentManager implements Storage {
     private TaskBookStorage taskBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
-    private GitHubStorage gitHubStorage;
+    private GithubStorage githubStorage;
 
     public StorageManager(AddressBookStorage addressBookStorage,
                           ExpenseBookStorage expenseBookStorage,
@@ -86,8 +86,13 @@ public class StorageManager extends ComponentManager implements Storage {
 
     //@@author QzSG
     @Subscribe
-    public void handleUserPrefsChangedEvent(UserPrefsChangedEvent event) throws IOException {
-        saveUserPrefs(event.data);
+    public void handleUserPrefsChangedEvent(UserPrefsChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "User Preferences changed, saving to file"));
+        try {
+            saveUserPrefs(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
     }
     //@@author
 
@@ -270,18 +275,16 @@ public class StorageManager extends ComponentManager implements Storage {
                 switch(target) {
                     case GITHUB:
                     default:
-                        gitHubStorage = new GitHubStorage(
-                            authToken.orElseThrow(() -> new OnlineBackupFailureException("Invalid auth "
-                                    + "token received")));
+                        githubStorage = new GithubStorage(Optional.empty());
                         if (targetBook == UserPrefs.TargetBook.AddressBook) {
                             AddressBook restoredAddressBook = XmlUtil.getDataFromString(
-                                    gitHubStorage.readContentFromStorage(targetBook, ref),
+                                    githubStorage.readContentFromStorage(targetBook, ref),
                                     XmlSerializableAddressBook.class).toModelType();
                             return restoredAddressBook;
                         }
                         if (targetBook == UserPrefs.TargetBook.ExpenseBook) {
                             ExpenseBook restoredExpenseBook = XmlUtil.getDataFromString(
-                                    gitHubStorage.readContentFromStorage(targetBook, ref),
+                                    githubStorage.readContentFromStorage(targetBook, ref),
                                     XmlSerializableExpenseBook.class).toModelType();
                             return restoredExpenseBook;
                         } else {
@@ -299,7 +302,7 @@ public class StorageManager extends ComponentManager implements Storage {
 
         });
         restoreTask.setOnFailed(event -> {
-            restoreTask.getException().printStackTrace();
+            raise(new NewResultAvailableEvent("Online Restore Failed"));
             raise(new DataRestoreExceptionEvent((Exception) restoreTask.getException()));
         });
         return restoreTask;
@@ -320,12 +323,12 @@ public class StorageManager extends ComponentManager implements Storage {
                 switch(target) {
                     case GITHUB:
                     default:
-                        gitHubStorage = new GitHubStorage(
-                                authToken.orElseThrow(() -> new OnlineBackupFailureException("Invalid auth "
-                                        + "token received")));
-                        URL url = gitHubStorage.saveContentToStorage(handleBookData(data), fileName,
+                        githubStorage = new GithubStorage(
+                                Optional.ofNullable(authToken).orElseThrow(() -> new OnlineBackupFailureException(
+                                        "Invalid authentication token received")));
+                        URL url = githubStorage.saveContentToStorage(handleBookData(data), fileName,
                                 "Student Book Backup");
-                        String successMessage = GitHubStorage.SUCCESS_MESSAGE;
+                        String successMessage = GithubStorage.SUCCESS_MESSAGE;
                         updateMessage(successMessage);
                         String ref = url.getPath().substring(1);
                         return new OnlineBackupSuccessResultEvent(OnlineStorage.Type.GITHUB,
@@ -338,6 +341,7 @@ public class StorageManager extends ComponentManager implements Storage {
             raise((OnlineBackupSuccessResultEvent) backupTask.getValue());
         });
         backupTask.setOnFailed(event -> {
+            raise(new NewResultAvailableEvent("Backup Failed"));
             raise(new DataSavingExceptionEvent((Exception) backupTask.getException()));
         });
         return backupTask;
@@ -426,6 +430,7 @@ public class StorageManager extends ComponentManager implements Storage {
             raise(new DataSavingExceptionEvent(e));
         }
     }
+  
     /*
     @Override
     @Subscribe
