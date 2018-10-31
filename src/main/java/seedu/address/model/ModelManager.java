@@ -380,8 +380,10 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateTask(Task target, Task editedPerson) {
-
+    public void updateTask(Task target, Task updatedTask) {
+        requireAllNonNull(target, updatedTask);
+        versionedTaskBook.updateTask(target, updatedTask);
+        indicateTaskBookChanged();
     }
 
     /**
@@ -413,6 +415,7 @@ public class ModelManager extends ComponentManager implements Model {
         Sorting();
         return  FXCollections.unmodifiableObservableList(filteredTasks);
     }*/
+    //@@author luhan02
 
     @Override
     public void commitTaskBook() {
