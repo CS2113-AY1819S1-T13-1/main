@@ -474,6 +474,85 @@ Deletes the 2nd task from the task book.
 // end::tasks[]
 //@@author
 
+//@@author luhan02
+// tag::tasks[]
+=== Adding a task: `task`
+
+Adds a task to the schedule planner +
+Format: `task n/NAME b/BODY s/START_DATETIME e/END_DATETIME [t/TAG]... p/PRIORITY`
+
+[TIP]
+A task can only have its start and end DATE (without specific TIME). A task can have any number of tags (including 0).
+
+Examples:
+
+* `task n/Submit Assignment b/CG2027 Assign2 s/18/10 e/25/10_1400 p/HIGH t/Hardcopy`
+* `task n/Submit Quiz b/MA1508E Quzi11 s/29/10_0000 e/4/11_2200 p/MED t/IVLE`
+
+=== Listing all tasks : `listTask`
+
+Shows a list of all tasks from task book in the schedule planner. +
+Format: `listTask`
+
+=== Editing a task : `updateTask`
+
+Update an existing task in the schedule planner. +
+Format: `updateTask INDEX [n/NAME] [b/BODY] [s/START_DATETIME] [e/END_DATETIME] [t/TAG]... [p/PRIORITY]`
+
+****
+* Edits the task at the specified `INDEX`. The index refers to the index number shown in the displayed task list. The index *must be a positive integer* 1, 2, 3, ...
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing tags, the existing tags of the task will be removed i.e adding of tags is not cumulative.
+* You can remove all the task's tags by typing `t/` without specifying any tags after it.
+****
+
+Examples:
+
+* `updateTask 1 b/Need two pens` +
+Edits the body of the 1st task to be `Need two pens`.
+* `updateTask 2 t/` +
+Edits the 2nd task by clearing all existing tags.
+
+=== Locating tasks by name: `findTask` `[Coming in v1.4]`
+
+Finds tasks whose names or body contain any of the given keywords. +
+Format: `findTask KEYWORD [MORE_KEYWORDS]`
+
+****
+* The search is case insensitive. e.g `hans` will match `Hans`
+* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* Only the name and body is searched.
+* Only full words will be matched e.g. `Han` will not match `Hans`
+* tasks matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+****
+
+Examples:
+
+* `find Pen` +
+Returns `pen` and `Pen pineapple pen`
+* `find concert meeting cute` +
+Returns any task having names or body `concert`, `meeting`, or `cute`
+
+=== Deleting a task : `deleteTask`
+
+Deletes the specified task from the task book in the schedule planner. +
+Format: `deleteTask INDEX`
+
+****
+* Deletes the task at the specified `INDEX`.
+* The index refers to the index number shown in the displayed task list.
+* The index *must be a positive integer* 1, 2, 3, ...
+****
+
+Examples:
+
+* `listTask` +
+`deleteTask 2` +
+Deletes the 2nd task from the task book.
+// end::tasks[]
+//@@author
+
 === Saving the data
 
 Schedule planner data are saved in the hard disk automatically after any command that changes the data. +
@@ -514,7 +593,7 @@ Examples:
 
 * `restore` +
 Restores Student Planner data using local backups in backup paths inside `preferences.json`.
-* `restore github ACCESS_TOKEN_HERE` +
+* `restore github` +
 Restores Student Planner data on GitHub Gists.
 
 ****
