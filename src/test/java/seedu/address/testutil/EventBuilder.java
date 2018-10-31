@@ -3,9 +3,9 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.model.event.Date;
 import seedu.address.model.event.Event;
 import seedu.address.model.event.EventName;
-import seedu.address.model.event.Date;
 import seedu.address.model.event.Time;
 import seedu.address.model.eventContacts.EventContacts;
 import seedu.address.model.util.SampleDataUtil;
@@ -52,7 +52,8 @@ public class EventBuilder {
     }
 
     /**
-     * Parses the {@code eventContacts} into a {@code Set<EventContacts>} and set it to the {@code Event} that we are building.
+     * Parses the {@code eventContacts} into a {@code Set<EventContacts>} and set it to the {@code Event}
+     * that we are building.
      */
     public EventBuilder withTags(String ... tags) {
         this.eventContacts = SampleDataUtil.getEventContactSet(tags);
