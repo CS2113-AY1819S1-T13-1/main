@@ -5,32 +5,32 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 import org.kohsuke.github.GHGist;
 import org.kohsuke.github.GHGistBuilder;
 import org.kohsuke.github.GHGistFile;
 import org.kohsuke.github.GitHub;
 
-import seedu.address.commons.exceptions.OnlineBackupFailureException;
 import seedu.address.model.UserPrefs;
 
 /**
  * A class to handle saving data to Github Gists.
  */
-public class GitHubStorage implements OnlineStorage {
+public class GithubStorage implements OnlineStorage {
 
     public static final String SUCCESS_MESSAGE = "Successfully saved to Github Gists";
     private static GitHub github_ = null;
 
-    private String authToken = null;
+    private Optional<String> authToken;
 
-    public GitHubStorage(String authToken) {
-        requireNonNull(authToken);
+    public GithubStorage(){}
+    public GithubStorage(Optional<String> authToken) {
         this.authToken = authToken;
     }
 
     @Override
-    public void saveContentToStorage(String content, String fileName) throws IOException, OnlineBackupFailureException {
+    public void saveContentToStorage(String content, String fileName) {
         throw new UnsupportedOperationException("This online storage does not "
                 + "support saveContentToStorage with 2 variables");
     }
@@ -40,11 +40,20 @@ public class GitHubStorage implements OnlineStorage {
             throws IOException {
         requireNonNull(content);
         requireNonNull(fileName);
+        if (!authToken.isPresent()) {
+            throw new NullPointerException();
+        }
 
-        github_ = GitHub.connectUsingOAuth(authToken);
+        github_ = GitHub.connectUsingOAuth(authToken.get());
         GHGistBuilder ghGistBuilder = buildGistFromContent(content, fileName, description);
         GHGist ghGist = ghGistBuilder.create();
         return ghGist.getHtmlUrl();
+    }
+
+    @Override
+    public String readContentFromStorage(UserPrefs.TargetBook targetBook, String ref) throws IOException {
+        requireNonNull(ref);
+        return readContentFromGist(targetBook, ref);
     }
 
     private GHGistBuilder buildGistFromContent(String content, String fileName, String description) {
@@ -60,8 +69,7 @@ public class GitHubStorage implements OnlineStorage {
      * @throws IOException
      */
     public String readContentFromGist(UserPrefs.TargetBook targetBook, String gistId) throws IOException {
-        github_ = GitHub.connectUsingOAuth(authToken);
-        System.out.println(gistId);
+        github_ = GitHub.connectAnonymously();
         GHGist ghGist = github_.getGist(gistId);
         GHGistFile gistFile = ghGist.getFile(String.format("%s.bak", targetBook.name()));
         return gistFile.getContent();

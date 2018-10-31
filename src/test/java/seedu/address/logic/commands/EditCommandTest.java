@@ -22,6 +22,12 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.*;
+import seedu.address.model.AddressBook;
+import seedu.address.model.ExpenseBook;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskBook;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -32,7 +38,7 @@ import seedu.address.testutil.PersonBuilder;
 public class EditCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new ExpenseBook(),
-            new EventBook(), new UserPrefs());
+            new EventBook(), new TaskBook(), new UserPrefs());
     private CommandHistory commandHistory = new CommandHistory();
 
     @Test
@@ -45,7 +51,7 @@ public class EditCommandTest {
 
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
         expectedModel.commitAddressBook();
 
@@ -69,7 +75,7 @@ public class EditCommandTest {
 
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
         expectedModel.updatePerson(lastPerson, editedPerson);
         expectedModel.commitAddressBook();
 
@@ -85,7 +91,7 @@ public class EditCommandTest {
 
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
         expectedModel.commitAddressBook();
 
         assertCommandSuccess(editCommand, model, commandHistory, expectedMessage, expectedModel);
@@ -104,7 +110,7 @@ public class EditCommandTest {
 
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
         expectedModel.updatePerson(model.getFilteredPersonList().get(0), editedPerson);
         expectedModel.commitAddressBook();
 
@@ -166,7 +172,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
         expectedModel.updatePerson(personToEdit, editedPerson);
         expectedModel.commitAddressBook();
 
@@ -210,7 +216,7 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
         Model expectedModel =
                 new ModelManager(new AddressBook(model.getAddressBook()), new ExpenseBook(),
-                        new EventBook(), new UserPrefs());
+                        new EventBook(), new TaskBook(), new UserPrefs());
 
         showPersonAtIndex(model, INDEX_SECOND_PERSON);
         Person personToEdit = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());

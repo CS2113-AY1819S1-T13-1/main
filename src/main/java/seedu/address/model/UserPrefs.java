@@ -24,8 +24,13 @@ public class UserPrefs {
     private Path eventBookBackupFilePath;
     private String eventBookGistId;
 
+    private Path taskBookFilePath;
+    private Path taskBookBackupFilePath;
+    private String taskBookGistId;
+
+
     public UserPrefs() {
-        setGuiSettings(500, 500, 0, 0);
+        setGuiSettings(1000, 500, 0, 0);
         setAddressBookFilePath(getAddressBookFilePath());
         setAddressBookBackupFilePath(getAddressBookBackupFilePath());
 
@@ -34,6 +39,9 @@ public class UserPrefs {
 
         setEventBookFilePath(getEventBookFilePath());
         setEventBookBackupFilePath(getEventBookBackupFilePath());
+
+        setTaskBookFilePath(getTaskBookFilePath());
+        setTaskBookBackupFilePath(getTaskBookBackupFilePath());
     }
 
     /**
@@ -41,7 +49,8 @@ public class UserPrefs {
      */
     public enum TargetBook {
         AddressBook,
-        ExpenseBook
+        ExpenseBook,
+        TaskBook
     }
 
     public GuiSettings getGuiSettings() {
@@ -164,5 +173,21 @@ public class UserPrefs {
     public void setEventBookBackupFilePath(Path eventBookBackupFilePath) {
         this.eventBookBackupFilePath = eventBookBackupFilePath;
     }
+    //=========== Task ====================================================================================
 
+    public Path getTaskBookFilePath() {
+        return taskBookFilePath == null ? Paths.get("data" , "taskbook.xml") : taskBookFilePath;
+    }
+
+    public void setTaskBookFilePath(Path taskBookFilePath) {
+        this.taskBookFilePath = taskBookFilePath;
+    }
+
+    public Path getTaskBookBackupFilePath() {
+        return taskBookBackupFilePath == null ? Paths.get("data" , "taskbook.bak") : taskBookBackupFilePath;
+    }
+
+    public void setTaskBookBackupFilePath(Path taskBookBackupFilePath) {
+        this.taskBookBackupFilePath = taskBookBackupFilePath;
+    }
 }

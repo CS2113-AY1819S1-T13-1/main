@@ -1,33 +1,25 @@
 package seedu.address.ui;
 
-import java.net.MalformedURLException;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import org.controlsfx.control.Notifications;
-
 import com.google.common.eventbus.Subscribe;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.DisplayExpenseTrendEvent;
 import seedu.address.commons.events.ui.DisplayMonthlyExpenseEvent;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
-import seedu.address.commons.events.ui.NewNotificationAvailableEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
@@ -50,6 +42,7 @@ public class MainWindow extends UiPart<Stage> {
     private ExpenseListPanel expenseListPanel;
     private PersonListPanel personListPanel;
     private EventListPanel eventListPanel;
+    private TaskListPanel taskListPanel;
     private Config config;
     private UserPrefs prefs;
     private HelpWindow helpWindow;
@@ -74,6 +67,9 @@ public class MainWindow extends UiPart<Stage> {
 
     //@FXML
     //private StackPane eventListPanelPlaceholder;
+
+    @FXML
+    private StackPane taskListPanelPlaceholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -154,6 +150,9 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        taskListPanel = new TaskListPanel(logic.getFilteredTaskList());
+        taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
+
         //eventListPanel = new EventListPanel(logic.getFilteredEventList());
         //eventListPanelPlaceholder.getChildren().add(eventListPanel.getRoot());
 
@@ -229,6 +228,10 @@ public class MainWindow extends UiPart<Stage> {
         return expenseListPanel;
     }
 
+    public TaskListPanel getTaskListPanel() {
+        return taskListPanel;
+    }
+
     void releaseResources() {
         browserPanel.freeResources();
     }
@@ -279,31 +282,4 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-    /**
-     * Creates an shows a notification with the relevant details provided
-     * @param title Title of the notification
-     * @param message Notification message for the user
-     * @param duration Duration to show the notification for before it disappears
-     */
-    private void showNotification(String title, String message, Duration duration) {
-        try {
-            ImageView imageIcon = new ImageView(
-                    Paths.get("./src/main/resources/view/images/dialog-info.png").toUri().toURL().toExternalForm());
-            Notifications.create()
-                    .title(title)
-                    .text(message)
-                    .hideAfter(duration)
-                    .owner(primaryStage)
-                    .graphic(imageIcon)
-                    .show();
-        } catch (MalformedURLException e) {
-            throw new IllegalStateException("This should always be valid");
-        }
-    }
-
-    @Subscribe
-    private void handleNewNotificationAvailableEvent(NewNotificationAvailableEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        Platform.runLater(() -> showNotification(event.title, event.message, event.duration));
-    }
 }

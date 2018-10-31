@@ -14,7 +14,11 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.*;
-
+import seedu.address.model.ExpenseBook;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskBook;
+import seedu.address.model.UserPrefs;
 
 public class LogicManagerTest {
     @Rule
@@ -81,7 +85,7 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<?> expectedException, String expectedMessage) {
         Model expectedModel = new ModelManager(model.getAddressBook(), new ExpenseBook(),
-                new EventBook(), new UserPrefs());
+                new EventBook(), new TaskBook(), new UserPrefs());
         assertCommandBehavior(expectedException, inputCommand, expectedMessage, expectedModel);
     }
 

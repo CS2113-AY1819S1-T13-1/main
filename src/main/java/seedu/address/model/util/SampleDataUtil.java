@@ -15,6 +15,8 @@ import seedu.address.model.event.Event;
 import seedu.address.model.event.EventName;
 import seedu.address.model.event.Time;
 import seedu.address.model.eventContacts.EventContacts;
+import seedu.address.model.ReadOnlyTaskBook;
+import seedu.address.model.TaskBook;
 import seedu.address.model.expense.Expense;
 import seedu.address.model.expense.ExpenseCategory;
 import seedu.address.model.expense.ExpenseDate;
@@ -25,6 +27,11 @@ import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Body;
+import seedu.address.model.task.DateTime;
+import seedu.address.model.task.Priority;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskName;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -122,6 +129,30 @@ public class SampleDataUtil {
                 .map(EventContacts::new)
                 .collect(Collectors.toSet());
     }
+
+    //@@author luhan02
+    public static Task[] getSampleTasks() {
+        return new Task[] {
+            new Task(new TaskName("Submission"), new Body("CG2027 Assign2"),
+                    new DateTime("12/10_1700"), new DateTime("19/10_1400"),
+                    new Priority("HIGH"), getTagSet("IVLE")),
+            new Task(new TaskName("PracticalExam"), new Body("CS2113 Product release"),
+                    new DateTime("2/11_1600"), new DateTime("2/11_1600"),
+                    new Priority("HIGH"), getTagSet("LT15")),
+            new Task(new TaskName("Shopping"), new Body("Buy stationary at Clementi int"),
+                    new DateTime("30/10_1400"), new DateTime("30/10_1400"),
+                    new Priority("MED"), getTagSet("MOM"))
+        };
+    }
+
+    public static ReadOnlyTaskBook getSampleTaskBook() {
+        TaskBook sampleAb = new TaskBook();
+        for (Task sampleTask : getSampleTasks()) {
+            sampleAb.addTask(sampleTask);
+        }
+        return sampleAb;
+    }
+    //@@author
 
     /**
      * Returns a tag set containing the list of strings given.

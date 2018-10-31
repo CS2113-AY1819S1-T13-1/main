@@ -21,7 +21,7 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.AddressBookLocalBackupEvent;
 import seedu.address.commons.events.model.AddressBookLocalRestoreEvent;
 import seedu.address.commons.events.model.AddressBookOnlineRestoreEvent;
-import seedu.address.commons.events.model.BooksLocalBackupEvent;
+//import seedu.address.commons.events.model.BooksLocalBackupEvent;
 import seedu.address.commons.events.model.EventBookChangedEvent;
 import seedu.address.commons.events.model.EventBookLocalBackupEvent;
 import seedu.address.commons.events.model.EventBookLocalRestoreEvent;
@@ -30,6 +30,7 @@ import seedu.address.commons.events.model.ExpenseBookChangedEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalBackupEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
+import seedu.address.commons.events.model.TaskBookChangedEvent;
 import seedu.address.commons.events.model.UserPrefsChangedEvent;
 import seedu.address.commons.events.storage.OnlineBackupSuccessResultEvent;
 import seedu.address.commons.events.ui.NewNotificationAvailableEvent;
@@ -54,6 +55,9 @@ public class ModelManager extends ComponentManager implements Model {
     private final FilteredList<Event> filteredEvents;
     private final FilteredList<Expense> filteredExpenses;
     private final UserPrefs userPrefs;
+    private final VersionedTaskBook versionedTaskBook;
+    private final FilteredList<Task> filteredTasks;
+
 
     private int restoreCounter = 0;
 
@@ -61,7 +65,7 @@ public class ModelManager extends ComponentManager implements Model {
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyExpenseBook expenseBook,
-                        ReadOnlyEventBook eventBook, UserPrefs userPrefs) {
+                        ReadOnlyEventBook eventBook, ReadOnlyTaskBook taskBook, UserPrefs userPrefs) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
@@ -70,14 +74,16 @@ public class ModelManager extends ComponentManager implements Model {
         versionedAddressBook = new VersionedAddressBook(addressBook);
         versionedEventBook = new VersionedEventBook(eventBook);
         versionedExpenseBook = new VersionedExpenseBook(expenseBook);
+        versionedTaskBook = new VersionedTaskBook(taskBook);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
         filteredEvents = new FilteredList<>(versionedEventBook.getEventList());
         filteredExpenses = new FilteredList<>(versionedExpenseBook.getExpenseList());
+        filteredTasks = new FilteredList<>(versionedTaskBook.getTaskList());
         this.userPrefs = userPrefs;
     }
 
     public ModelManager() {
-        this(new AddressBook(), new ExpenseBook(), new EventBook(), new UserPrefs());
+        this(new AddressBook(), new ExpenseBook(), new EventBook(), new TaskBook(), new UserPrefs());
     }
 
     @Override
@@ -96,6 +102,12 @@ public class ModelManager extends ComponentManager implements Model {
     public void resetData(ReadOnlyEventBook newData) {
         versionedEventBook.resetData(newData);
         indicateEventBookChanged();
+    }
+
+    @Override
+    public void resetData(ReadOnlyTaskBook newData) {
+        versionedTaskBook.resetData(newData);
+        indicateTaskBookChanged();
     }
 
     @Override
@@ -149,7 +161,6 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updatePerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
         versionedAddressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
@@ -210,19 +221,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void backupExpenseBookLocal(Path backupPath) {
         indicateExpenseBookBackupRequest(backupPath);
     }*/
-
-    @Override
-    public void backupBooksLocal() {
-        indicateBooksLocalBackupRequest(userPrefs.getAddressBookBackupFilePath(),
-                userPrefs.getExpenseBookBackupFilePath());
-    }
-
-    /** Raises an event to indicate the request to backup model to persistent storage*/
-    private void indicateBooksLocalBackupRequest(Path addressBookPath, Path expenseBookPath) {
-        //raise(new AddressBookLocalBackupEvent(versionedAddressBook, addressBookPath));
-        //raise(new ExpenseBookLocalBackupEvent(versionedExpenseBook, expenseBookPath));
-        raise(new BooksLocalBackupEvent(versionedAddressBook, addressBookPath, versionedExpenseBook, expenseBookPath));
-    }
 
     @Override
     public void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook) {
@@ -350,19 +348,35 @@ public class ModelManager extends ComponentManager implements Model {
     //@@author
 
     //@@author luhan02
+    //========== Task ==============================================================
+
+    @Override
+    public ReadOnlyTaskBook getTaskBook() {
+        return versionedTaskBook;
+    }
+
+    /** Raises an event to indicate the model has changed */
+    private void indicateTaskBookChanged() {
+        raise(new TaskBookChangedEvent(versionedTaskBook));
+    }
+
     @Override
     public boolean hasTask(Task task) {
-        return false;
+        requireNonNull(task);
+        return versionedTaskBook.hasTask(task);
     }
 
     @Override
     public void deleteTask(Task target) {
-
+        versionedTaskBook.removeTask(target);
+        indicateTaskBookChanged();
     }
 
     @Override
-    public void addTask(Task person) {
-
+    public void addTask(Task task) {
+        versionedTaskBook.addTask(task);
+        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        indicateTaskBookChanged();
     }
 
     @Override
@@ -370,14 +384,39 @@ public class ModelManager extends ComponentManager implements Model {
 
     }
 
+    /**
+     * Returns an unmodifiable view of the list of {@code Task} backed by the internal list of
+     * {@code versionedTaskBook}
+     */
     @Override
     public ObservableList<Task> getFilteredTaskList() {
-        return null;
+        return FXCollections.unmodifiableObservableList(filteredTasks);
     }
 
     @Override
     public void updateFilteredTaskList(Predicate<Task> predicate) {
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
+    }
 
+    /*
+    private void Sorting(){
+        FXCollections.sort(filteredTasks, new Comparator<Task>() {
+            public int compare(Task t1, Task t2) {
+                return t1.getTaskName().fullName.compareTo(t2.getTaskName().fullName);
+            }
+        });
+    }
+
+    @Override
+    public ObservableList<Task> sortedTaskList(){
+        Sorting();
+        return  FXCollections.unmodifiableObservableList(filteredTasks);
+    }*/
+
+    @Override
+    public void commitTaskBook() {
+        versionedTaskBook.commit();
     }
     //@@author ian-tjahjono
 

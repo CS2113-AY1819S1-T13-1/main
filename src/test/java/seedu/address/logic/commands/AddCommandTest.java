@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyEventBook;
 import seedu.address.model.ReadOnlyExpenseBook;
+import seedu.address.model.ReadOnlyTaskBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.Event;
 import seedu.address.model.expense.Expense;
@@ -111,7 +112,12 @@ public class AddCommandTest {
 
         @Override
         public void resetData(ReadOnlyExpenseBook newData) {
-            throw new AssertionError("This method should not be called.");
+            throw new AssertionError("This mgethod should not be called.");
+        }
+
+        @Override
+        public void resetData(ReadOnlyTaskBook newData) {
+
         }
 
         @Override
@@ -121,6 +127,11 @@ public class AddCommandTest {
 
         @Override
         public ReadOnlyEventBook getEventBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyTaskBook getTaskBook() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -180,12 +191,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void backupBooksLocal() {
+        public void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void restoreAddressBook(ReadOnlyAddressBook restoredAddressBook) {
+        public void restoreExpenseBook(ReadOnlyExpenseBook restoredExpenseBook) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -195,8 +206,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void restoreExpenseBook(ReadOnlyExpenseBook restoredExpenseBook) {
-            throw new AssertionError("This method should not be called.");
+        public void commitTaskBook() {
         }
 
         @Override
@@ -360,4 +370,3 @@ public class AddCommandTest {
     }
 
 }
-
