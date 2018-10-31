@@ -25,7 +25,7 @@ public class UserPrefs {
     private String taskBookGistId;
 
     public UserPrefs() {
-        setGuiSettings(500, 500, 0, 0);
+        setGuiSettings(1000, 500, 0, 0);
         setAddressBookFilePath(getAddressBookFilePath());
         setAddressBookBackupFilePath(getAddressBookBackupFilePath());
 
