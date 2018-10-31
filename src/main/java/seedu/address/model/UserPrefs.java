@@ -20,6 +20,10 @@ public class UserPrefs {
     private Path expenseBookBackupFilePath;
     private String expenseBookGistId;
 
+    private Path eventBookFilePath;
+    private Path eventBookBackupFilePath;
+    private String eventBookGistId;
+
     public UserPrefs() {
         setGuiSettings(500, 500, 0, 0);
         setAddressBookFilePath(getAddressBookFilePath());
@@ -27,6 +31,9 @@ public class UserPrefs {
 
         setExpenseBookFilePath(getExpenseBookFilePath());
         setExpenseBookBackupFilePath(getExpenseBookBackupFilePath());
+
+        setEventBookFilePath(getEventBookFilePath());
+        setEventBookBackupFilePath(getEventBookBackupFilePath());
     }
 
     /**
@@ -81,6 +88,14 @@ public class UserPrefs {
         this.expenseBookGistId = expenseBookGistId;
     }
 
+    public String getEventBookGistId() {
+        return eventBookGistId;
+    }
+
+    public void setEventBookGistId(String eventBookGistId) {
+        this.eventBookGistId = eventBookGistId;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -133,6 +148,21 @@ public class UserPrefs {
         this.expenseBookBackupFilePath = expenseBookBackupFilePath;
     }
 
+    //===================Events=====================
+    public Path getEventBookFilePath() {
+        return eventBookFilePath == null ? Paths.get("data" , "eventbook.xml") : eventBookFilePath;
+    }
 
+    public void setEventBookFilePath(Path eventBookFilePath) {
+        this.eventBookFilePath = eventBookFilePath;
+    }
+
+    public Path getEventBookBackupFilePath() {
+        return eventBookBackupFilePath == null ? Paths.get("data" , "eventbook.bak") : eventBookBackupFilePath;
+    }
+
+    public void setEventBookBackupFilePath(Path eventBookBackupFilePath) {
+        this.eventBookBackupFilePath = eventBookBackupFilePath;
+    }
 
 }

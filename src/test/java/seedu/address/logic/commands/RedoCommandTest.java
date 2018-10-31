@@ -9,15 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
-import seedu.address.model.ExpenseBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
 
 public class RedoCommandTest {
 
-    private final Model model = new ModelManager(getTypicalAddressBook(), new ExpenseBook(), new UserPrefs());
-    private final Model expectedModel = new ModelManager(getTypicalAddressBook(), new ExpenseBook(), new UserPrefs());
+    private final Model model = new ModelManager(getTypicalAddressBook(), new ExpenseBook(),
+            new EventBook(), new UserPrefs());
+    private final Model expectedModel = new ModelManager(getTypicalAddressBook(), new ExpenseBook(),
+            new EventBook(), new UserPrefs());
     private final CommandHistory commandHistory = new CommandHistory();
 
     @Before

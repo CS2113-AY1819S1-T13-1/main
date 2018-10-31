@@ -20,6 +20,9 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.AddressBookLocalRestoreEvent;
 import seedu.address.commons.events.model.AddressBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.BooksLocalBackupEvent;
+import seedu.address.commons.events.model.EventBookChangedEvent;
+import seedu.address.commons.events.model.EventBookLocalRestoreEvent;
+import seedu.address.commons.events.model.EventBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookChangedEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
@@ -37,8 +40,10 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.exceptions.OnlineBackupFailureException;
 import seedu.address.commons.util.XmlUtil;
 import seedu.address.model.AddressBook;
+import seedu.address.model.EventBook;
 import seedu.address.model.ExpenseBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyEventBook;
 import seedu.address.model.ReadOnlyExpenseBook;
 import seedu.address.model.UserPrefs;
 
@@ -49,6 +54,7 @@ public class StorageManager extends ComponentManager implements Storage {
 
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private AddressBookStorage addressBookStorage;
+    private EventBookStorage eventBookStorage;
     private ExpenseBookStorage expenseBookStorage;
     private UserPrefsStorage userPrefsStorage;
 
@@ -56,9 +62,11 @@ public class StorageManager extends ComponentManager implements Storage {
 
     public StorageManager(AddressBookStorage addressBookStorage,
                           ExpenseBookStorage expenseBookStorage,
+                          EventBookStorage eventBookStorage,
                           UserPrefsStorage userPrefsStorage) {
         super();
         this.addressBookStorage = addressBookStorage;
+        this.eventBookStorage = eventBookStorage;
         this.expenseBookStorage = expenseBookStorage;
         this.userPrefsStorage = userPrefsStorage;
     }
@@ -412,4 +420,49 @@ public class StorageManager extends ComponentManager implements Storage {
         }
     }
     */
+
+    //===========Events======================
+    @Override
+    public Optional<ReadOnlyEventBook> readEventBook() throws DataConversionException, IOException {
+        return readEventBook(eventBookStorage.getEventBookFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyEventBook> readEventBook(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read data from file: " + filePath);
+        return eventBookStorage.readEventBook(filePath);
+    }
+
+    @Override
+    public Path getEventBookFilePath() {
+        return eventBookStorage.getEventBookFilePath();
+    }
+
+    @Override
+    public void saveEventBook(ReadOnlyEventBook eventBook) throws IOException {
+        saveEventBook(eventBook, eventBookStorage.getEventBookFilePath());
+    }
+
+    @Override
+    public void saveEventBook(ReadOnlyEventBook eventBook, Path filePath) throws IOException {
+        logger.fine("Attempting to write to data file: " + filePath);
+        eventBookStorage.saveEventBook(eventBook, filePath);
+    }
+
+    @Override
+    public void backupEventBook(ReadOnlyEventBook eventBook, Path backupFilePath) throws IOException {
+        logger.fine("Attempting to backup event book data file: " + backupFilePath);
+        eventBookStorage.backupEventBook(eventBook, backupFilePath);
+    }
+
+    @Override
+    @Subscribe
+    public void handleEventBookChangedEvent(EventBookChangedEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Local data changed, saving to file"));
+        try {
+            saveEventBook(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+    }
 }

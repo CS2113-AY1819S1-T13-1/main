@@ -19,6 +19,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyEventBook;
 import seedu.address.model.ReadOnlyExpenseBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.event.Event;
@@ -104,12 +105,22 @@ public class AddCommandTest {
         }
 
         @Override
+        public void resetData(ReadOnlyEventBook newData) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void resetData(ReadOnlyExpenseBook newData) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyEventBook getEventBook() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -179,6 +190,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void restoreEventBook(ReadOnlyEventBook restoredEventBook) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void restoreExpenseBook(ReadOnlyExpenseBook restoredExpenseBook) {
             throw new AssertionError("This method should not be called.");
         }
@@ -212,7 +228,7 @@ public class AddCommandTest {
         public void updateFilteredTaskList(Predicate<Task> predicate) {
 
         }
-
+        //==================Events==============================================================
         @Override
         public ObservableList<Event> getFilteredEventList() {
             return null;
@@ -230,6 +246,11 @@ public class AddCommandTest {
 
         @Override
         public void deleteEvent(Event target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void commitEventBook() {
             throw new AssertionError("This method should not be called.");
         }
 
