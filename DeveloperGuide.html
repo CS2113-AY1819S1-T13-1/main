@@ -883,8 +883,18 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 <div class="paragraph">
 <p>Step 1. The user launches the application for the first time. The Student Planner will be initialized with the initial task planner state.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/taskStartingStateListDiagram.png" alt="taskStartingStateListDiagram" width="800">
+</div>
+</div>
 <div class="paragraph">
 <p>Step 2. The user executes <code>add t/submission &#8230;&#8203;</code> command to add a new submission task to the student planner. The <code>add</code> command calls <code>Model#addTask()</code> which returns a task to be shown in the task list.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/taskCommand1StateListDiagram.png" alt="taskCommand1StateListDiagram" width="700">
+</div>
 </div>
 <div class="paragraph">
 <p>Step 3. The user executes  <code>find &#8230;&#8203;</code> command to search any existing task. The <code>find</code> command calls <code>Model#findTask()</code> and it does not modify the student planner, the studentPlannerStateList remains unchanged.</p>
@@ -3120,4 +3130,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-31 05:42:13 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-10-31 09:00:58 UTC</div></div></div></body></html>
