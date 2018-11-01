@@ -835,6 +835,18 @@ A task can only have its start and end DATE (without specific TIME). A task can 
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+By default, the tasks are listed by descending order of priority i.e. HIGH, MED, LOW.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Examples:</p>
 </div>
@@ -852,14 +864,14 @@ A task can only have its start and end DATE (without specific TIME). A task can 
 <div class="sect2">
 <h3 id="listing-all-tasks-code-listtask-code"><a class="link" href="#listing-all-tasks-code-listtask-code">3.23. Listing all tasks : <code>listTask</code></a></h3>
 <div class="paragraph">
-<p>Shows a list of all tasks from task book in the schedule planner.<br>
+<p>Shows a list of all tasks from task book in the student planner according to the deadline (end DateTime).<br>
 Format: <code>listTask</code></p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="editing-a-task-code-updatetask-code"><a class="link" href="#editing-a-task-code-updatetask-code">3.24. Editing a task : <code>updateTask</code></a></h3>
 <div class="paragraph">
-<p>Update an existing task in the schedule planner.<br>
+<p>Update an existing task in the student planner.<br>
 Format: <code>updateTask INDEX [n/NAME] [b/BODY] [s/START_DATETIME] [e/END_DATETIME] [t/TAG]&#8230;&#8203; [p/PRIORITY]</code></p>
 </div>
 <div class="sidebarblock">
@@ -907,29 +919,6 @@ Edits the 2nd task by clearing all existing tags.</p>
 <p>Finds tasks whose names or body contain any of the given keywords.<br>
 Format: <code>findTask KEYWORD [MORE_KEYWORDS]</code></p>
 </div>
-<div class="sidebarblock">
-<div class="content">
-<div class="ulist">
-<ul>
-<li>
-<p>The search is case insensitive. e.g <code>hans</code> will match <code>Hans</code></p>
-</li>
-<li>
-<p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
-</li>
-<li>
-<p>Only the name and body is searched.</p>
-</li>
-<li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
-</li>
-<li>
-<p>tasks matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div class="paragraph">
 <p>Examples:</p>
 </div>
@@ -949,7 +938,7 @@ Returns any task having names or body <code>concert</code>, <code>meeting</code>
 <div class="sect2">
 <h3 id="deleting-a-task-code-deletetask-code"><a class="link" href="#deleting-a-task-code-deletetask-code">3.26. Deleting a task : <code>deleteTask</code></a></h3>
 <div class="paragraph">
-<p>Deletes the specified task from the task book in the schedule planner.<br>
+<p>Deletes the specified task from the task book in the student planner.<br>
 Format: <code>deleteTask INDEX</code></p>
 </div>
 <div class="sidebarblock">
@@ -1217,4 +1206,4 @@ e.g. `deleteTask 2 `</p>
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 02:16:30 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-01 15:54:58 UTC</div></div></div></body></html>
