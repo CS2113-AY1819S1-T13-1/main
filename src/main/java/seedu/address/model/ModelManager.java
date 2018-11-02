@@ -31,6 +31,8 @@ import seedu.address.commons.events.model.ExpenseBookLocalBackupEvent;
 import seedu.address.commons.events.model.ExpenseBookLocalRestoreEvent;
 import seedu.address.commons.events.model.ExpenseBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.TaskBookChangedEvent;
+import seedu.address.commons.events.model.TaskBookLocalRestoreEvent;
+import seedu.address.commons.events.model.TaskBookOnlineRestoreEvent;
 import seedu.address.commons.events.model.UserPrefsChangedEvent;
 import seedu.address.commons.events.storage.OnlineBackupSuccessResultEvent;
 import seedu.address.commons.events.ui.NewNotificationAvailableEvent;
@@ -46,7 +48,7 @@ import seedu.address.storage.OnlineStorage;
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
-    private static final int BOOK_COUNT = 2;
+    private static final int BOOK_COUNT = 3;
 
     private final VersionedAddressBook versionedAddressBook;
     private final VersionedEventBook versionedEventBook;
@@ -240,6 +242,12 @@ public class ModelManager extends ComponentManager implements Model {
     public void restoreEventBook(ReadOnlyEventBook restoredEventBook) {
         versionedEventBook.resetData(restoredEventBook);
         Platform.runLater(() -> indicateEventBookChanged("Data Restored"));
+    }
+
+    @Override
+    public void restoreTaskBook(ReadOnlyTaskBook restoredTaskBook) {
+        versionedTaskBook.resetData(restoredTaskBook);
+        Platform.runLater(() -> indicateTaskBookChanged("Data Restored"));
         checkAllRestored();
     }
 
@@ -269,6 +277,12 @@ public class ModelManager extends ComponentManager implements Model {
     public void handleExpenseBookLocalRestoreEvent(ExpenseBookLocalRestoreEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event, "Restoring expense book from local storage"));
         restoreExpenseBook(event.readOnlyExpenseBook);
+    }
+
+    @Subscribe
+    public void handleTaskBookLocalRestoreEvent(TaskBookLocalRestoreEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Restoring task book from local storage"));
+        restoreTaskBook(event.readOnlyTaskBook);
     }
 
     @SuppressWarnings("unused")
@@ -307,6 +321,12 @@ public class ModelManager extends ComponentManager implements Model {
         restoreEventBook(event.data);
     }
 
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void handleTaskBookOnlineRestoreEvent(TaskBookOnlineRestoreEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Restoring task book from online storage"));
+        restoreTaskBook(event.data);
+    }
 
     /**
      * Processes the success callback object returned from {@code OnlineBackupSuccessResultEvent}. Updates the relevant
@@ -338,8 +358,14 @@ public class ModelManager extends ComponentManager implements Model {
         case AddressBook:
             userPrefs.setAddressBookGistId(ref);
             break;
+        case EventBook:
+            userPrefs.setEventBookGistId(ref);
+            break;
         case ExpenseBook:
             userPrefs.setExpenseBookGistId(ref);
+            break;
+        case TaskBook:
+            userPrefs.setTaskBookGistId(ref);
             break;
         default:
             throw (new IllegalStateException("Reached illegal flow of code."));
@@ -360,6 +386,11 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new TaskBookChangedEvent(versionedTaskBook));
     }
 
+    private void indicateTaskBookChanged(String message) {
+        raise(new TaskBookChangedEvent(versionedTaskBook));
+        raise(new NewResultAvailableEvent(message));
+    }
+
     @Override
     public boolean hasTask(Task task) {
         requireNonNull(task);
@@ -375,13 +406,15 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void addTask(Task task) {
         versionedTaskBook.addTask(task);
-        updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
+        //updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
         indicateTaskBookChanged();
     }
 
     @Override
-    public void updateTask(Task target, Task editedPerson) {
-
+    public void updateTask(Task target, Task updatedTask) {
+        requireAllNonNull(target, updatedTask);
+        versionedTaskBook.updateTask(target, updatedTask);
+        indicateTaskBookChanged();
     }
 
     /**
@@ -397,27 +430,20 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredTaskList(Predicate<Task> predicate) {
         requireNonNull(predicate);
         filteredTasks.setPredicate(predicate);
+        sortedTaskList(filteredTasks);
     }
 
-    /*
-    private void Sorting(){
-        FXCollections.sort(filteredTasks, new Comparator<Task>() {
-            public int compare(Task t1, Task t2) {
-                return t1.getTaskName().fullName.compareTo(t2.getTaskName().fullName);
-            }
-        });
+    private void sortedTaskList(FilteredList<Task> filteredTasks) {
+        versionedTaskBook.sort();
+        indicateTaskBookChanged();
     }
-
-    @Override
-    public ObservableList<Task> sortedTaskList(){
-        Sorting();
-        return  FXCollections.unmodifiableObservableList(filteredTasks);
-    }*/
 
     @Override
     public void commitTaskBook() {
         versionedTaskBook.commit();
     }
+    //@@author
+
     //@@author ian-tjahjono
 
     @Override

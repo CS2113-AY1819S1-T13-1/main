@@ -63,22 +63,18 @@ public class TaskBook implements ReadOnlyTaskBook {
     }
 
     /**
-     * Sort the tasks with their endDateTime as {@code task} in the task book.
-     */
-    /*
-    public void sortedTaskList(){
-        tasks.Sorting();
-    }*/
-
-    /**
      * Replaces the given task {@code target} in the list with {@code editedTask}.
      * {@code target} must exist in the task book.
      * The task identity of {@code editedTask} must not be the same as another existing task in the task book.
      */
-    public void updateTask(Task target, Task editedTask) {
-        requireNonNull(editedTask);
+    public void updateTask(Task target, Task updatedTask) {
+        requireNonNull(updatedTask);
 
-        tasks.setTask(target, editedTask);
+        tasks.setTask(target, updatedTask);
+    }
+
+    public void sort() {
+        tasks.sort();
     }
 
     /**
@@ -112,6 +108,5 @@ public class TaskBook implements ReadOnlyTaskBook {
     public int hashCode() {
         return tasks.hashCode();
     }
-
 
 }
