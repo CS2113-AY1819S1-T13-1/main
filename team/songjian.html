@@ -86,6 +86,14 @@ An expense can have any number of tags (including 0)
 </tr>
 </table>
 </div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>The expense book is sorted by date, followed by value, and lastly the category.<br>
+The sorted expense book will be displayed once the user adds the expense.</p>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Examples:</p>
 </div>
@@ -126,6 +134,10 @@ Format: <code>edit INDEX [c/CATEGORY] [v/VALUE] [d/DATE] [t/TAG]&#8230;&#8203;</
 <p>You can remove all the expense&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The expense book is sorted by date, followed by value, and lastly the category.<br>
+The sorted expense book will be displayed once the user edits the expense.</p>
 </div>
 </div>
 </div>
@@ -343,6 +355,19 @@ This function is facilitated by <code>ExpenseTrendCommand</code>, it extends the
 <div class="paragraph">
 <p><code>ExpenseTrendWindow</code> creates a bar chart with the data and open a new window to display the bar chart.</p>
 </div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the expense trend operation works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/expenseTrendSequenceDiagramPart1.png" alt="expenseTrendSequenceDiagramPart1" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/expenseTrendSequenceDiagramPart2.png" alt="expenseTrendSequenceDiagramPart2" width="800">
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="monthly-expense"><a class="link" href="#monthly-expense">Monthly expense</a></h4>
@@ -363,7 +388,20 @@ the command then calls <code>Model#getFilteredExpenseList()</code> to obtain the
 <div class="paragraph">
 <p>The rest are similar to the Expense Trend but the data were represented in a pie chart instead of a bar chart.</p>
 </div>
+<div class="paragraph">
+<p>The following sequence diagram shows how the monthly expense operation works:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/monthlyExpenseSequenceDiagramPart1.png" alt="monthlyExpenseSequenceDiagramPart1" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/monthlyExpenseSequenceDiagramPart2.png" alt="monthlyExpenseSequenceDiagramPart2" width="800">
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-04 04:52:25 UTC</div></div></div></body></html>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-05 03:04:40 UTC</div></div></div></body></html>
