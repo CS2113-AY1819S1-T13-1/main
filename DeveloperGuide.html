@@ -1,6 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>AddressBook Level 4 - Developer Guide</title><link rel="stylesheet" href="stylesheets/gh-pages.css">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Student Planner - Developer Guide</title><link rel="stylesheet" href="stylesheets/gh-pages.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="index.html">Student-Planner</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link active" href="DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2113-AY1819S1-T13-1/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>AddressBook Level 4 - Developer Guide</h1></div><div id="content"><div id="preamble">
+<link rel="stylesheet" href="stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="index.html">Student-Planner</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link active" href="DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/CS2113-AY1819S1-T13-1/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Student Planner - Developer Guide</h1></div><div id="content"><div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
 <p>By: <code>CS2113-AY1819S1-T13-1</code>      Since: <code>September</code>      Licence: <code>MIT</code></p>
@@ -32,10 +32,11 @@
 <li><a href="#undo-redo-feature">3.1. Undo/Redo feature</a></li>
 <li><a href="#tasks-crud-feature">3.2. Tasks (CRUD) feature</a></li>
 <li><a href="#backup-feature">3.3. Backup Feature</a></li>
-<li><a href="#proposed-data-encryption">3.4. [Proposed] Data Encryption</a></li>
-<li><a href="#logging">3.5. Logging</a></li>
-<li><a href="#Implementation-Configuration">3.6. Configuration</a></li>
-<li><a href="#expense-tracker-feature">3.7. Expense tracker feature</a></li>
+<li><a href="#restore-feature">3.4. Restore Feature</a></li>
+<li><a href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></li>
+<li><a href="#logging">3.6. Logging</a></li>
+<li><a href="#Implementation-Configuration">3.7. Configuration</a></li>
+<li><a href="#expense-tracker-feature">3.8. Expense tracker feature</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -73,7 +74,6 @@
 </li>
 <li><a href="#product-scope">Appendix B: Product Scope</a></li>
 <li><a href="#user-stories">Appendix C: User Stories</a></li>
-<li><a href="#user-stories-2">7. User Stories</a></li>
 <li><a href="#use-cases">Appendix D: Use Cases</a></li>
 <li><a href="#non-functional-requirements">Appendix E: Non Functional Requirements</a></li>
 <li><a href="#glossary">Appendix F: Glossary</a></li>
@@ -82,7 +82,7 @@
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
 <li><a href="#deleting-a-task">H.2. Deleting a task</a></li>
-<li><a href="#saving-data">H.3. Saving data</a></li>
+<li><a href="#backup-of-data">H.3. Backup of data</a></li>
 </ul>
 </li>
 </ul>
@@ -919,9 +919,9 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect3">
-<h4 id="backup-implementation"><a class="link" href="#backup-implementation">3.3.2. Backup Implementation</a></h4>
+<h4 id="backup-and-restore-storage-implementation"><a class="link" href="#backup-and-restore-storage-implementation">3.3.2. Backup and Restore Storage Implementation</a></h4>
 <div class="paragraph">
-<p>A <code>OnlineStorage</code> interface must be implemented by all forms of Online backup services. This allows developers to easily add and extend the list of supported backup services by implementing a common set of methods.
+<p>A <code>OnlineStorage</code> interface must be implemented by all forms of Online backup and restore services. This allows developers to easily add and extend the list of supported backup services by implementing a common set of methods.
 The current minimum set of methods that must be implemented are</p>
 </div>
 <div class="ulist">
@@ -951,6 +951,43 @@ because of the following reason.</p>
 </div>
 <div class="paragraph">
 <p>The raised event is observed and handled by the storage manager which performs the backup (either local or through supported online services) using the books from the <code>model</code> passed in through the <code>OnlineBackupEvent</code> or <code>LocalBackupEvent</code></p>
+</div>
+<div class="paragraph">
+<p>The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the local backup command <code>backup</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SDforBackupLocalwithEventHandling.png" alt="SDforBackupLocalwithEventHandling" width="800">
+</div>
+<div class="title">Figure 10. Component interactions for <code>backup</code> command (local backup)</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Note how <code>Logic</code> simply raises a <code>LocalBackupEvent</code> instead of posting the backup request from the <code>Model</code>. This is because <code>logic</code> has the <code>model</code>
+and can simply pass the required data along in the event to <code>storage</code> directly.
+The event is propagated through the <code>EventsCenter</code> to the <code>Storage</code> and <code>UI</code> bypassing the <code>Model</code>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the online github backup command <code>backup GITHUB AUTH_TOKEN</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SDforBackupOnlinewithEventHandlingPart1.png" alt="SDforBackupOnlinewithEventHandlingPart1" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SDforBackupOnlinewithEventHandlingPart2.png" alt="SDforBackupOnlinewithEventHandlingPart2" width="800">
+</div>
+<div class="title">Figure 11. Component interactions for <code>backup GITHUB AUTH_TOKEN</code> command (online github backup)</div>
 </div>
 </div>
 <div class="sect4">
@@ -1073,20 +1110,84 @@ it to the user.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.4. [Proposed] Data Encryption</a></h3>
+<h3 id="restore-feature"><a class="link" href="#restore-feature">3.4. Restore Feature</a></h3>
+<div class="sect3">
+<h4 id="restore-types"><a class="link" href="#restore-types">3.4.1. Restore Types</a></h4>
+<div class="paragraph">
+<p>The application supports both local and online restore of backup made using the <code>backup</code> feature</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For local restore, the backup book files specified in <code>preferences.json</code> will be used.</p>
+</li>
+<li>
+<p>For online restore, for example Github restore, the gist ids in <code>preferences.json</code> which represent the reference url to the backup data files will be used.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">3.4.2. Design Considerations</a></h4>
+<div class="sect4">
+<h5 id="aspect-how-is-the-restore-command-initiated"><a class="link" href="#aspect-how-is-the-restore-command-initiated">Aspect: How is the restore command initiated</a></h5>
+<div class="paragraph">
+<p>The restore feature is similar to backup feature in terms of both features using an event driven approach to reduce coupling and increase cohesion of the different components, specifically
+the <code>model</code> and <code>storage</code> components.</p>
+</div>
+<div class="paragraph">
+<p>Restore commands sends either a <code>LocalRestoreEvent</code> or a <code>OnlineRestoreEvent</code> event
+The raised event is observed and handled by the storage manager which performs the reading of the local or online files into the appropriate data book objects such as <code>ReadOnlyAddressBook</code>
+An event is then triggered by <code>storage</code> on successful restore which informs <code>model</code> that an update to the in memory state is required.</p>
+</div>
+<div class="paragraph">
+<p>The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the local restore command <code>restore</code> and valid local backup exists.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SDforRestoreLocalwithEventHandlingPart1.png" alt="SDforRestoreLocalwithEventHandlingPart1" width="800">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/SDforRestoreLocalwithEventHandlingPart2.png" alt="SDforRestoreLocalwithEventHandlingPart2" width="800">
+</div>
+<div class="title">Figure 12. Component interactions for <code>backup</code> command (local backup)</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Note how <code>Logic</code> simply raises a <code>LocalRestoreEvent</code>
+The event is propagated through the <code>EventsCenter</code> to the <code>Storage</code> component
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Online Restoration is similar to Local Restore but utilising the same <code>ExecutorService</code> used in <code>backup</code> to retrieve the online backup data books concurrently.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="proposed-data-encryption"><a class="link" href="#proposed-data-encryption">3.5. [Proposed] Data Encryption</a></h3>
 <div class="paragraph">
 <p><em>{Explain here how the data encryption feature will be implemented}</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.6. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.6, &#8220;Configuration&#8221;</a>)</p>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">Section 3.7, &#8220;Configuration&#8221;</a>)</p>
 </li>
 <li>
 <p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
@@ -1117,19 +1218,19 @@ it to the user.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.6. Configuration</a></h3>
+<h3 id="Implementation-Configuration"><a class="link" href="#Implementation-Configuration">3.7. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="expense-tracker-feature"><a class="link" href="#expense-tracker-feature">3.7. Expense tracker feature</a></h3>
+<h3 id="expense-tracker-feature"><a class="link" href="#expense-tracker-feature">3.8. Expense tracker feature</a></h3>
 <div class="paragraph">
 <p>The implementation of expense feature is similar to the Address Book, it has similar basic functions such as: <code>addExpense</code> <code>clearExpense</code> <code>deleteExpense</code> <code>editExpense</code> <code>redoExpense</code> <code>undoExpense</code>.
 In addition, <code>expenseTrend</code> and <code>monthlyExpense</code> functions were implemented to assist the user in analysing his/her spending habit.</p>
 </div>
 <div class="sect3">
-<h4 id="expense-trend"><a class="link" href="#expense-trend">3.7.1. Expense trend</a></h4>
+<h4 id="expense-trend"><a class="link" href="#expense-trend">3.8.1. Expense trend</a></h4>
 <div class="paragraph">
 <p>This function displays the total expense value for the past 6 months in a new window.
 This function is facilitated by <code>ExpenseTrendCommand</code>, it extends the <code>Command</code>.</p>
@@ -1164,7 +1265,7 @@ This function is facilitated by <code>ExpenseTrendCommand</code>, it extends the
 </div>
 </div>
 <div class="sect3">
-<h4 id="monthly-expense"><a class="link" href="#monthly-expense">3.7.2. Monthly expense</a></h4>
+<h4 id="monthly-expense"><a class="link" href="#monthly-expense">3.8.2. Monthly expense</a></h4>
 <div class="paragraph">
 <p>This function displays the expense value of each category for the selected month in a new window.
 This function is facilitated by <code>MonthlyExpenseCommand</code>, it extends the <code>Command</code>.</p>
@@ -1258,7 +1359,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 10. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 13. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 <div class="sect2">
@@ -2339,12 +2440,6 @@ for <code>RemarkCommandParser</code>.</p>
 <div class="sect1">
 <h2 id="user-stories"><a class="link" href="#user-stories">Appendix C: User Stories</a></h2>
 <div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="user-stories-2"><a class="link" href="#user-stories-2">7. User Stories</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>Priorities: High (must have) - <code>* * *</code>, Medium (nice to have) - <code>* *</code>, Low (unlikely to have) - <code>*</code></p>
 </div>
@@ -2380,7 +2475,7 @@ for <code>RemarkCommandParser</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">user</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">list the tasks</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">view all the tasks avaiable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view all the tasks available</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
@@ -3136,24 +3231,123 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.3. Saving data</a></h3>
+<h3 id="backup-of-data"><a class="link" href="#backup-of-data">H.3. Backup of data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Dealing with missing/corrupted data files</p>
+<p>Backup of data to local storage</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p><em>{explain how to simulate a missing/corrupted file and the expected behavior}</em></p>
+<p>Prerequisites: Backup file paths in <code>preferences.json</code> has default file path values before application is started<br>
+Test case: <code>backup</code><br>
+Expected: All books data is backup to file paths located from <code>preferences.json</code>.
+Notification is shown to user that local backup is successful.</p>
+</li>
+<li>
+<p>Prerequisites: Backup file paths in <code>preferences.json</code> is <code>null</code> before application is started<br>
+Test case: <code>backup</code><br>
+Expected: All books data is backup to default file paths located under <code>data</code> directory. <code>preferences.json</code> will also be updated with default backup file paths.
+Notification is shown to user that local backup is successful.</p>
+</li>
+<li>
+<p>Prerequisites: Backup file paths in <code>preferences.json</code> are directories before application is started<br>
+Test case: <code>backup</code><br>
+Expected: All books data is backup to default file paths located under <code>data</code> directory. <code>preferences.json</code> will also be updated with default backup file paths.
+Notification is shown to user that local backup is successful.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Backup of data to online storage service</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>backup GITHUB VALID_AUTH_TOKEN</code><br>
+Expected: Book data is saved to Github gists. Status message updates to show successful backup.
+Success notifications with the corresponding data backup urls will be created and shown to user.</p>
+</li>
+<li>
+<p>Test case: <code>backup INVALID</code><br>
+Expected: No backup is performed. Invalid online service or command details shown in status message with command usage.</p>
+</li>
+<li>
+<p>Test case: <code>backup GITHUB</code><br>
+Expected: No backup is performed. Invalid github backup command details shown in status message as no authentication token is provided.</p>
+</li>
+<li>
+<p>Test case: <code>backup GITHUB invalidToken</code><br>
+Expected: Command is executed but error popup with "Could not save data to file" appears due to invalid auth token provided. Status bar updates to show backup failed.</p>
+</li>
+<li>
+<p>Test case: <code>backup service invalid invalid</code><br>
+Expected: No backup is performed. Invalid command details shown in status message with command usage.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Restore of data from local backup</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: <code>backup</code> command has been run before and all files are valid and exists in <code>preferences.json</code><br>
+Test case: <code>restore</code><br>
+Expected: Restore success status message is displayed. Local Restore notification is also created and shown to user</p>
+</li>
+<li>
+<p>Prerequisites: <code>backup</code> command has not been run before<br>
+Test case: <code>restore</code><br>
+Expected: Status message displayed to prompt user to first do a backup or set relevant backup file paths in <code>preferences.json</code>.</p>
+</li>
+<li>
+<p>Prerequisites: Certain backup file/s indicated in <code>preferences.json</code> has been deleted.<br>
+Test case: <code>restore</code><br>
+Expected: Status message displayed to prompt user to first do a backup or set relevant backup file paths in <code>preferences.json</code> and also check if all file paths are existing files.</p>
+</li>
+<li>
+<p>Prerequisites: <code>backup</code> command has been run before and all files are valid and exists in <code>preferences.json</code><br>
+Test case: <code>restore INVALID</code><br>
+Expected: No restore is performed. Invalid online service or command details shown in status message with command usage.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Restore of data from online backup</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: Online backup command has been run before and all gist ids in <code>preferences.json</code> are valid<br>
+Test case: <code>restore GITHUB</code><br>
+Expected: Success status message displayed. Notification is created and shown to user about successful online restore.</p>
+</li>
+<li>
+<p>Prerequisites: Online backup command has not been run before<br>
+Test case: <code>restore GITHUB</code><br>
+Expected: Status message displayed to prompt user to first do an online backup or set relevant backup gist ids in <code>preferences.json</code>.</p>
+</li>
+<li>
+<p>Prerequisites: Certain backup gists who&#8217;s ids are indicated in <code>preferences.json</code> has been deleted.<br>
+Test case: <code>restore GITHUB</code><br>
+Expected: Error popup will appear for said data books. While any valid gists will still be restored, no success notification will be showed, however, status message will show restore succeeded as long as one of the book gists are valid and exists.</p>
+</li>
+<li>
+<p>Prerequisites: All backup gists who&#8217;s ids are indicated in <code>preferences.json</code> has been deleted.
+Test case: <code>restore GITHUB</code><br>
+Expected: Error popup will appear for all data books. Status message will show restore failed.</p>
+</li>
+<li>
+<p>Prerequisites: Online backup command has been run before and all gist ids in <code>preferences.json</code> are valid<br>
+Test case: <code>restore GITHUB VALID_AUTH_TOKEN</code><br>
+Expected: No restore is performed. Invalid command status message is shown to user with correct usage.</p>
 </li>
 </ol>
 </div>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p><em>{ more test cases &#8230;&#8203; }</em></p>
 </div>
 </div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-07 12:19:16 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-07 13:18:42 UTC</div></div></div></body></html>
