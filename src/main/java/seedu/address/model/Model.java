@@ -24,7 +24,7 @@ public interface Model {
 
     //@@author ian-tjahjono
     Predicate<Event> PREDICATE_SHOW_ALL_EVENTS = unused -> true;
-
+    //@@author
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
 
