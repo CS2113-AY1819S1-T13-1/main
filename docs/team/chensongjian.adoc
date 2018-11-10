@@ -25,7 +25,7 @@ These commands assist the user to analyse his/her spending habit and make a bett
 
 * *Minor enhancement*: added autocomplete that allows the user to enter the command faster and provides a pre-filled format for the commands with parameter(s).
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=chensongjian[Overview]]
 
 * *Other contributions*:
 
@@ -44,4 +44,12 @@ include::../UserGuide.adoc[tag=expense]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
+//not my contribution, it is just the heading for the section of my contribution
+include::../DeveloperGuide.adoc[tag=implementationHeading]
+
 include::../DeveloperGuide.adoc[tag=expensefeature]
+
+//not my contribution, it is just the heading for the section of my contribution
+include::../DeveloperGuide.adoc[tag=manualTestHeading]
+
+include::../DeveloperGuide.adoc[tag=manualTestMonthlyExpense]
