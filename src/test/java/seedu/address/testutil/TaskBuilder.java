@@ -18,7 +18,7 @@ public class TaskBuilder {
     public static final String DEFAULT_TASKNAME = "Submit Assignment";
     public static final String DEFAULT_BODY = "CG2027 Assign2";
     public static final String DEFAULT_START_DATETIME = "09/10";
-    public static final String DEFAULT_END_DATETIME = "16/10_1400";
+    public static final String DEFAULT_END_DATETIME = "16/10_14:00";
     public static final String DEFAULT_PRIORITY = "HIGH";
 
     private TaskName taskName;

@@ -104,8 +104,8 @@ public class CommandTestUtil {
     public static final String VALID_BODY_ASSIGN = "CG2027 Assign5";
     public static final String VALID_START_DATETIME_QUIZ = "15/10";
     public static final String VALID_START_DATETIME_ASSIGN = "30/10";
-    public static final String VALID_END_DATETIME_QUIZ = "21/10_2200";
-    public static final String VALID_END_DATETIME_ASSIGN = "6/11_1400";
+    public static final String VALID_END_DATETIME_QUIZ = "21/10_22:00";
+    public static final String VALID_END_DATETIME_ASSIGN = "6/11_14:00";
     public static final String VALID_PRIORITY_QUIZ = "MED";
     public static final String VALID_PRIORITY_ASSIGN = "HIGH";
     public static final String VALID_TAG_IVLE = "IVLE";

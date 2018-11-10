@@ -35,14 +35,14 @@ public class DateTime {
     }
 
     /**
-     * Returns true if a given string is a valid date & time.
+     * Returns true if a given string is a valid start date & time.
      */
     public static boolean isValidStartDateTime(String test) {
-            return test.matches(START_DATETIME_VALIDATION_REGEX);
+        return test.matches(START_DATETIME_VALIDATION_REGEX);
     }
 
     /**
-     * Returns true if a given string is a valid date & time.
+     * Returns true if a given string is a valid end date & time.
      */
     public static boolean isValidEndDateTime(String test) {
         return test.matches(END_DATETIME_VALIDATION_REGEX);

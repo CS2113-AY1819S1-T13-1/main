@@ -130,6 +130,11 @@ public class AddTaskCommandTest {
         }
 
         @Override
+        public void updateFilteredEventList(Predicate<Event> predicate) {
+
+        }
+
+        @Override
         public ReadOnlyTaskBook getTaskBook() {
             throw new AssertionError("This method should not be called.");
         }

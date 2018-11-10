@@ -26,28 +26,28 @@ import seedu.address.model.task.Task;
 public class TypicalTasks {
 
     public static final Task ASSIGNMENT1 = new TaskBuilder().withTaskName("Assignment1 Submission")
-            .withBody("CG2027 Assign1").withStartDateTime("2/10_1700")
-            .withEndDateTime("9/10_1400").withPriority("HIGH").withTags("IVLE").build();
+            .withBody("CG2027 Assign1").withStartDateTime("2/10_17:00")
+            .withEndDateTime("9/10_14:00").withPriority("HIGH").withTags("IVLE").build();
     public static final Task ASSIGNMENT2 = new TaskBuilder().withTaskName("Assignment2 Submission")
             .withBody("CG2027 Assign2").withStartDateTime("9/10")
-            .withEndDateTime("16/10_1400").withPriority("HIGH").withTags("IVLE").build();
+            .withEndDateTime("16/10_14:00").withPriority("HIGH").withTags("IVLE").build();
     public static final Task ASSIGNMENT3 = new TaskBuilder().withTaskName("Assignment3 Submission")
             .withBody("CG2027 Assign3").withStartDateTime("16/10")
-            .withEndDateTime("23/10_1400").withPriority("HIGH").withTags("IVLE").build();
+            .withEndDateTime("23/10_14:00").withPriority("HIGH").withTags("IVLE").build();
     public static final Task PROJECT = new TaskBuilder().withTaskName("Practical Exam")
             .withBody("CS2113 Product Release").withStartDateTime("2/11")
-            .withEndDateTime("2/11_1600").withPriority("MED").withTags("LT15").build();
+            .withEndDateTime("2/11_16:00").withPriority("MED").withTags("LT15").build();
     public static final Task QUIZ = new TaskBuilder().withTaskName("Quiz submission")
             .withBody("MA1508E  Quiz10").withStartDateTime("22/10")
-            .withEndDateTime("28/10_2200").withPriority("LOW").withTags("IVLE").build();
+            .withEndDateTime("28/10_22:00").withPriority("LOW").withTags("IVLE").build();
 
     // Manually added
     public static final Task ASSIGNMENT4 = new TaskBuilder().withTaskName("Assignment4 Submission")
-            .withBody("CG2027 Assign4").withStartDateTime("23/10_1700")
-            .withEndDateTime("30/10_1400").withPriority("HIGH").build();
+            .withBody("CG2027 Assign4").withStartDateTime("23/10_17:00")
+            .withEndDateTime("30/10_14:00").withPriority("HIGH").build();
     public static final Task QUIZ11 = new TaskBuilder().withTaskName("Quiz submission")
             .withBody("MA1508E Quiz11").withStartDateTime("29/10")
-            .withEndDateTime("4/11_2200").withPriority("MED").build();
+            .withEndDateTime("4/11_22:00").withPriority("MED").build();
 
     // Manually added - Task's details found in {@code CommandTestUtil}
     public static final Task QUIZ9 = new TaskBuilder().withTaskName(VALID_TASK_NAME_QUIZ).withBody(VALID_BODY_QUIZ)

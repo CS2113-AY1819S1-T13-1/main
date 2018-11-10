@@ -48,7 +48,8 @@ public class UpdateTaskCommandParser implements Parser<UpdateTaskCommand> {
             updateTaskDescriptor.setBody(ParserUtil.parseBody(argMultimap.getValue(PREFIX_BODY).get()));
         }
         if (argMultimap.getValue(PREFIX_START).isPresent()) {
-            updateTaskDescriptor.setStartDateTime(ParserUtil.parseStartDateTime(argMultimap.getValue(PREFIX_START).get()));
+            updateTaskDescriptor.setStartDateTime(ParserUtil.parseStartDateTime
+                    (argMultimap.getValue(PREFIX_START).get()));
         }
         if (argMultimap.getValue(PREFIX_END).isPresent()) {
             updateTaskDescriptor.setEndDateTime(ParserUtil.parseEndDateTime(argMultimap.getValue(PREFIX_END).get()));

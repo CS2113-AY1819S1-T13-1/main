@@ -3,11 +3,11 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: Student Planner
-
 == Role: Developer
 
 Responsibilities: Developing, Testing
+
+== PROJECT: Student Planner
 
 ---
 
@@ -17,18 +17,22 @@ Student Planner is a all-in-one desktop manager application that allows students
 
 == Summary of contributions
 
-* *Major enhancement*: Added *the Task features*
-** What it does:
-** Justification:
+* *Main feature implemented*: Added *various commands to enable users to manage Task Book*
+** What it does: allows user to better manage their tasks by providing the following commands:
+*** `AddTaskCommand`: user is able to create new task.
+*** `ListTaskCommand`: user is able to access tasks by priority or deadlines.
+*** `UpdateTaskCommand`: user is able to update tasks.
+*** `DeleteTaskCommand`: user is able to delete tasks
 
-* *Minor enhancement*:
+** Justification: This feature improves the product significantly as a user can track and manage the tasks easily.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=luhan02[Overview]]
 
 * *Other contributions*:
 
-** Project management:
-
+** Documentation:
+*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com/CS2113-AY1819S1-T13-1/main/pull/[#29], https://github.com/CS2113-AY1819S1-T13-1/main/pull/[#90], https://github.com/CS2113-AY1819S1-T13-1/main/pull/[#95]
+*** Did cosmetic tweaks to existing contents of the Developer Guide: https://github.com/CS2113-AY1819S1-T13-1/main/pull/[#59], https://github.com/CS2113-AY1819S1-T13-1/main/pull/[#95]
 
 == Contributions to the User Guide
 
@@ -46,3 +50,8 @@ include::../UserGuide.adoc[tag=task]
 |===
 
 include::../DeveloperGuide.adoc[tag=tasks]
+
+**************************************************
+* Note: Manual Testing portion below
+**************************************************
+include::../DeveloperGuide.adoc[tag=manualTestTask]
