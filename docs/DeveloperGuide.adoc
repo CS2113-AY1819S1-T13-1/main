@@ -347,7 +347,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 The tasks' CRUD mechanism is facilitated by `AddTaskCommand`,`listTaskCommand`,`findTaskCommand`,`UpdateTaskCommand`,`DeleteTaskCommand`. It extends `Command` and implement the following operation:
 
 * `Command#AddTaskCommand()` -- Create a new task to Student Planner
-* `Command#ListTaskCommand()`,`Command#FindTaskCommand()` -- View/ search existing tasks
+* `Command#ListTaskCommand()` -- View existing task list
 * `Command#UpdateTaskCommand()` -- Update existing tasks from history
 * `Command#DeleteTaskCommand()` -- Remove existing tasks from history
 
@@ -355,21 +355,27 @@ These operations are exposed in the `Model` interface as `Model#hasTask()`,`Mode
 
 Given below is an example usage scenario and how the CRUD mechanism behaves at each step.
 
-Step 1. The user launches the application for the first time. The Student Planner will be initialized with the initial task planner state.
+Step 1. The user launches the application for the first time. The Student Planner will be initialized with the initial task book state.
 
 image::taskStartingStateListDiagram.png[width="800"]
 
-Step 2. The user executes `add t/submission ...` command to add a new submission task to the student planner. The `add` command calls `Model#addTask()` which returns a task to be shown in the task list.
+Step 2. The user executes `task t/submission ...` command to add a new submission task to the student planner. The `task` command calls `Model#addTask()` which returns a task to be shown in the task list.
 
 image::taskCommand1StateListDiagram.png[width="700"]
 
-Step 3. The user executes  `find ...` command to search any existing task. The `find` command calls `Model#findTask()` and it does not modify the student planner, the studentPlannerStateList remains unchanged.
+Step 3. The user then decides to executes `updateTask 2 ...` command to update an existing task. The `updateTask` command calls `Model#updateTask()`, causing a modified task to be saved.
 
-Step 4. The user then decides to executes `update ...` command to update an existing task. The `update` command calls `Model#updateTask()`, causing a modified task to be saved.
+The following sequence diagram shows how the `updateTask 2 e/13/11_22:59` operation works:
 
-Step 5. The user executes `list` command to view the existing task list, which calls `Model#listTask()`. The `list` command does not modify the student planner, the studentPlannerStateList remains unchanged.
+image::updateTaskEventHandlingSD.png[width="800"]
 
-Step 6. The user now decides that the task added was a mistake, and decides to remove that task by executing the `delete 6` command to delete the 6th task in the task list of the student planner. The `delete` command will call `Model#deleteTask()`, causing the modified state of the student planner after the `delete 5` command executes to be saved in the studentPlannerStateList.
+Step 4. The user executes `listTask` command to view the existing task list, which calls `Model#listTask()`. The `listTask` command does not modify the task book, the taskBookStateList remains unchanged.
+
+Step 5. The user now decides that the task added was a mistake, and decides to remove that task by executing the `deleteTask 6` command to delete the 6th task in the task list of the student planner. The `deleteTask` command will call `Model#deleteTask()`, causing the modified state of the task book after the `deleteTask 6` command executes to be saved in the taskBookStateList.
+
+The following sequence diagram shows how the deleteTask 6 operation works:
+
+image::deleteTaskEventHandlingSD.png[width="800"]
 // end::tasks[]
 
 //@@author QzSG

@@ -82,7 +82,7 @@ public class UpdateTaskCommand extends Command {
 
         model.updateTask(taskToUpdate, updatedTask);
         model.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
-        model.commitAddressBook();
+        model.commitTaskBook();
 
         if (!taskToUpdate.isSameTask(updatedTask) && model.hasTask(updatedTask)) {
             throw new CommandException(MESSAGE_DUPLICATE_TASK);
