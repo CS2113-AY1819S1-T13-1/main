@@ -666,4 +666,14 @@ e.g. `updateTask 2`
 * *DeleteTask* : `deleteTask INDEX` +
 e.g. `deleteTask 2 `
 //@@author
+//@@author ian-tjahjono
+* *AddEvent* : `addEvent n/NAME s/EVENT DATE t/EVENT TIME [c/EVENT CONTACTS]...` +
+e.g. `addEvent n/Movie s/18/10/2018 t/1800 c/John`
+* *DeleteEvent* : `deleteEvent`
+e.g. `deleteEvent 1`
+* *EditEvent* : `editEvent INDEX [n/NAME] [s/EVENT DATE] [t/EVENT TIME] [c/EVENT CONTACTS]...` +
+e.g. `editEvent 1 t/1800`
+* *ClearEvent* : `clearEvent` +
+e.g. `clearEvent`
+//@@author
 
