@@ -1293,6 +1293,8 @@ Use case ends.
 +
 Use case ends.
 
+//@@author ian-tjahjono
+// tag::events[]
 === Use case: Add Event (UC10)
 
 *MSS*
@@ -1314,6 +1316,8 @@ Use case ends.
 ** 2b1. StudentPlanner shows required command format to user. Event is not added.
 +
 Use case ends.
+// end::events[]
+//@@author
 
 //@@author ChenSongJian
 [discrete]
