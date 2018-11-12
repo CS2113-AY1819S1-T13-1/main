@@ -8,7 +8,7 @@ package seedu.address.model.task;
  */
 public class DateTime {
     public static final String MESSAGE_START_DATETIME_CONSTRAINTS =
-            "Start Date & Time should be a valid date and time, in DD/MM(_HH:mm) formatgit ";
+            "Start Date & Time should be a valid date and time, in DD/MM(_HH:mm) format ";
     /*
     public static final String DATETIME_VALIDATION_REGEX = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])"
         + "(\\_([01]?[0-9]|2[0-3]):([0-5][0-9]))?";
