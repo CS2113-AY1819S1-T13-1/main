@@ -6,14 +6,12 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EXPENSES;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.BENSON;
-import static seedu.address.testutil.TypicalTasks.ASSIGNMENT1;
 import static seedu.address.testutil.TestUtil.waitForRunLater;
 import static seedu.address.testutil.TypicalExpenses.getTypicalExpenseBook;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTasks.ASSIGNMENT1;
 import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.nio.file.Paths;
@@ -31,8 +29,8 @@ import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.EventBookBuilder;
 import seedu.address.testutil.ExpenseBookBuilder;
-import seedu.address.testutil.TaskBookBuilder;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TaskBookBuilder;
 import seedu.address.testutil.TaskBuilder;
 
 public class ModelManagerTest {
