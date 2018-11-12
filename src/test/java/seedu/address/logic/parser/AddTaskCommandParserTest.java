@@ -128,7 +128,6 @@ public class AddTaskCommandParserTest {
                 expectedMessage);
     }
 
-
     @Test
     public void parse_invalidValue_failure() {
         // invalid taskName
@@ -162,4 +161,5 @@ public class AddTaskCommandParserTest {
                 TaskName.MESSAGE_NAME_CONSTRAINTS);
 
     }
+
 }

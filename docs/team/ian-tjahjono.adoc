@@ -1,11 +1,11 @@
-= Lu Han - Project Portfolio
+= Ian Tjahjono - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
 == Role: Developer
 
-Responsibilities: Developing, Testing
+Responsibilities: Developing, testing, events
 
 == PROJECT: Student Planner
 
@@ -17,16 +17,12 @@ Student Planner is a all-in-one desktop manager application that allows students
 
 == Summary of contributions
 
-* *Main feature implemented*: Added *various commands to enable users to manage Task Book*
-** What it does: allows user to better manage their tasks by providing the following commands:
-*** `AddTaskCommand`: user is able to create new task.
-*** `ListTaskCommand`: user is able to access tasks by priority or deadlines.
-*** `UpdateTaskCommand`: user is able to update tasks.
-*** `DeleteTaskCommand`: user is able to delete tasks
+* *Major enhancement*: Added *Events management*
+** What it does: Allows the user to manage their events.
+** Justification: This feature allows the user to keep track of new and existing events. Being a student with a busy schedule, he/she may not be able to keep track of all of his/her events, hence this feature will
+help them access their event schedule with just a few commands.
 
-** Justification: This feature improves the product significantly as a user can track and manage the tasks easily.
-
-* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=luhan02[Overview]]
+* *Code contributed*: [https://nuscs2113-ay1819s1.github.io/dashboard/#=undefined&search=ian-tjahjono[Overview]]
 
 == Contributions to the User Guide
 
@@ -35,7 +31,7 @@ Student Planner is a all-in-one desktop manager application that allows students
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-include::../UserGuide.adoc[tag=tasks]
+include::../UserGuide.adoc[tag=events]
 
 == Contributions to the Developer Guide
 
@@ -43,9 +39,11 @@ include::../UserGuide.adoc[tag=tasks]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=tasks]
+include::../DeveloperGuide.adoc[tag=events]
+
 
 **************************************************
 * Note: Manual Testing portion below
 **************************************************
-include::../DeveloperGuide.adoc[tag=manualTestTask]
+include::../DeveloperGuide.adoc[tag=manualTestEvents]
+

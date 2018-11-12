@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EXPENSES;
@@ -8,25 +9,42 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalTasks.ASSIGNMENT1;
+import static seedu.address.testutil.TestUtil.waitForRunLater;
+import static seedu.address.testutil.TypicalExpenses.getTypicalExpenseBook;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskBook;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javafx.embed.swing.JFXPanel;
+
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.EventBookBuilder;
 import seedu.address.testutil.ExpenseBookBuilder;
 import seedu.address.testutil.TaskBookBuilder;
+import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TaskBuilder;
 
 public class ModelManagerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     private ModelManager modelManager = new ModelManager();
+
+    @Before
+    public void setup() {
+        new JFXPanel();
+    }
 
     @Test
     public void hasPerson_nullPerson_throwsNullPointerException() {
@@ -57,6 +75,42 @@ public class ModelManagerTest {
         modelManager.getFilteredExpenseList().remove(0);
     }
 
+    //@@author QzSG
+    @Test
+    public void restoreAddressBook_withValidAddressBook_restoreSuccess() throws InterruptedException {
+        AddressBook addressBook = getTypicalAddressBook();
+        modelManager.addPerson(new PersonBuilder().build());
+        modelManager.restoreAddressBook(addressBook);
+        waitForRunLater();
+        assertEquals(addressBook, modelManager.getAddressBook());
+    }
+
+    @Test
+    public void restoreEventBook_withValidEventBook_restoreSuccess() throws InterruptedException {
+        ReadOnlyEventBook eventBook = SampleDataUtil.getSampleEventBook();
+        modelManager.restoreEventBook(eventBook);
+        waitForRunLater();
+        //Equals method not implemented correctly by implementer
+        assertEquals(eventBook.toString(), modelManager.getEventBook().toString());
+    }
+
+    @Test
+    public void restoreExpenseBook_withValidExpenseBook_restoreSuccess() throws InterruptedException {
+        ExpenseBook expenseBook = getTypicalExpenseBook();
+        modelManager.restoreExpenseBook(expenseBook);
+        waitForRunLater();
+        assertEquals(expenseBook, modelManager.getExpenseBook());
+    }
+
+    @Test
+    public void restoreTaskBook_withValidTaskBook_restoreSuccess() throws InterruptedException {
+        TaskBook taskBook = getTypicalTaskBook();
+        modelManager.addTask(new TaskBuilder().build());
+        modelManager.restoreTaskBook(taskBook);
+        waitForRunLater();
+        assertEquals(taskBook, modelManager.getTaskBook());
+    }
+    //@@author
     @Test
     public void hasTask_nullTask_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);

@@ -381,7 +381,7 @@ image::deleteTaskEventHandlingSD.png[width="800"]
 // end::tasks[]
 
 //@@author QzSG
-// tag::backuprestore[]
+// tag::backupsnippet[]
 === Backup Feature
 ==== Backups Types
 The application supports both local and online backups
@@ -483,6 +483,8 @@ In this example, `GithubStorage#saveContentToStorage` is called for the respecti
 . A `NewNotificationAvailableEvent` is also fired. This event is handled by the `UiManager` which calls `showNotification` that creates a new notification and shows
  it to the user.
 
+// end::backupsnippet[]
+// tag::restoresnippet[]
 === Restore Feature
 ==== Restore Types
 The application supports both local and online restore of backup made using the `backup` feature
@@ -498,7 +500,7 @@ the `model` and `storage` components.
 Restore commands sends either a `LocalRestoreEvent` or a `OnlineRestoreEvent` event
 The raised event is observed and handled by the storage manager which performs the reading of the local or online files into the appropriate data book objects such as `ReadOnlyAddressBook`
 An event is then triggered by `storage` on successful restore which informs `model` that an update to the in memory state is required.
-
+// end::restoresnippet[]
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the local restore command `restore` and valid local backup exists.
 
 image::SDforRestoreLocalwithEventHandlingPart1.png[width="800"]
@@ -511,7 +513,6 @@ The event is propagated through the `EventsCenter` to the `Storage` component
 
 Online Restoration is similar to Local Restore but utilising the same `ExecutorService` used in `backup` to retrieve the online backup data books concurrently.
 
-// end::backuprestore[]
 //@@author
 
 // tag::dataencryption[]
@@ -1075,6 +1076,16 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
+|`* * *` |user |add a new person |
+
+|`* * *` |user |edit a person | so that I can update a person's details
+
+|`* * *` |user |delete a person |remove entries that I no longer need
+
+|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+
+|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+
 |`* * *` |user |add a new task | track the tasks
 
 |`* * *` |user |list the tasks | view all the tasks available
@@ -1091,15 +1102,17 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user with many tasks in the address book |sort tasks by priority |locate important tasks easily
 
-|`* *` |paranoid user|backup tasks locally |I have a backup in case I accidentally delete my tasks file
+|`* * *` |paranoid user|backup data locally |I have a backup in case I accidentally delete my data
 
-|`* *` |paranoid user|backup tasks online |I have a backup in case my desktop computer dies or I have to switch computers.
+|`* * *` |paranoid user|restore data locally |I can restore data backups from other sessions
 
-|`* *` |user|be notified of upcoming deadlines |complete the tasks on time
+|`* * *` |paranoid user|backup data online |I have a backup in case my desktop computer dies or I have to switch computers.
+
+|`* * *` |paranoid user|restore data online |I can easily restore data from another device without having to use manual data backups.
+
+|`* * *` |user|be notified of upcoming deadlines |complete the tasks on time
 
 |=======================================================================
-
-_{More to be added}_
 
 [appendix]
 == Use Cases
@@ -1248,7 +1261,8 @@ Use case ends.
 //@@author QzSG
 [discrete]
 === Use case: Local Student Planner data backup (UC8)
-*Prerequisite*
+*Prerequisite* +
+None
 
 *MSS*
 
@@ -1260,9 +1274,9 @@ Use case ends.
 *Extensions*
 
 [none]
-* 2a. Folder provided cannot be written to
+* 2a. Data path cannot be written to
 [none]
-** 2a1. StudentPlanner informs user that folder cannot be used for backup
+** 2a1. StudentPlanner informs user about error during backup
 +
 Use case ends.
 
@@ -1293,9 +1307,88 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Local Student Planner data restore (UC10)
+*Prerequisite* +
+A backup has been made using the backup feature
+
+*MSS*
+
+1.  User requests to restore data locally
+2.  StudentPlanner restores data from local backup
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. Backup provided has invalid data
+[none]
+** 2a1. StudentPlanner informs user about error restoring data
++
+
+Use case ends.
+
+[discrete]
+=== Use case: Online Student Planner data backup (UC11)
+*Prerequisite* +
+An online backup has been made using the backup feature
+
+*MSS*
+
+1.  User requests to restore all data from an online service
+2.  StudentPlanner restores data from online service
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User provides invalid credentials if required by online service
+[none]
+** 1a1. StudentPlanner shows error restoring data.
++
+Use case ends.
+
+[none]
+* 2a. Service is not recognised or unsupported
+[none]
+** 2a1. StudentPlanner shows error.
+** 2a2. StudentPlanner shows help for online restore.
++
+Use case ends.
+
+//@@author
+//@@author ian-tjahjono
+// tag::events[]
+[discrete]
+=== Use case: Add Event (UC12)
+
+*MSS*
+
+1.  User requests to add an event
+2.  StudentPlanner adds new event with given details
++
+Use case ends.
+
+*Extensions*
+
+* 2a. A similar event exists
+[none]
+** 2a1. StudentPlanner prompts user that a similar event exists. Event is not added.
++
+Use case ends.
+* 2b. Insufficient or Invalid details provided.
+[none]
+** 2b1. StudentPlanner shows required command format to user. Event is not added.
++
+Use case ends.
+// end::events[]
+//@@author
+
 //@@author ChenSongJian
 [discrete]
-=== Use case: Add Expense(UC11)
+=== Use case: Add Expense(UC13)
 
 *MSS*
 
@@ -1312,55 +1405,8 @@ Use case ends.
 ** 2a1. StudentPlanner informs user about unsuccessful adding of expense
 +
 Use case ends.
-//@@
 
-[discrete]
-=== Use case: Add Event (UC10)
-
-*MSS*
-
-1.  User requests to add an event
-2.  StudentPlanner adds new event with given details
-+
-Use case ends.
-
-*Extensions*
-
-* 2a. A similar event exists
-[none]
-** 2a1. StudentPlanner prompts user that a similar event exists. Event is not added.
-+
-Use case ends.
-* 2b. Insufficient or Invalid details provided.
-[none]
-** 2b1. StudentPlanner shows required command format to user. Event is not added.
-+
-Use case ends.
-
-[discrete]
-=== Use case: Add Event (UC10)
-
-*MSS*
-
-1.  User requests to add an event
-2.  StudentPlanner adds new event with given details
-+
-Use case ends.
-
-*Extensions*
-
-* 2a. A similar event exists
-[none]
-** 2a1. StudentPlanner prompts user that a similar event exists. Event is not added.
-+
-Use case ends.
-* 2b. Insufficient or Invalid details provided.
-[none]
-** 2b1. StudentPlanner shows required command format to user. Event is not added.
-+
-Use case ends.
-
-_{More to be added}_
+//@@author
 
 [appendix]
 == Non Functional Requirements
@@ -1371,8 +1417,6 @@ _{More to be added}_
 .  Should take no longer than 5 seconds on each startup
 .  Should have internet connectivity for features requiring online interactivity.
 
-_{More to be added}_
-
 [appendix]
 == Glossary
 
@@ -1382,7 +1426,9 @@ Windows, Linux, Unix, OS-X
 [[private-contact-detail]] Private contact detail::
 A contact detail that is not meant to be shared with others
 
+//@@author QzSG
 [appendix]
+// tag::evernotesurvey[]
 == Product Survey
 
 *EverNote*
@@ -1401,6 +1447,17 @@ Cons:
 * No power user friendly features like in built console based commands
 * Not free, good features are premium only
 * Not open source.
+
+Reasons why Student Planner is better:
+
+* We incorporate the popular features in EverNote such as events and tasks into our existing contacts feature
+ and also added expenses tracking so that we fit our mission of being a one stop management app for your user.
+* Our application works using text commands so that power users used to a console application can be more efficient
+when using Student Planner, saving time.
+* Student Planner is completely open source, our savvy target users can contribute and add more features if they want to which benefits all users.
+* Student Planner is completely free.
+// end::evernotesurvey[]
+//@@author
 
 [appendix]
 // tag::manualTestHeading[]
@@ -1525,7 +1582,7 @@ _{ more test cases ... }_
 //@@author
 
 //@@author QzSG
-// tag::manualTestBackupRestore[]
+// tag::manualTestBackup[]
 === Backup of data
 
 . Backup of data to local storage
@@ -1562,7 +1619,10 @@ _{ more test cases ... }_
 
 .. Test case: `backup service invalid invalid` +
    Expected: No backup is performed. Invalid command details shown in status message with command usage.
+// end::manualTestBackup[]
 
+// tag::manualTestRestore[]
+=== Restore of data
 . Restore of data from local backup
 
 .. Prerequisites: `backup` command has been run before and all files are valid and exists in `preferences.json` +
@@ -1602,7 +1662,7 @@ _{ more test cases ... }_
 .. Prerequisites: Online backup command has been run before and all gist ids in `preferences.json` are valid +
    Test case: `restore GITHUB VALID_AUTH_TOKEN` +
    Expected: No restore is performed. Invalid command status message is shown to user with correct usage.
-// end::manualTestBackupRestore[]
+// end::manualTestRestore[]
 //@@author
 
 //@@author chensongjian
@@ -1625,3 +1685,78 @@ _{ more test cases ... }_
 .. Test case: Other incorrect monthly expense commands to try: `monthlyExpense`, `monthlyExpense 5/2018` +
    Expected: same as the previous test case
 // end::manualTestMonthlyExpense[]
+
+//@@author T0roloco
+// tag::manualTestFindCommands[]
+=== Finding persons by name, address and phone number
+
+. Finding persons by name
+
+.. Prerequisites: User has added some persons
+
+.. Test case, assuming a contact name1 has been added:
+   `findname name1` +
+   Expected: Message "1 persons listed!" and listing name1
+
+.. Test case, assuming two different persons named name1 and name2 has been added:
+   `findname name1 name2` +
+   Expected: Message "2 persons listed!" and listing name1 and name2
+
+.. Test case, assuming one person with name1 has been added and no person with name2:
+   `findname name1 name2` +
+   Expected: Message "1 persons listed!" and listing name1
+
+.. Test case, assuming there is no person with address that include NUS:
+   `findaddress NUS` +
+   Expected: Message "0 persons listed!" and not listing any person
+
+.. Test case:
+   `findphone` +
+   Expected: An error message explaining how the to use the command correctly
+// end::manualTestFindCommands[]
+//@@author
+
+//@@author ian-tjahjono
+// tag::manualTestEvents[]
+
+=== Adding a new event
+
+. Adding a new event to the event book
+
+.. Prerequisites: The event must not already exist in student planner
+.. Test case: `addEvent n/Watch Avengers 4 movie s/26/05/2018 t/1700 c/John` +
+   Expected: A new event is added to the event book panel, and a success message will show on the results display panel.
+.. Test case: `addEvent n/Watch Avengers 4 movie t/1700 c/John ` +
+   Expected: No event is added and error details will be shown on the result display panel.
+
+=== Deleting an event
+
+. Deletes an event from the event book
+
+.. Prerequisites: The event book must not be empty
+.. Test case: `deleteEvent 1` +
+   Expected: The first event in the event book will be deleted and the first entry on the events panel will disappear.
+.. Test case: `deleteEvent 0` +
+   Expected: No event is deleted and an error message will be displayed on the results display panel.
+.. Test case: (If event book has only 1 event) `deleteEvent 2` +
+   Expected: No event is deleted and an error message will be displayed on the results display panel.
+
+=== Editing an event
+
+. Edits certain parameters of an event
+
+.. Prerequisites: The event book must not be empty
+.. Test case: `editEvent 1 t/1900` +
+   Expected: The time of the first event in the event book will be changed to "1900" and the time of the first event entry in the events panel will be changed to 1900.
+.. Test case: `editEvent 2` +
+   Expected: No event is edited and an error message will be displayed on the results display panel.
+
+=== Clearing an event
+
+. Clears the entire event book
+
+.. Test case: `clearEvent` +
+   Expected: The event book will be cleared and the events panel will not show any entries
+
+// end::manualTestEvents[]
+//@@author
