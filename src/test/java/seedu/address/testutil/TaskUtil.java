@@ -39,10 +39,10 @@ public class TaskUtil {
      * Returns the part of command string for the given {@code UpdateTaskDescriptor}'s details.
      */
     /*
-    public static String getUpdateTaskDescriptorDetails(UpdateTaskCommand.UpdateTaskDescriptor descriptor) {
+    public static String getUpdateTaskDescriptorDetails(UpdateTaskDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();
         descriptor.getTaskName().ifPresent(taskName -> sb.append(PREFIX_NAME).append(taskName.fullName).append(" "));
-        descriptor.getBody().isPresent(body -> sb.append(PREFIX_BODY).append(body.bodyString).append(" "));
+        descriptor.getBody().isPresent(body -> sb.append(PREFIX_BODY).append(body.body).append(" "));
         descriptor.getStartDateTime().isPresent(startDateTime -> sb.append(PREFIX_START)
                 .append(startDateTime.dateTimeString).append(" "));
         descriptor.getEndDateTime().isPresent(endDateTime -> sb.append(PREFIX_END)

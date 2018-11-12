@@ -4,8 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EXPENSES;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TASKS;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalTasks.ASSIGNMENT1;
 
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -18,6 +20,7 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.EventBookBuilder;
 import seedu.address.testutil.ExpenseBookBuilder;
+import seedu.address.testutil.TaskBookBuilder;
 
 public class ModelManagerTest {
     @Rule
@@ -55,19 +58,44 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasTask_nullTask_throwsNullPointerException() {
+        thrown.expect(NullPointerException.class);
+        modelManager.hasTask(null);
+    }
+
+    @Test
+    public void hasTask_taskNotInTaskBook_returnsFalse() {
+        assertFalse(modelManager.hasTask(ASSIGNMENT1));
+    }
+
+    @Test
+    public void hasTask_taskInTaskBook_returnsTrue() {
+        modelManager.addTask(ASSIGNMENT1);
+        assertTrue(modelManager.hasTask(ASSIGNMENT1));
+    }
+
+    @Test
+    public void getFilteredTaskList_modifyList_throwsUnsupportedOperationException() {
+        thrown.expect(UnsupportedOperationException.class);
+        modelManager.getFilteredTaskList().remove(0);
+    }
+
+    @Test
     public void equals() {
         AddressBook addressBook = new AddressBookBuilder().withPerson(ALICE).withPerson(BENSON).build();
         EventBook eventBook = new EventBookBuilder().build();
         ExpenseBook expenseBook = new ExpenseBookBuilder().build();
+        TaskBook taskBook = new TaskBookBuilder().build();
         AddressBook differentAddressBook = new AddressBook();
         EventBook differentEventBook = new EventBook();
         ExpenseBook differentExpenseBook = new ExpenseBook();
+        TaskBook differentTaskBook = new TaskBook();
         UserPrefs userPrefs = new UserPrefs();
 
         // same values -> returns true
-        modelManager = new ModelManager(addressBook, expenseBook, eventBook, new TaskBook(), userPrefs);
+        modelManager = new ModelManager(addressBook, expenseBook, eventBook, taskBook, userPrefs);
         ModelManager modelManagerCopy = new ModelManager(addressBook, expenseBook, eventBook,
-                new TaskBook(), userPrefs);
+                taskBook, userPrefs);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -81,22 +109,23 @@ public class ModelManagerTest {
 
         // different addressBook -> returns false
         assertFalse(modelManager.equals(new ModelManager(differentAddressBook, differentExpenseBook,
-                differentEventBook, new TaskBook(), userPrefs)));
+                differentEventBook, differentTaskBook, userPrefs)));
 
         // different filteredList -> returns false
         String[] keywords = ALICE.getName().fullName.split("\\s+");
         modelManager.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
         assertFalse(modelManager.equals(new ModelManager(addressBook, expenseBook, eventBook,
-                new TaskBook(), userPrefs)));
+                taskBook, userPrefs)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         modelManager.updateFilteredExpenseList(PREDICATE_SHOW_ALL_EXPENSES);
+        modelManager.updateFilteredTaskList(PREDICATE_SHOW_ALL_TASKS);
 
         // different userPrefs -> returns true
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertTrue(modelManager.equals(new ModelManager(addressBook, expenseBook, eventBook,
-                new TaskBook(), differentUserPrefs)));
+                taskBook, differentUserPrefs)));
     }
 }
