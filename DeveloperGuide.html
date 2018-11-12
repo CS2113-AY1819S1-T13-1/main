@@ -74,7 +74,11 @@
 </li>
 <li><a href="#product-scope">Appendix B: Product Scope</a></li>
 <li><a href="#user-stories">Appendix C: User Stories</a></li>
-<li><a href="#use-cases">Appendix D: Use Cases</a></li>
+<li><a href="#use-cases">Appendix D: Use Cases</a>
+<ul class="sectlevel2">
+<li><a href="#use-case-add-event-uc10">D.1. Use case: Add Event (UC10)</a></li>
+</ul>
+</li>
 <li><a href="#non-functional-requirements">Appendix E: Non Functional Requirements</a></li>
 <li><a href="#glossary">Appendix F: Glossary</a></li>
 <li><a href="#product-survey">Appendix G: Product Survey</a></li>
@@ -88,6 +92,10 @@
 <li><a href="#deleting-a-task">H.6. Deleting a task</a></li>
 <li><a href="#backup-of-data">H.7. Backup of data</a></li>
 <li><a href="#displaying-monthly-expense">H.8. Displaying monthly expense</a></li>
+<li><a href="#adding-a-new-event">H.9. Adding a new event</a></li>
+<li><a href="#deleting-an-event">H.10. Deleting an event</a></li>
+<li><a href="#editing-an-event">H.11. Editing an event</a></li>
+<li><a href="#clearing-an-event">H.12. Clearing an event</a></li>
 </ul>
 </li>
 </ul>
@@ -2927,6 +2935,57 @@ Use case ends.</p>
 </li>
 </ul>
 </div>
+<div class="sect2">
+<h3 id="use-case-add-event-uc10"><a class="link" href="#use-case-add-event-uc10">D.1. Use case: Add Event (UC10)</a></h3>
+<div class="paragraph">
+<p><strong>MSS</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to add an event</p>
+</li>
+<li>
+<p>StudentPlanner adds new event with given details</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>2a. A similar event exists</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a1. StudentPlanner prompts user that a similar event exists. Event is not added.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>2b. Insufficient or Invalid details provided.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2b1. StudentPlanner shows required command format to user. Event is not added.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 <h3 id="use-case-add-expense-uc11" class="discrete">Use case: Add Expense(UC11)</h3>
 <div class="paragraph">
 <p><strong>MSS</strong></p>
@@ -2964,108 +3023,9 @@ Use case ends.</p>
 </li>
 </ul>
 </div>
-<h3 id="use-case-add-event-uc10" class="discrete">Use case: Add Event (UC10)</h3>
-<div class="paragraph">
-<p><strong>MSS</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>User requests to add an event</p>
-</li>
-<li>
-<p>StudentPlanner adds new event with given details</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Extensions</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>2a. A similar event exists</p>
-<div class="ulist none">
-<ul class="none">
-<li>
-<p>2a1. StudentPlanner prompts user that a similar event exists. Event is not added.</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>2b. Insufficient or Invalid details provided.</p>
-<div class="ulist none">
-<ul class="none">
-<li>
-<p>2b1. StudentPlanner shows required command format to user. Event is not added.</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-<h3 id="use-case-add-event-uc10-2" class="discrete">Use case: Add Event (UC10)</h3>
-<div class="paragraph">
-<p><strong>MSS</strong></p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>User requests to add an event</p>
-</li>
-<li>
-<p>StudentPlanner adds new event with given details</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p><strong>Extensions</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>2a. A similar event exists</p>
-<div class="ulist none">
-<ul class="none">
-<li>
-<p>2a1. StudentPlanner prompts user that a similar event exists. Event is not added.</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>2b. Insufficient or Invalid details provided.</p>
-<div class="ulist none">
-<ul class="none">
-<li>
-<p>2b1. StudentPlanner shows required command format to user. Event is not added.</p>
-<div class="paragraph">
-<p>Use case ends.</p>
-</div>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
 <div class="paragraph">
 <p><em>{More to be added}</em></p>
+</div>
 </div>
 </div>
 </div>
@@ -3582,5 +3542,102 @@ Expected: same as the previous test case</p>
 </ol>
 </div>
 </div>
+<div class="sect2">
+<h3 id="adding-a-new-event"><a class="link" href="#adding-a-new-event">H.9. Adding a new event</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding a new event to the event book</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The event must not already exist in student planner</p>
+</li>
+<li>
+<p>Test case: <code>addEvent n/Watch Avengers 4 movie s/26/05/2018 t/1700 c/John</code><br>
+Expected: A new event is added to the event book panel, and a success message will show on the results display panel.</p>
+</li>
+<li>
+<p>Test case: `addEvent n/Watch Avengers 4 movie t/1700 c/John `<br>
+Expected: No event is added and error details will be shown on the result display panel.</p>
+</li>
+</ol>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-11 13:10:22 UTC</div></div></div></body></html>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-event"><a class="link" href="#deleting-an-event">H.10. Deleting an event</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deletes an event from the event book</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The event book must not be empty</p>
+</li>
+<li>
+<p>Test case: <code>deleteEvent 1</code><br>
+Expected: The first event in the event book will be deleted and the first entry on the events panel will disappear.</p>
+</li>
+<li>
+<p>Test case: <code>deleteEvent 0</code><br>
+Expected: No event is deleted and an error message will be displayed on the results display panel.</p>
+</li>
+<li>
+<p>Test case: (If event book has only 1 event) <code>deleteEvent 2</code><br>
+Expected: No event is deleted and an error message will be displayed on the results display panel.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-an-event"><a class="link" href="#editing-an-event">H.11. Editing an event</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Edits certain parameters of an event</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The event book must not be empty</p>
+</li>
+<li>
+<p>Test case: <code>editEvent 1 t/1900</code><br>
+Expected: The time of the first event in the event book will be changed to "1900" and the time of the first event entry in the events panel will be changed to 1900.</p>
+</li>
+<li>
+<p>Test case: <code>editEvent 2</code><br>
+Expected: No event is edited and an error message will be displayed on the results display panel.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="clearing-an-event"><a class="link" href="#clearing-an-event">H.12. Clearing an event</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clears the entire event book</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Test case: <code>clearEvent</code><br>
+Expected: The event book will be cleared and the events panel will not show any entries</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 08:43:43 UTC</div></div></div></body></html>
