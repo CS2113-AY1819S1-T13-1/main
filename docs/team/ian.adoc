@@ -40,3 +40,9 @@ include::../UserGuide.adoc[tag=events]
 |===
 
 include::../DeveloperGuide.adoc[tag=events]
+
+
+**************************************************
+* Note: Manual Testing portion below
+**************************************************
+include::../DeveloperGuide.adoc[tag=manualTestEvents]
