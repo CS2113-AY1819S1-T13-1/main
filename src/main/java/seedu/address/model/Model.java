@@ -187,6 +187,12 @@ public interface Model {
      */
     void addEvent(Event event);
 
+    /**
+     * Replaces the given expense {@code target} with {@code editedExpense}.
+     * {@code target} must exist in the expense book.
+     */
+    void updateEvent(Event target, Event editedEvent);
+
     /** Returns an unmodifiable view of the filtered event list */
     ObservableList<Event> getFilteredEventList();
 

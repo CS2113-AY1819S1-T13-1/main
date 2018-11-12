@@ -467,6 +467,14 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void updateEvent(Event target, Event editedEvent) {
+        requireAllNonNull(target, editedEvent);
+
+        versionedEventBook.updateEvent(target, editedEvent);
+        indicateEventBookChanged();
+    }
+
+    @Override
     public ObservableList<Event> getFilteredEventList() {
         return FXCollections.unmodifiableObservableList(filteredEvents);
     }
