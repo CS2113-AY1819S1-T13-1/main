@@ -496,7 +496,7 @@ Examples:
 
 === Deleting an event : `deleteEvent`
 
-Deletes an event from the event book + 
+Deletes an event from the event book +
 Format: `deleteEvent INDEX`
 
 ****
@@ -676,4 +676,3 @@ e.g. `editEvent 1 t/1800`
 * *ClearEvent* : `clearEvent` +
 e.g. `clearEvent`
 //@@author
-

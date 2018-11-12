@@ -1635,7 +1635,7 @@ _{ more test cases ... }_
 
 === Editing an event
 
-. Edits certain parameters of an event 
+. Edits certain parameters of an event
 
 .. Prerequisites: The event book must not be empty
 .. Test case: `editEvent 1 t/1900` +
@@ -1645,7 +1645,7 @@ _{ more test cases ... }_
 
 === Clearing an event
 
-. Clears the entire event book 
+. Clears the entire event book
 
 .. Test case: `clearEvent` +
    Expected: The event book will be cleared and the events panel will not show any entries
