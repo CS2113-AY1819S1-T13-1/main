@@ -87,12 +87,13 @@
 <li><a href="#updating-an-existing-task">H.5. Updating an existing task</a></li>
 <li><a href="#deleting-a-task">H.6. Deleting a task</a></li>
 <li><a href="#backup-of-data">H.7. Backup of data</a></li>
-<li><a href="#displaying-monthly-expense">H.8. Displaying monthly expense</a></li>
-<li><a href="#finding-persons-by-name-address-and-phone-number">H.9. Finding persons by name, address and phone number</a></li>
-<li><a href="#adding-a-new-event">H.10. Adding a new event</a></li>
-<li><a href="#deleting-an-event">H.11. Deleting an event</a></li>
-<li><a href="#editing-an-event">H.12. Editing an event</a></li>
-<li><a href="#clearing-an-event">H.13. Clearing an event</a></li>
+<li><a href="#restore-of-data">H.8. Restore of data</a></li>
+<li><a href="#displaying-monthly-expense">H.9. Displaying monthly expense</a></li>
+<li><a href="#finding-persons-by-name-address-and-phone-number">H.10. Finding persons by name, address and phone number</a></li>
+<li><a href="#adding-a-new-event">H.11. Adding a new event</a></li>
+<li><a href="#deleting-an-event">H.12. Deleting an event</a></li>
+<li><a href="#editing-an-event">H.13. Editing an event</a></li>
+<li><a href="#clearing-an-event">H.14. Clearing an event</a></li>
 </ul>
 </li>
 </ul>
@@ -1161,10 +1162,8 @@ the <code>model</code> and <code>storage</code> components.</p>
 <div class="paragraph">
 <p>Restore commands sends either a <code>LocalRestoreEvent</code> or a <code>OnlineRestoreEvent</code> event
 The raised event is observed and handled by the storage manager which performs the reading of the local or online files into the appropriate data book objects such as <code>ReadOnlyAddressBook</code>
-An event is then triggered by <code>storage</code> on successful restore which informs <code>model</code> that an update to the in memory state is required.</p>
-</div>
-<div class="paragraph">
-<p>The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the local restore command <code>restore</code> and valid local backup exists.</p>
+An event is then triggered by <code>storage</code> on successful restore which informs <code>model</code> that an update to the in memory state is required.
+The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the local restore command <code>restore</code> and valid local backup exists.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -3599,6 +3598,13 @@ Expected: No backup is performed. Invalid command details shown in status messag
 </ol>
 </div>
 </li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="restore-of-data"><a class="link" href="#restore-of-data">H.8. Restore of data</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>Restore of data from local backup</p>
 <div class="olist loweralpha">
@@ -3662,7 +3668,7 @@ Expected: No restore is performed. Invalid command status message is shown to us
 </div>
 </div>
 <div class="sect2">
-<h3 id="displaying-monthly-expense"><a class="link" href="#displaying-monthly-expense">H.8. Displaying monthly expense</a></h3>
+<h3 id="displaying-monthly-expense"><a class="link" href="#displaying-monthly-expense">H.9. Displaying monthly expense</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3695,7 +3701,7 @@ Expected: same as the previous test case</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="finding-persons-by-name-address-and-phone-number"><a class="link" href="#finding-persons-by-name-address-and-phone-number">H.9. Finding persons by name, address and phone number</a></h3>
+<h3 id="finding-persons-by-name-address-and-phone-number"><a class="link" href="#finding-persons-by-name-address-and-phone-number">H.10. Finding persons by name, address and phone number</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3737,7 +3743,7 @@ Expected: An error message explaining how the to use the command correctly</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-new-event"><a class="link" href="#adding-a-new-event">H.10. Adding a new event</a></h3>
+<h3 id="adding-a-new-event"><a class="link" href="#adding-a-new-event">H.11. Adding a new event</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3762,7 +3768,7 @@ Expected: No event is added and error details will be shown on the result displa
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-event"><a class="link" href="#deleting-an-event">H.11. Deleting an event</a></h3>
+<h3 id="deleting-an-event"><a class="link" href="#deleting-an-event">H.12. Deleting an event</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3791,7 +3797,7 @@ Expected: No event is deleted and an error message will be displayed on the resu
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-an-event"><a class="link" href="#editing-an-event">H.12. Editing an event</a></h3>
+<h3 id="editing-an-event"><a class="link" href="#editing-an-event">H.13. Editing an event</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3816,7 +3822,7 @@ Expected: No event is edited and an error message will be displayed on the resul
 </div>
 </div>
 <div class="sect2">
-<h3 id="clearing-an-event"><a class="link" href="#clearing-an-event">H.13. Clearing an event</a></h3>
+<h3 id="clearing-an-event"><a class="link" href="#clearing-an-event">H.14. Clearing an event</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -3834,4 +3840,4 @@ Expected: The event book will be cleared and the events panel will not show any 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:57:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:44:55 UTC</div></div></div></body></html>

@@ -203,7 +203,7 @@ Creates an online backup to GitHub Gists using the provided personal access toke
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are snippets of sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
 </tr>
 </tbody>
 </table>
@@ -437,36 +437,6 @@ the <code>model</code> and <code>storage</code> components.</p>
 The raised event is observed and handled by the storage manager which performs the reading of the local or online files into the appropriate data book objects such as <code>ReadOnlyAddressBook</code>
 An event is then triggered by <code>storage</code> on successful restore which informs <code>model</code> that an update to the in memory state is required.</p>
 </div>
-<div class="paragraph">
-<p>The <em>Sequence Diagram</em> below shows how the components interact for the scenario where the user issues the local restore command <code>restore</code> and valid local backup exists.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/SDforRestoreLocalwithEventHandlingPart1.png" alt="SDforRestoreLocalwithEventHandlingPart1" width="800">
-</div>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/SDforRestoreLocalwithEventHandlingPart2.png" alt="SDforRestoreLocalwithEventHandlingPart2" width="800">
-</div>
-<div class="title">Figure 3. Component interactions for <code>backup</code> command (local backup)</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Note how <code>Logic</code> simply raises a <code>LocalRestoreEvent</code>
-The event is propagated through the <code>EventsCenter</code> to the <code>Storage</code> component
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Online Restoration is similar to Local Restore but utilising the same <code>ExecutorService</code> used in <code>backup</code> to retrieve the online backup data books concurrently.</p>
-</div>
 <div class="sidebarblock">
 <div class="content">
 <div class="ulist">
@@ -538,67 +508,8 @@ Expected: No backup is performed. Invalid command details shown in status messag
 </ol>
 </div>
 </li>
-<li>
-<p>Restore of data from local backup</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Prerequisites: <code>backup</code> command has been run before and all files are valid and exists in <code>preferences.json</code><br>
-Test case: <code>restore</code><br>
-Expected: Restore success status message is displayed. Local Restore notification is also created and shown to user</p>
-</li>
-<li>
-<p>Prerequisites: <code>backup</code> command has not been run before<br>
-Test case: <code>restore</code><br>
-Expected: Status message displayed to prompt user to first do a backup or set relevant backup file paths in <code>preferences.json</code>.</p>
-</li>
-<li>
-<p>Prerequisites: Certain backup file/s indicated in <code>preferences.json</code> has been deleted.<br>
-Test case: <code>restore</code><br>
-Expected: Status message displayed to prompt user to first do a backup or set relevant backup file paths in <code>preferences.json</code> and also check if all file paths are existing files.</p>
-</li>
-<li>
-<p>Prerequisites: <code>backup</code> command has been run before and all files are valid and exists in <code>preferences.json</code><br>
-Test case: <code>restore INVALID</code><br>
-Expected: No restore is performed. Invalid online service or command details shown in status message with command usage.</p>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Restore of data from online backup</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Prerequisites: Online backup command has been run before and all gist ids in <code>preferences.json</code> are valid<br>
-Test case: <code>restore GITHUB</code><br>
-Expected: Success status message displayed. Notification is created and shown to user about successful online restore.</p>
-</li>
-<li>
-<p>Prerequisites: Online backup command has not been run before<br>
-Test case: <code>restore GITHUB</code><br>
-Expected: Status message displayed to prompt user to first do an online backup or set relevant backup gist ids in <code>preferences.json</code>.</p>
-</li>
-<li>
-<p>Prerequisites: Certain backup gists who&#8217;s ids are indicated in <code>preferences.json</code> has been deleted.<br>
-Test case: <code>restore GITHUB</code><br>
-Expected: Error popup will appear for said data books. While any valid gists will still be restored, no success notification will be showed, however, status message will show restore succeeded as long as one of the book gists are valid and exists.</p>
-</li>
-<li>
-<p>Prerequisites: All backup gists who&#8217;s ids are indicated in <code>preferences.json</code> has been deleted.
-Test case: <code>restore GITHUB</code><br>
-Expected: Error popup will appear for all data books. Status message will show restore failed.</p>
-</li>
-<li>
-<p>Prerequisites: Online backup command has been run before and all gist ids in <code>preferences.json</code> are valid<br>
-Test case: <code>restore GITHUB VALID_AUTH_TOKEN</code><br>
-Expected: No restore is performed. Invalid command status message is shown to user with correct usage.</p>
-</li>
-</ol>
-</div>
-</li>
 </ol>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 09:57:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2018-11-12 11:44:55 UTC</div></div></div></body></html>
